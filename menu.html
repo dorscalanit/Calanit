@@ -1,0 +1,46 @@
+<!-- =========== Header / Navigation Menu =========== -->
+<!-- This snippet should be placed at the top of the <body> tag in each HTML file. -->
+<!-- It requires Tailwind CSS and Font Awesome to be linked in the <head>. -->
+
+<header class="bg-white shadow-md sticky top-0 z-50">
+    <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+        <!-- Brand Logo -->
+        <a href="index.html" class="text-2xl font-black text-blue-600">כלנית</a>
+        
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex items-center space-x-8 space-x-reverse">
+            <a href="index.html" class="text-gray-700 hover:text-blue-600 font-medium">דף הבית</a>
+            <a href="jobs.html" class="text-gray-700 hover:text-blue-600 font-medium">כל המשרות</a>
+            <a href="apply.html" class="text-gray-700 hover:text-blue-600 font-medium">שליחת קו"ח</a>
+            <a href="contact.html" class="text-gray-700 hover:text-blue-600 font-medium">יצירת קשר</a>
+            <a href="publish-job.html" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300">פרסום דרישת עובדים</a>
+        </div>
+
+        <!-- Mobile Menu Button (Hamburger) -->
+        <div class="md:hidden">
+            <button id="mobile-menu-button" class="text-gray-700 focus:outline-none">
+                <i class="fas fa-bars fa-lg"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu (hidden by default, toggled with JS) -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
+        <a href="index.html" class="block py-3 px-6 text-gray-700 hover:bg-gray-100">דף הבית</a>
+        <a href="jobs.html" class="block py-3 px-6 text-gray-700 hover:bg-gray-100">כל המשרות</a>
+        <a href="apply.html" class="block py-3 px-6 text-gray-700 hover:bg-gray-100">שליחת קו"ח</a>
+        <a href="contact.html" class="block py-3 px-6 text-gray-700 hover:bg-gray-100">יצירת קשר</a>
+        <a href="publish-job.html" class="block py-3 px-6 text-blue-600 font-bold hover:bg-gray-100">פרסום דרישת עובדים</a>
+    </div>
+</header>
+
+<!-- 
+    IMPORTANT: Add this script before the closing </body> tag to make the mobile menu work.
+    
+    <script>
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+    </script>
+-->
+
