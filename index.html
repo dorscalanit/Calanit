@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>כלנית - שירותי כח אדם</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts (Heebo) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        /* Apply Heebo font to the entire site */
+        body {
+            font-family: 'Heebo', sans-serif;
+        }
+        /* Custom styles for better Hebrew alignment and feel */
+        .brand-logo {
+            font-weight: 900; /* Extra bold for the logo */
+            font-size: 1.75rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- =========== Header / Navigation Menu =========== -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="brand-logo text-blue-600">כלנית</a>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-8 space-x-reverse">
+                <a href="index.html" class="text-gray-700 hover:text-blue-600 font-medium">דף הבית</a>
+                <a href="jobs.html" class="text-gray-700 hover:text-blue-600 font-medium">כל המשרות</a>
+                <a href="apply.html" class="text-gray-700 hover:text-blue-600 font-medium">שליחת קו"ח</a>
+                <a href="contact.html" class="text-gray-700 hover:text-blue-600 font-medium">יצירת קשר</a>
+                <a href="publish-job.html" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300">פרסום דרישת עובדים</a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-gray-700 focus:outline-none">
+                    <i class="fas fa-bars fa-lg"></i>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Mobile Menu (hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
+            <a href="index.html" class="block py-3 px-6 text-gray-700 hover:bg-gray-100">דף הבית</a>
+            <a href="jobs.html" class="block py-3 px-6 text-gray-700 hover:bg-gray-100">כל המשרות</a>
+            <a href="apply.html" class="block py-3 px-6 text-gray-700 hover:bg-gray-100">שליחת קו"ח</a>
+            <a href="contact.html" class="block py-3 px-6 text-gray-700 hover:bg-gray-100">יצירת קשר</a>
+            <a href="publish-job.html" class="block py-3 px-6 text-blue-600 font-bold hover:bg-gray-100">פרסום דרישת עובדים</a>
+        </div>
+    </header>
+
+    <!-- =========== Main Content =========== -->
+    <main>
+        <!-- Hero Section -->
+        <section class="bg-blue-600 text-white">
+            <div class="container mx-auto px-6 py-20 text-center">
+                <h1 class="text-4xl md:text-6xl font-bold mb-4">מצא את המשרה הבאה שלך</h1>
+                <p class="text-lg md:text-xl mb-8">אנחנו כאן כדי לחבר אותך להזדמנות שחיכית לה.</p>
+                <div class="max-w-2xl mx-auto">
+                    <form action="jobs.html" class="flex flex-col md:flex-row gap-2">
+                        <input type="text" placeholder="מה לחפש? (למשל: מפתח/ת תוכנה, נהג/ת...)" class="w-full px-4 py-3 rounded-lg text-gray-800 focus:outline-none">
+                        <button type="submit" class="bg-white text-blue-600 font-bold px-8 py-3 rounded-lg hover:bg-gray-200 transition duration-300">
+                            <i class="fas fa-search mr-2"></i> חיפוש
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hot Jobs Section -->
+        <section class="py-16">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center mb-10">משרות חמות 🔥</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Job Card 1 -->
+                    <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
+                        <h3 class="text-xl font-bold text-blue-600 mb-2">מנהל/ת שיווק דיגיטלי</h3>
+                        <p class="text-gray-600 mb-4">תל אביב | משרה מלאה</p>
+                        <p class="text-gray-700 mb-4">חברת סטארטאפ מובילה מחפשת מנהל/ת שיווק עם ניסיון בקמפיינים בגוגל ופייסבוק.</p>
+                        <a href="job-details.html" class="text-blue-600 font-medium hover:underline">לפרטים נוספים ></a>
+                    </div>
+                    <!-- Job Card 2 -->
+                    <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
+                        <h3 class="text-xl font-bold text-blue-600 mb-2">נציג/ת שירות לקוחות</h3>
+                        <p class="text-gray-600 mb-4">חיפה | עבודה היברידית</p>
+                        <p class="text-gray-700 mb-4">לחברה גדולה דרושים נציגי שירות עם יכולת עבודה בסביבה ממוחשבת ויחסי אנוש מעולים.</p>
+                        <a href="job-details.html" class="text-blue-600 font-medium hover:underline">לפרטים נוספים ></a>
+                    </div>
+                    <!-- Job Card 3 -->
+                    <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
+                        <h3 class="text-xl font-bold text-blue-600 mb-2">מפתח/ת Full-Stack</h3>
+                        <p class="text-gray-600 mb-4">הרצליה | משרה מלאה</p>
+                        <p class="text-gray-700 mb-4">דרוש/ה מפתח/ת תוכנה עם ניסיון ב-React ו-Node.js להצטרפות לצוות פיתוח חדשני.</p>
+                        <a href="job-details.html" class="text-blue-600 font-medium hover:underline">לפרטים נוספים ></a>
+                    </div>
+                </div>
+                 <div class="text-center mt-12">
+                    <a href="jobs.html" class="bg-blue-600 text-white font-bold px-8 py-3 rounded-lg hover:bg-blue-700 transition duration-300">לכל המשרות</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Us Section -->
+        <section class="bg-white py-16">
+            <div class="container mx-auto px-6 text-center max-w-4xl">
+                <h2 class="text-3xl font-bold mb-4">מי אנחנו?</h2>
+                <p class="text-lg text-gray-700 leading-relaxed">
+                    "כלנית" היא לא עוד חברת כח אדם. אנחנו הבית שלכם בדרך לקריירה. מאז הקמתנו, אנו מחויבים למצוא את החיבור המושלם בין עובדים מוכשרים למעסיקים מובילים במשק. הצוות המקצועי שלנו מלווה אתכם לאורך כל הדרך - משליחת קורות החיים ועד לחתימה על החוזה, עם יחס אישי, אכפתיות ומקצועיות ללא פשרות.
+                </p>
+                 <a href="apply.html" class="mt-8 inline-block bg-green-500 text-white font-bold px-8 py-3 rounded-lg hover:bg-green-600 transition duration-300">
+                    <i class="fas fa-paper-plane mr-2"></i> שלחו לנו קורות חיים
+                </a>
+            </div>
+        </section>
+        
+        <!-- Who Works With Us Section -->
+        <section class="py-16">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center mb-10">מי עובד איתנו</h2>
+                <div class="flex flex-wrap justify-center items-center gap-8 md:gap-12 grayscale">
+                    <!-- Placeholder Logos -->
+                    <i class="fab fa-microsoft fa-4x text-gray-500 hover:text-gray-700 transition-colors"></i>
+                    <i class="fab fa-google fa-4x text-gray-500 hover:text-gray-700 transition-colors"></i>
+                    <i class="fab fa-apple fa-4x text-gray-500 hover:text-gray-700 transition-colors"></i>
+                    <i class="fab fa-amazon fa-4x text-gray-500 hover:text-gray-700 transition-colors"></i>
+                    <i class="fab fa-meta fa-4x text-gray-500 hover:text-gray-700 transition-colors"></i>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <!-- =========== Footer =========== -->
+    <footer class="bg-gray-800 text-white">
+        <div class="container mx-auto px-6 py-10">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- About -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4">כלנית</h3>
+                    <p class="text-gray-400">מחברים בין אנשים להזדמנויות. הדרך שלך לקריירה מתחילה כאן.</p>
+                </div>
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4">קישורים מהירים</h3>
+                    <ul class="space-y-2">
+                        <li><a href="jobs.html" class="text-gray-400 hover:text-white">כל המשרות</a></li>
+                        <li><a href="apply.html" class="text-gray-400 hover:text-white">שליחת קורות חיים</a></li>
+                        <li><a href="publish-job.html" class="text-gray-400 hover:text-white">פרסום דרישת עובדים</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white">צור קשר</a></li>
+                    </ul>
+                </div>
+                <!-- Legal -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4">מידע ומשפטי</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">מדיניות פרטיות</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">תנאי שימוש</a></li>
+                    </ul>
+                </div>
+                <!-- Social Media -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4">עקבו אחרינו</h3>
+                    <div class="flex space-x-4 space-x-reverse">
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook fa-lg"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram fa-lg"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-linkedin fa-lg"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-tiktok fa-lg"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-500">
+                <p>&copy; 2024 כלנית שירותי כח אדם. כל הזכויות שמורות.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Mobile Menu -->
+    <script>
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>
+
