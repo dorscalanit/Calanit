@@ -10,7 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { font-family: 'Heebo', sans-serif; scroll-behavior: smooth; }
@@ -21,11 +20,13 @@
         .swiper-button-next::after, .swiper-button-prev::after { font-size: 20px; }
         .animated-section { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
         .animated-section.is-visible { opacity: 1; transform: translateY(0); }
+        .modal { transition: opacity 0.25s ease; }
+        .modal-content { transition: transform 0.25s ease; }
     </style>
 </head>
 <body class="bg-gray-50">
 
-    <!-- Header Placeholder (menu.html) -->
+    <!-- Header Placeholder -->
     <header id="header-placeholder" class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50"></header>
 
     <main>
@@ -75,24 +76,73 @@
                 <i class="fas fa-file-signature text-5xl text-blue-500 mb-4"></i>
                 <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">לא מצאת את מה שחיפשת?</h2>
                 <p class="text-lg text-gray-600 max-w-2xl mx-auto mb-8">אל דאגה. מאגר המשרות שלנו דינמי ומתעדכן יום-יום. שלח/י לנו את קורות החיים והצוות שלנו ימצא עבורך את ההזדמנות הבאה.</p>
-                <a href="apply.html" class="bg-blue-600 text-white font-bold px-10 py-4 rounded-full hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl text-xl">
+                <button id="open-cv-modal" class="bg-blue-600 text-white font-bold px-10 py-4 rounded-full hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl text-xl">
                     <i class="fas fa-paper-plane mr-2"></i> שליחת קורות חיים
-                </a>
+                </button>
             </div>
         </section>
-        <!-- אפשר להוסיף עוד סקשנים כאן -->
     </main>
     
-    <!-- Footer Placeholder (footer.html) -->
+    <!-- Modal לשליחת קו"ח -->
+    <div id="cv-modal" class="modal fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 hidden opacity-0 z-50">
+        <div class="modal-content bg-white w-full max-w-lg rounded-lg shadow-2xl p-8 transform -translate-y-10 relative">
+            <button id="close-cv-modal" class="absolute top-4 left-4 text-gray-400 hover:text-gray-800 text-xl"><i class="fas fa-times"></i></button>
+            <h3 class="text-2xl font-bold mb-6 text-center text-blue-700">שליחת קורות חיים</h3>
+            <form id="cv-form" class="space-y-5">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="font-medium text-sm">שם פרטי <span class="text-red-500">*</span></label>
+                        <input type="text" name="firstName" required class="mt-1 w-full border-gray-300 rounded-md shadow-sm px-3 py-2">
+                    </div>
+                    <div>
+                        <label class="font-medium text-sm">שם משפחה <span class="text-red-500">*</span></label>
+                        <input type="text" name="lastName" required class="mt-1 w-full border-gray-300 rounded-md shadow-sm px-3 py-2">
+                    </div>
+                    <div>
+                        <label class="font-medium text-sm">טלפון <span class="text-red-500">*</span></label>
+                        <input type="tel" name="phone" required pattern="^05\d{8}$" placeholder="05XXXXXXXX" class="mt-1 w-full border-gray-300 rounded-md shadow-sm px-3 py-2">
+                    </div>
+                    <div>
+                        <label class="font-medium text-sm">מגדר</label>
+                        <select name="gender" class="mt-1 w-full border-gray-300 rounded-md shadow-sm px-3 py-2">
+                            <option value="">בחר/י</option>
+                            <option value="זכר">זכר</option>
+                            <option value="נקבה">נקבה</option>
+                            <option value="אחר">אחר</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="font-medium text-sm">גיל</label>
+                        <input type="number" name="age" min="14" max="99" class="mt-1 w-full border-gray-300 rounded-md shadow-sm px-3 py-2">
+                    </div>
+                    <div>
+                        <label class="font-medium text-sm">תחומי עניין</label>
+                        <input type="text" name="interests" placeholder="למשל: שירות, חינוך, טכנולוגיה..." class="mt-1 w-full border-gray-300 rounded-md shadow-sm px-3 py-2">
+                    </div>
+                </div>
+                <div>
+                    <label class="font-medium text-sm block">קובץ קורות חיים <span class="text-red-500">*</span></label>
+                    <input type="file" name="cvFile" required accept=".pdf,.doc,.docx,.png" class="mt-1 w-full">
+                    <p class="text-xs text-gray-400 mt-1">קבצים נתמכים: PDF, DOC, DOCX, PNG</p>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition">שלח/י קורות חיים</button>
+                <div id="cv-form-message" class="text-center text-sm mt-3"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer Placeholder -->
     <footer id="footer-placeholder" class="bg-gray-800 text-white"></footer>
 
-    <!-- Firebase + Swiper + Components Loader -->
+    <!-- Swiper -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <!-- Firebase & JS -->
     <script type="module">
-        // Firebase
+        // ===== Firebase =====
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-        import { getFirestore, collection, query, where, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+        import { getFirestore, collection, query, where, orderBy, limit, getDocs, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-storage.js";
 
-        // הגדרות פיירבייס - לעדכן אם צריך
         const firebaseConfig = {
             apiKey: "AIzaSyAOKMJabnJ9JGE5CuclCCSjv5Bo3rT49Cw",
             authDomain: "calanit-31a32.firebaseapp.com",
@@ -103,8 +153,9 @@
         };
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        const storage = getStorage(app);
 
-        // טוען header & footer מ־HTML נפרדים
+        // ===== טעינת תפריט/פוטר =====
         function loadComponent(url, elementId, callback) {
             fetch(url)
                 .then(response => {
@@ -118,7 +169,6 @@
                 .catch(error => console.error(`Error loading component from ${url}:`, error));
         }
         loadComponent('menu.html', 'header-placeholder', () => {
-            // תפריט מובייל - הגדרה מהירה
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
             if (mobileMenuButton && mobileMenu) {
@@ -129,7 +179,7 @@
         });
         loadComponent('footer.html', 'footer-placeholder');
 
-        // ===== משרות חמות - טעינה דינמית מ־Firestore =====
+        // ===== משרות חמות =====
         async function loadHotJobs() {
             const swiperWrapper = document.querySelector('.job-stories-slider .swiper-wrapper');
             if (!swiperWrapper) return;
@@ -163,21 +213,18 @@
                         <div class="text-gray-600 mb-2 text-base">${job.location || ''} • ${job.type || ''}</div>
                         <div class="text-gray-700 mb-4 line-clamp-3">${job.description ? job.description.substring(0, 160) : ''}${job.description && job.description.length > 160 ? '...' : ''}</div>
                     </div>
-                    <a href="apply.html?job=${encodeURIComponent(jobId)}"
-                       class="absolute bottom-6 left-6 bg-blue-600 text-white px-5 py-2 rounded-full font-bold shadow-lg hover:bg-blue-700 transition-all text-base">
+                    <button class="open-cv-modal-btn absolute bottom-6 left-6 bg-blue-600 text-white px-5 py-2 rounded-full font-bold shadow-lg hover:bg-blue-700 transition-all text-base" data-job-id="${jobId}" data-job-title="${job.title}">
                         <i class="fas fa-paper-plane ml-2"></i> שלח/י קו"ח למשרה זו
-                    </a>
+                    </button>
                 `;
                 swiperWrapper.appendChild(slide);
             });
-            if (window.hotJobsSwiper) {
-                window.hotJobsSwiper.update();
-            }
+            if (window.hotJobsSwiper) window.hotJobsSwiper.update();
         }
 
-        // ===== אנימציה ו-Swiper =====
+        // ===== אנימציה + פתיחת מודל =====
         document.addEventListener('DOMContentLoaded', function() {
-            // אנימציות סקשנים
+            // אנימציות
             const animatedSections = document.querySelectorAll('.animated-section');
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -187,7 +234,8 @@
                 });
             }, { threshold: 0.1 });
             animatedSections.forEach(section => observer.observe(section));
-            // טעינת משרות חמות + Swiper
+
+            // טעינת משרות חמות
             loadHotJobs().then(() => {
                 window.hotJobsSwiper = new Swiper('.job-stories-slider', {
                     slidesPerView: 1,
@@ -197,10 +245,99 @@
                     navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
                     breakpoints: { 640: { slidesPerView: 1.2 }, 900: { slidesPerView: 2 }, 1200: { slidesPerView: 2.5 } }
                 });
+                // פתיחת מודל מכפתורי "שלח קו"ח" של המשרות
+                document.querySelectorAll('.open-cv-modal-btn').forEach(btn => {
+                    btn.addEventListener('click', () => openCVModal(btn.dataset.jobId, btn.dataset.jobTitle));
+                });
+            });
+
+            // פתיחת מודל מהכפתור הכללי
+            document.getElementById('open-cv-modal').addEventListener('click', () => openCVModal());
+
+            // סגירת מודל
+            document.getElementById('close-cv-modal').addEventListener('click', closeCVModal);
+            document.getElementById('cv-modal').addEventListener('click', function(e) {
+                if (e.target === this) closeCVModal();
+            });
+        });
+
+        // ====== לוגיקה למודל קורות חיים ======
+        let selectedJobId = null;
+        let selectedJobTitle = null;
+
+        function openCVModal(jobId, jobTitle) {
+            selectedJobId = jobId || null;
+            selectedJobTitle = jobTitle || '';
+            const modal = document.getElementById('cv-modal');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modal.querySelector('.modal-content').classList.remove('-translate-y-10');
+            }, 10);
+            // הצגת שם משרה (אם קיים)
+            document.getElementById('cv-form').reset();
+            document.getElementById('cv-form-message').innerHTML = "";
+            if (jobTitle) {
+                document.querySelector('#cv-modal h3').textContent = `שליחת קו"ח למשרת "${jobTitle}"`;
+            } else {
+                document.querySelector('#cv-modal h3').textContent = "שליחת קורות חיים";
+            }
+        }
+        function closeCVModal() {
+            const modal = document.getElementById('cv-modal');
+            modal.classList.add('opacity-0');
+            modal.querySelector('.modal-content').classList.add('-translate-y-10');
+            setTimeout(() => modal.classList.add('hidden'), 250);
+        }
+
+        // טיפול בשליחת טופס
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('cv-form').addEventListener('submit', async function (e) {
+                e.preventDefault();
+                const form = e.target;
+                const msg = document.getElementById('cv-form-message');
+                msg.innerHTML = "";
+                // ולידציה בסיסית
+                if (!form.cvFile.files[0]) {
+                    msg.innerHTML = '<span class="text-red-600">חובה להעלות קובץ קורות חיים.</span>';
+                    return;
+                }
+                const allowed = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'image/png'];
+                if (!allowed.includes(form.cvFile.files[0].type)) {
+                    msg.innerHTML = '<span class="text-red-600">קובץ לא נתמך. רק PDF / Word / PNG</span>';
+                    return;
+                }
+                msg.innerHTML = '<span class="text-blue-600">מעלה קובץ...</span>';
+
+                // שלב 1: העלאת קובץ ל־Firebase Storage
+                const file = form.cvFile.files[0];
+                const storageRef = ref(storage, `cvs/${Date.now()}_${file.name}`);
+                try {
+                    await uploadBytes(storageRef, file);
+                    const fileURL = await getDownloadURL(storageRef);
+
+                    // שלב 2: שמירת הפרטים ב־Firestore
+                    const docData = {
+                        firstName: form.firstName.value,
+                        lastName: form.lastName.value,
+                        phone: form.phone.value,
+                        gender: form.gender.value,
+                        age: form.age.value,
+                        interests: form.interests.value,
+                        fileURL,
+                        jobId: selectedJobId || null,
+                        jobTitle: selectedJobTitle || null,
+                        createdAt: serverTimestamp()
+                    };
+                    await addDoc(collection(db, "jobApplicants"), docData);
+                    msg.innerHTML = '<span class="text-green-600">הקובץ נשלח בהצלחה! נחזור אליך בהקדם 🙌</span>';
+                    form.reset();
+                    setTimeout(closeCVModal, 2000);
+                } catch (err) {
+                    msg.innerHTML = '<span class="text-red-600">אירעה שגיאה, נסה שנית או צור קשר.</span>';
+                }
             });
         });
     </script>
-    <!-- Swiper Script -->
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 </body>
 </html>
