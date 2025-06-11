@@ -4,18 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>כלנית | הבית שלך לקריירה</title>
-    
-    <!-- External CSS files and Fonts -->
+    <!-- Fonts & Styles -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    
-    <!-- Tailwind CSS -->
+    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Custom Styles -->
     <style>
         body { font-family: 'Heebo', sans-serif; scroll-behavior: smooth; }
         .brand-logo { font-weight: 900; font-size: 1.8rem; }
@@ -29,68 +25,159 @@
 </head>
 <body class="bg-gray-50">
 
-    <!-- =========== Header Placeholder =========== -->
-    <!-- The main menu will be loaded here by JavaScript -->
+    <!-- Header Placeholder (menu.html) -->
     <header id="header-placeholder" class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50"></header>
 
-    <!-- =========== Main Content (Unchanged) =========== -->
     <main>
-        <!-- All the main sections (Hero, Stories, CV, About, etc.) go here exactly as before -->
-        <section class="hero-gradient text-white"> <div class="container mx-auto px-6 py-24 text-center"> <h1 class="text-4xl md:text-6xl font-black mb-4 drop-shadow-lg">הצעד הבא בקריירה שלך מתחיל כאן</h1> <p class="text-lg md:text-xl mb-12 max-w-3xl mx-auto">כלנית מחברת בין הכישרון שלך למשרות המובילות במשק. בואו נמצא יחד את ההזדמנות הבאה שלכם.</p> <div class="max-w-4xl mx-auto bg-white/20 backdrop-blur-sm p-4 rounded-xl shadow-2xl"> <form action="jobs.html" class="grid grid-cols-1 md:grid-cols-4 gap-3 items-center"> <input type="text" placeholder="חיפוש לפי תפקיד, חברה..." class="md:col-span-2 w-full px-4 py-3 rounded-lg text-gray-800 focus:outline-none focus:ring-4 focus:ring-blue-300 transition"> <select class="w-full px-4 py-3 rounded-lg text-gray-500 focus:outline-none focus:ring-4 focus:ring-blue-300 transition"> <option>כל התחומים</option> </select> <select class="w-full px-4 py-3 rounded-lg text-gray-500 focus:outline-none focus:ring-4 focus:ring-blue-300 transition"> <option>כל האזורים</option> </select> <button type="submit" class="md:col-span-4 w-full bg-white text-blue-600 font-bold px-8 py-3 rounded-lg hover:bg-blue-100 transition duration-300 text-lg shadow-md hover:shadow-lg"> <i class="fas fa-search"></i> חיפוש משרות </button> </form> </div> </div> </section>
-        <section class="py-20 animated-section"> <div class="container mx-auto px-6"> <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-800">משרות חמות 🔥</h2> <p class="text-center text-gray-600 mb-12 text-lg">הזדמנויות שאסור לך לפספס, מתעדכנות כל הזמן.</p> <div class="relative"> <div class="swiper job-stories-slider h-[500px] rounded-2xl shadow-2xl"> <div class="swiper-wrapper"> <!-- Story Cards will be populated dynamically --> </div> <div class="swiper-pagination swiper-pagination-progressbar swiper-pagination-horizontal"></div> </div> <div class="swiper-button-next"></div> <div class="swiper-button-prev"></div> </div> </div> </section>
-        <section class="bg-white py-20 animated-section"> <div class="container mx-auto px-6 text-center"> <i class="fas fa-file-signature text-5xl text-blue-500 mb-4"></i> <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">לא מצאת את מה שחיפשת?</h2> <p class="text-lg text-gray-600 max-w-2xl mx-auto mb-8">אל דאגה. מאגר המשרות שלנו דינמי ומתעדכן יום-יום. שלח/י לנו את קורות החיים והצוות שלנו ימצא עבורך את ההזדמנות הבאה.</p> <a href="apply.html" class="bg-blue-600 text-white font-bold px-10 py-4 rounded-full hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl text-xl"> <i class="fas fa-paper-plane mr-2"></i> שליחת קורות חיים </a> </div> </section>
-        <!-- ... other main sections ... -->
+        <!-- Hero + חיפוש -->
+        <section class="hero-gradient text-white">
+            <div class="container mx-auto px-6 py-24 text-center">
+                <h1 class="text-4xl md:text-6xl font-black mb-4 drop-shadow-lg">הצעד הבא בקריירה שלך מתחיל כאן</h1>
+                <p class="text-lg md:text-xl mb-12 max-w-3xl mx-auto">כלנית מחברת בין הכישרון שלך למשרות המובילות במשק. בואו נמצא יחד את ההזדמנות הבאה שלכם.</p>
+                <div class="max-w-4xl mx-auto bg-white/20 backdrop-blur-sm p-4 rounded-xl shadow-2xl">
+                    <form action="jobs.html" class="grid grid-cols-1 md:grid-cols-4 gap-3 items-center">
+                        <input type="text" placeholder="חיפוש לפי תפקיד, חברה..." class="md:col-span-2 w-full px-4 py-3 rounded-lg text-gray-800 focus:outline-none focus:ring-4 focus:ring-blue-300 transition">
+                        <select class="w-full px-4 py-3 rounded-lg text-gray-500 focus:outline-none focus:ring-4 focus:ring-blue-300 transition">
+                            <option>כל התחומים</option>
+                        </select>
+                        <select class="w-full px-4 py-3 rounded-lg text-gray-500 focus:outline-none focus:ring-4 focus:ring-blue-300 transition">
+                            <option>כל האזורים</option>
+                        </select>
+                        <button type="submit" class="md:col-span-4 w-full bg-white text-blue-600 font-bold px-8 py-3 rounded-lg hover:bg-blue-100 transition duration-300 text-lg shadow-md hover:shadow-lg">
+                            <i class="fas fa-search"></i> חיפוש משרות
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- משרות חמות -->
+        <section class="py-20 animated-section">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-800">משרות חמות 🔥</h2>
+                <p class="text-center text-gray-600 mb-12 text-lg">הזדמנויות שאסור לך לפספס, מתעדכנות כל הזמן.</p>
+                <div class="relative">
+                    <div class="swiper job-stories-slider h-[500px] rounded-2xl shadow-2xl bg-white">
+                        <div class="swiper-wrapper">
+                            <!-- Slides will be populated dynamically by JS -->
+                        </div>
+                        <div class="swiper-pagination swiper-pagination-progressbar swiper-pagination-horizontal"></div>
+                    </div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- קריאה לפעולה - שלח קו"ח -->
+        <section class="bg-white py-20 animated-section">
+            <div class="container mx-auto px-6 text-center">
+                <i class="fas fa-file-signature text-5xl text-blue-500 mb-4"></i>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">לא מצאת את מה שחיפשת?</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto mb-8">אל דאגה. מאגר המשרות שלנו דינמי ומתעדכן יום-יום. שלח/י לנו את קורות החיים והצוות שלנו ימצא עבורך את ההזדמנות הבאה.</p>
+                <a href="apply.html" class="bg-blue-600 text-white font-bold px-10 py-4 rounded-full hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl text-xl">
+                    <i class="fas fa-paper-plane mr-2"></i> שליחת קורות חיים
+                </a>
+            </div>
+        </section>
+        <!-- אפשר להוסיף עוד סקשנים כאן -->
     </main>
     
-    <!-- =========== Footer Placeholder =========== -->
-    <!-- The footer will be loaded here by JavaScript -->
+    <!-- Footer Placeholder (footer.html) -->
     <footer id="footer-placeholder" class="bg-gray-800 text-white"></footer>
 
-    <!-- Firebase (no changes) -->
+    <!-- Firebase + Swiper + Components Loader -->
     <script type="module">
+        // Firebase
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-        // ... your firebase config
-    </script>
+        import { getFirestore, collection, query, where, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
-    <!-- Swiper JS -->
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+        // הגדרות פיירבייס - לעדכן אם צריך
+        const firebaseConfig = {
+            apiKey: "AIzaSyAOKMJabnJ9JGE5CuclCCSjv5Bo3rT49Cw",
+            authDomain: "calanit-31a32.firebaseapp.com",
+            projectId: "calanit-31a32",
+            storageBucket: "calanit-31a32.appspot.com",
+            messagingSenderId: "91430351613",
+            appId: "1:91430351613:web:ae46b2063f2d4b71428494",
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
-    <!-- =========== NEW: Dynamic Content Loader Script =========== -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Function to load HTML content from a file into an element
-            const loadComponent = (url, elementId, callback) => {
-                fetch(url)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.text();
-                    })
-                    .then(data => {
-                        document.getElementById(elementId).innerHTML = data;
-                        if (callback) {
-                            callback(); // Run the callback function after content is loaded
-                        }
-                    })
-                    .catch(error => console.error(`Error loading component from ${url}:`, error));
-            };
+        // טוען header & footer מ־HTML נפרדים
+        function loadComponent(url, elementId, callback) {
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    return response.text();
+                })
+                .then(data => {
+                    document.getElementById(elementId).innerHTML = data;
+                    if (callback) callback();
+                })
+                .catch(error => console.error(`Error loading component from ${url}:`, error));
+        }
+        loadComponent('menu.html', 'header-placeholder', () => {
+            // תפריט מובייל - הגדרה מהירה
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+        });
+        loadComponent('footer.html', 'footer-placeholder');
 
-            // Load the header, and AFTER it's loaded, attach its script logic
-            loadComponent('menu.html', 'header-placeholder', () => {
-                const mobileMenuButton = document.getElementById('mobile-menu-button');
-                const mobileMenu = document.getElementById('mobile-menu');
-                if (mobileMenuButton && mobileMenu) {
-                    mobileMenuButton.addEventListener('click', () => {
-                        mobileMenu.classList.toggle('hidden');
-                    });
-                }
+        // ===== משרות חמות - טעינה דינמית מ־Firestore =====
+        async function loadHotJobs() {
+            const swiperWrapper = document.querySelector('.job-stories-slider .swiper-wrapper');
+            if (!swiperWrapper) return;
+            swiperWrapper.innerHTML = '<div class="flex justify-center items-center w-full h-60 text-blue-600 text-lg">טוען משרות...</div>';
+            const q = query(
+                collection(db, "jobs"),
+                where("isHot", "==", true),
+                orderBy("createdAt", "desc"),
+                limit(10)
+            );
+            const snapshot = await getDocs(q);
+            if (snapshot.empty) {
+                swiperWrapper.innerHTML = `
+                    <div class="swiper-slide flex flex-col justify-center items-center h-full bg-gray-100 rounded-2xl">
+                        <i class="fas fa-fire text-5xl text-red-400 mb-2"></i>
+                        <div class="text-lg font-bold text-gray-800">אין כרגע משרות חמות</div>
+                        <div class="text-gray-500 text-sm mt-2">נסה שוב מאוחר יותר או עיין בכל המשרות</div>
+                    </div>
+                `;
+                return;
+            }
+            swiperWrapper.innerHTML = '';
+            snapshot.forEach(doc => {
+                const job = doc.data();
+                const jobId = doc.id;
+                const slide = document.createElement('div');
+                slide.className = 'swiper-slide bg-white rounded-2xl shadow-lg flex flex-col justify-between items-start p-6 h-full relative';
+                slide.innerHTML = `
+                    <div>
+                        <div class="text-blue-600 font-bold text-xl mb-2 flex items-center gap-2"><i class="fas fa-fire text-red-400"></i> ${job.title}</div>
+                        <div class="text-gray-600 mb-2 text-base">${job.location || ''} • ${job.type || ''}</div>
+                        <div class="text-gray-700 mb-4 line-clamp-3">${job.description ? job.description.substring(0, 160) : ''}${job.description && job.description.length > 160 ? '...' : ''}</div>
+                    </div>
+                    <a href="apply.html?job=${encodeURIComponent(jobId)}"
+                       class="absolute bottom-6 left-6 bg-blue-600 text-white px-5 py-2 rounded-full font-bold shadow-lg hover:bg-blue-700 transition-all text-base">
+                        <i class="fas fa-paper-plane ml-2"></i> שלח/י קו"ח למשרה זו
+                    </a>
+                `;
+                swiperWrapper.appendChild(slide);
             });
+            if (window.hotJobsSwiper) {
+                window.hotJobsSwiper.update();
+            }
+        }
 
-            // Load the footer (it has no scripts, so no callback needed)
-            loadComponent('footer.html', 'footer-placeholder');
-
-            // --- Animation Observer (from previous step) ---
+        // ===== אנימציה ו-Swiper =====
+        document.addEventListener('DOMContentLoaded', function() {
+            // אנימציות סקשנים
             const animatedSections = document.querySelectorAll('.animated-section');
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -100,13 +187,20 @@
                 });
             }, { threshold: 0.1 });
             animatedSections.forEach(section => observer.observe(section));
-
-            // --- Swiper Initialization (from previous step) ---
-             // This part needs the HTML to exist, so we can mock it or load it dynamically
-             // For now, let's assume the swiper HTML is static in index.html as it is now.
-            const swiper = new Swiper('.job-stories-slider', { /* ... swiper options ... */ });
+            // טעינת משרות חמות + Swiper
+            loadHotJobs().then(() => {
+                window.hotJobsSwiper = new Swiper('.job-stories-slider', {
+                    slidesPerView: 1,
+                    spaceBetween: 40,
+                    loop: false,
+                    pagination: { el: '.swiper-pagination', type: 'progressbar' },
+                    navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+                    breakpoints: { 640: { slidesPerView: 1.2 }, 900: { slidesPerView: 2 }, 1200: { slidesPerView: 2.5 } }
+                });
+            });
         });
     </script>
+    <!-- Swiper Script -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 </body>
 </html>
-
