@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>כלנית | הבית שלך לקריירה</title>
-    <!-- Fonts & Styles -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -26,7 +25,7 @@
 </head>
 <body class="bg-gray-50">
 
-    <!-- Header Placeholder -->
+    <!-- Header Placeholder (menu.html) -->
     <header id="header-placeholder" class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50"></header>
 
     <main>
@@ -82,8 +81,8 @@
             </div>
         </section>
     </main>
-    
-    <!-- Modal לשליחת קו"ח -->
+
+    <!-- Modal לשליחת קו"ח (כפי ששלחתי למעלה, נשאר זהה) -->
     <div id="cv-modal" class="modal fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 hidden opacity-0 z-50">
         <div class="modal-content bg-white w-full max-w-lg rounded-lg shadow-2xl p-8 transform -translate-y-10 relative">
             <button id="close-cv-modal" class="absolute top-4 left-4 text-gray-400 hover:text-gray-800 text-xl"><i class="fas fa-times"></i></button>
@@ -134,11 +133,10 @@
     <!-- Footer Placeholder -->
     <footer id="footer-placeholder" class="bg-gray-800 text-white"></footer>
 
-    <!-- Swiper -->
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-    <!-- Firebase & JS -->
     <script type="module">
-        // ===== Firebase =====
+        // (Firebase config והגדרות, כרגיל...)
+
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
         import { getFirestore, collection, query, where, orderBy, limit, getDocs, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
         import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-storage.js";
@@ -155,7 +153,6 @@
         const db = getFirestore(app);
         const storage = getStorage(app);
 
-        // ===== טעינת תפריט/פוטר =====
         function loadComponent(url, elementId, callback) {
             fetch(url)
                 .then(response => {
@@ -179,7 +176,7 @@
         });
         loadComponent('footer.html', 'footer-placeholder');
 
-        // ===== משרות חמות =====
+        // טעינת משרות חמות (כולל תצוגת תמונה/מודעה)
         async function loadHotJobs() {
             const swiperWrapper = document.querySelector('.job-stories-slider .swiper-wrapper');
             if (!swiperWrapper) return;
@@ -205,9 +202,13 @@
             snapshot.forEach(doc => {
                 const job = doc.data();
                 const jobId = doc.id;
+                const imageHtml = job.imageUrl
+                    ? `<img src="${job.imageUrl}" alt="${job.title}" class="w-full h-40 object-cover rounded-xl mb-4">`
+                    : `<div class="w-full h-40 flex items-center justify-center bg-blue-50 rounded-xl mb-4"><i class="fas fa-image text-5xl text-blue-200"></i></div>`;
                 const slide = document.createElement('div');
                 slide.className = 'swiper-slide bg-white rounded-2xl shadow-lg flex flex-col justify-between items-start p-6 h-full relative';
                 slide.innerHTML = `
+                    ${imageHtml}
                     <div>
                         <div class="text-blue-600 font-bold text-xl mb-2 flex items-center gap-2"><i class="fas fa-fire text-red-400"></i> ${job.title}</div>
                         <div class="text-gray-600 mb-2 text-base">${job.location || ''} • ${job.type || ''}</div>
@@ -222,9 +223,9 @@
             if (window.hotJobsSwiper) window.hotJobsSwiper.update();
         }
 
-        // ===== אנימציה + פתיחת מודל =====
+        // השאר כמו בקוד המלא הקודם...
+
         document.addEventListener('DOMContentLoaded', function() {
-            // אנימציות
             const animatedSections = document.querySelectorAll('.animated-section');
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -234,8 +235,6 @@
                 });
             }, { threshold: 0.1 });
             animatedSections.forEach(section => observer.observe(section));
-
-            // טעינת משרות חמות
             loadHotJobs().then(() => {
                 window.hotJobsSwiper = new Swiper('.job-stories-slider', {
                     slidesPerView: 1,
@@ -245,26 +244,20 @@
                     navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
                     breakpoints: { 640: { slidesPerView: 1.2 }, 900: { slidesPerView: 2 }, 1200: { slidesPerView: 2.5 } }
                 });
-                // פתיחת מודל מכפתורי "שלח קו"ח" של המשרות
                 document.querySelectorAll('.open-cv-modal-btn').forEach(btn => {
                     btn.addEventListener('click', () => openCVModal(btn.dataset.jobId, btn.dataset.jobTitle));
                 });
             });
 
-            // פתיחת מודל מהכפתור הכללי
             document.getElementById('open-cv-modal').addEventListener('click', () => openCVModal());
-
-            // סגירת מודל
             document.getElementById('close-cv-modal').addEventListener('click', closeCVModal);
             document.getElementById('cv-modal').addEventListener('click', function(e) {
                 if (e.target === this) closeCVModal();
             });
         });
 
-        // ====== לוגיקה למודל קורות חיים ======
         let selectedJobId = null;
         let selectedJobTitle = null;
-
         function openCVModal(jobId, jobTitle) {
             selectedJobId = jobId || null;
             selectedJobTitle = jobTitle || '';
@@ -274,7 +267,6 @@
                 modal.classList.remove('opacity-0');
                 modal.querySelector('.modal-content').classList.remove('-translate-y-10');
             }, 10);
-            // הצגת שם משרה (אם קיים)
             document.getElementById('cv-form').reset();
             document.getElementById('cv-form-message').innerHTML = "";
             if (jobTitle) {
@@ -289,15 +281,12 @@
             modal.querySelector('.modal-content').classList.add('-translate-y-10');
             setTimeout(() => modal.classList.add('hidden'), 250);
         }
-
-        // טיפול בשליחת טופס
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('cv-form').addEventListener('submit', async function (e) {
                 e.preventDefault();
                 const form = e.target;
                 const msg = document.getElementById('cv-form-message');
                 msg.innerHTML = "";
-                // ולידציה בסיסית
                 if (!form.cvFile.files[0]) {
                     msg.innerHTML = '<span class="text-red-600">חובה להעלות קובץ קורות חיים.</span>';
                     return;
@@ -308,15 +297,11 @@
                     return;
                 }
                 msg.innerHTML = '<span class="text-blue-600">מעלה קובץ...</span>';
-
-                // שלב 1: העלאת קובץ ל־Firebase Storage
                 const file = form.cvFile.files[0];
                 const storageRef = ref(storage, `cvs/${Date.now()}_${file.name}`);
                 try {
                     await uploadBytes(storageRef, file);
                     const fileURL = await getDownloadURL(storageRef);
-
-                    // שלב 2: שמירת הפרטים ב־Firestore
                     const docData = {
                         firstName: form.firstName.value,
                         lastName: form.lastName.value,
