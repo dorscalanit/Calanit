@@ -108,7 +108,6 @@
         </section>
 
         <!-- The rest of the page sections (Hot Jobs, New Jobs, CTA, etc.) -->
-        <!-- Hot Jobs Section -->
         <section class="py-24 animated-section">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-16">
@@ -125,8 +124,6 @@
                 </div>
             </div>
         </section>
-
-        <!-- New Jobs Section -->
         <section class="bg-white py-24 animated-section">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-16">
@@ -143,8 +140,6 @@
                 </div>
             </div>
         </section>
-
-        <!-- CTA - Send CV Section -->
         <section id="send-cv-section" class="py-24 animated-section">
             <div class="container mx-auto px-6 text-center">
                 <div class="max-w-3xl mx-auto">
@@ -206,7 +201,6 @@
         import { getFirestore, collection, query, where, getDocs, addDoc, serverTimestamp, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
         import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
-        // IMPORTANT: Replace with your actual Firebase config
         const firebaseConfig = {
             apiKey: "AIzaSyAOKMJabnJ9JGE5CuclCCSjv5Bo3rT49Cw",
             authDomain: "calanit-31a32.firebaseapp.com",
@@ -235,14 +229,16 @@
         // --- City Autocomplete Logic ---
         async function loadCities() {
             try {
+                // **FIX:** Reverted to fetching the external cities.json file.
+                // This is the correct approach for a production environment.
                 const response = await fetch('cities.json');
-                if (!response.ok) throw new Error('Could not load cities.json');
+                if (!response.ok) throw new Error('Could not load cities.json. Make sure it is in the same directory.');
                 const citiesData = await response.json();
-                // Remove duplicates and sort
                 allCities = [...new Set(citiesData)].sort((a, b) => a.localeCompare(b, 'he'));
             } catch (error) {
                 console.error("Failed to load cities:", error);
-                allCities = ["תל אביב-יפו", "ירושלים", "חיפה", "באר שבע"]; // Fallback
+                // Provide a fallback list in case the fetch fails
+                allCities = ["תל אביב-יפו", "ירושלים", "חיפה", "באר שבע", "ראשון לציון", "פתח תקווה"]; 
             }
         }
 
@@ -259,19 +255,15 @@
                 }
                 const filteredCities = allCities
                     .filter(city => city.startsWith(query) && !selectedLocations.has(city))
-                    .slice(0, 10); // Show top 10 results
+                    .slice(0, 7); 
 
                 resultsContainer.innerHTML = '';
                 if (filteredCities.length > 0) {
                     filteredCities.forEach(city => {
                         const item = document.createElement('div');
-                        item.className = 'p-2 cursor-pointer autocomplete-item';
+                        item.className = 'p-3 text-gray-800 cursor-pointer autocomplete-item';
                         item.textContent = city;
-                        item.addEventListener('click', () => {
-                            selectCity(city);
-                            resultsContainer.classList.add('hidden');
-                            locationInput.value = '';
-                        });
+                        item.addEventListener('click', () => selectCity(city));
                         resultsContainer.appendChild(item);
                     });
                     resultsContainer.classList.remove('hidden');
@@ -284,6 +276,9 @@
                 if (selectedLocations.has(city)) return;
                 selectedLocations.add(city);
                 renderSelectedBubbles();
+                resultsContainer.classList.add('hidden');
+                locationInput.value = '';
+                locationInput.focus();
             }
 
             function removeCity(city) {
@@ -295,17 +290,13 @@
                 selectedContainer.innerHTML = '';
                 selectedLocations.forEach(city => {
                     const bubble = document.createElement('div');
-                    bubble.className = 'bg-blue-500 text-white text-sm font-semibold px-3 py-1 rounded-full flex items-center gap-2 animate-fade-in';
-                    bubble.innerHTML = `
-                        <span>${city}</span>
-                        <button type="button" class="bg-blue-700 hover:bg-blue-800 rounded-full w-4 h-4 flex items-center justify-center text-xs">&times;</button>
-                    `;
+                    bubble.className = 'bg-blue-500 text-white text-sm font-semibold px-3 py-1.5 rounded-full flex items-center gap-2';
+                    bubble.innerHTML = `<span>${city}</span><button type="button" class="bg-blue-600 hover:bg-blue-700 rounded-full w-5 h-5 flex items-center justify-center text-xs transition-colors">&times;</button>`;
                     bubble.querySelector('button').addEventListener('click', () => removeCity(city));
                     selectedContainer.appendChild(bubble);
                 });
             }
 
-            // Hide autocomplete on outside click
             document.addEventListener('click', (e) => {
                 if (!locationInput.contains(e.target) && !resultsContainer.contains(e.target)) {
                     resultsContainer.classList.add('hidden');
@@ -360,22 +351,16 @@
         const modalContent = cvModal.querySelector('.modal-content');
         let selectedJobId = null;
         let selectedJobTitle = null;
-
         function openCVModal(jobId = null, jobTitle = '') {
-            selectedJobId = jobId;
-            selectedJobTitle = jobTitle;
-            cvModal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
+            selectedJobId = jobId; selectedJobTitle = jobTitle;
+            cvModal.classList.remove('hidden'); document.body.style.overflow = 'hidden';
             setTimeout(() => { cvModal.classList.remove('opacity-0'); modalContent.classList.remove('scale-95', 'opacity-0'); }, 10);
-            document.getElementById('cv-form').reset();
-            document.getElementById('cv-form-message').innerHTML = "";
+            document.getElementById('cv-form').reset(); document.getElementById('cv-form-message').innerHTML = "";
             const modalTitle = document.getElementById('cv-modal-title');
             modalTitle.textContent = jobTitle ? `הגשת מועמדות למשרת "${jobTitle}"` : "שליחת קורות חיים כללית";
         }
-
         function closeCVModal() {
-            modalContent.classList.add('scale-95', 'opacity-0');
-            cvModal.classList.add('opacity-0');
+            modalContent.classList.add('scale-95', 'opacity-0'); cvModal.classList.add('opacity-0');
             setTimeout(() => { cvModal.classList.add('hidden'); document.body.style.overflow = 'auto'; }, 300);
         }
 
@@ -389,31 +374,22 @@
             const submitSpinner = document.getElementById('submit-spinner');
             const cvFile = form.cvFile.files[0];
             if (!cvFile) { msgEl.className = 'text-red-600'; msgEl.textContent = 'חובה להעלות קובץ קורות חיים.'; return; }
-            submitBtn.disabled = true;
-            submitText.classList.add('hidden');
-            submitSpinner.classList.remove('hidden');
-            msgEl.className = 'text-blue-600';
-            msgEl.textContent = 'שולח פרטים...';
+            submitBtn.disabled = true; submitText.classList.add('hidden'); submitSpinner.classList.remove('hidden');
+            msgEl.className = 'text-blue-600'; msgEl.textContent = 'שולח פרטים...';
             const storageRef = ref(storage, `cvs/${Date.now()}_${cvFile.name}`);
             try {
                 await uploadBytes(storageRef, cvFile);
                 const fileURL = await getDownloadURL(storageRef);
-                const docData = {
-                    firstName: form.firstName.value.trim(), lastName: form.lastName.value.trim(), phone: form.phone.value.trim(),
-                    fileURL: fileURL, jobId: selectedJobId || null, jobTitle: selectedJobTitle || 'הגשה כללית', createdAt: serverTimestamp(),
-                };
+                const docData = { firstName: form.firstName.value.trim(), lastName: form.lastName.value.trim(), phone: form.phone.value.trim(), fileURL: fileURL, jobId: selectedJobId || null, jobTitle: selectedJobTitle || 'הגשה כללית', createdAt: serverTimestamp() };
                 await addDoc(collection(db, "jobApplicants"), docData);
-                msgEl.className = 'text-green-600';
-                msgEl.textContent = 'הפרטים נשלחו בהצלחה!';
+                msgEl.className = 'text-green-600'; msgEl.textContent = 'הפרטים נשלחו בהצלחה!';
                 form.reset();
                 setTimeout(closeCVModal, 2500);
             } catch (err) {
                 console.error("Form submission error:", err);
                 msgEl.className = 'text-red-600'; msgEl.textContent = 'אירעה שגיאה. אנא נסו שנית.';
             } finally {
-                submitBtn.disabled = false;
-                submitText.classList.remove('hidden');
-                submitSpinner.classList.add('hidden');
+                submitBtn.disabled = false; submitText.classList.remove('hidden'); submitSpinner.classList.add('hidden');
             }
         }
 
@@ -426,7 +402,7 @@
             });
             loadComponent('footer.html', 'footer-placeholder');
 
-            await loadCities(); // Wait for cities to load before setting up autocomplete
+            await loadCities();
             setupAutocomplete();
 
             const hotJobsQuery = query(collection(db, "jobs"), where("isHot", "==", true));
@@ -448,8 +424,6 @@
                 const category = document.getElementById('category-select').value;
                 const locations = Array.from(selectedLocations);
                 console.log("Searching for:", { keyword, category, locations });
-                // Here you would typically redirect to a search results page
-                // window.location.href = `/search?keyword=${keyword}&category=${category}&locations=${locations.join(',')}`;
                 alert(`מחפש... מילת מפתח: ${keyword}, תחום: ${category}, אזורים: ${locations.join(', ')}`);
             });
         });
