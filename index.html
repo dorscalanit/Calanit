@@ -58,7 +58,7 @@
                 <p class="text-center text-gray-600 mb-12 text-lg">הזדמנויות שאסור לך לפספס, מתעדכנות כל הזמן.</p>
                 <div class="relative">
                     <div class="swiper job-stories-slider h-[500px] rounded-2xl shadow-2xl bg-white">
-                        <div class="swiper-wrapper">
+                        <div class="swiper-wrapper" id="hot-jobs-wrapper">
                             <!-- Slides will be populated dynamically by JS -->
                         </div>
                         <div class="swiper-pagination swiper-pagination-progressbar swiper-pagination-horizontal"></div>
@@ -82,7 +82,7 @@
         </section>
     </main>
 
-    <!-- Modal לשליחת קו"ח (כפי ששלחתי למעלה, נשאר זהה) -->
+    <!-- Modal לשליחת קו"ח (נשאר אותו דבר) -->
     <div id="cv-modal" class="modal fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 hidden opacity-0 z-50">
         <div class="modal-content bg-white w-full max-w-lg rounded-lg shadow-2xl p-8 transform -translate-y-10 relative">
             <button id="close-cv-modal" class="absolute top-4 left-4 text-gray-400 hover:text-gray-800 text-xl"><i class="fas fa-times"></i></button>
@@ -135,8 +135,7 @@
 
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script type="module">
-        // (Firebase config והגדרות, כרגיל...)
-
+        // === Firebase ===
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
         import { getFirestore, collection, query, where, orderBy, limit, getDocs, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
         import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-storage.js";
@@ -153,6 +152,7 @@
         const db = getFirestore(app);
         const storage = getStorage(app);
 
+        // טעינת רכיבים קבועים (menu + footer)
         function loadComponent(url, elementId, callback) {
             fetch(url)
                 .then(response => {
@@ -176,56 +176,60 @@
         });
         loadComponent('footer.html', 'footer-placeholder');
 
-        // טעינת משרות חמות (כולל תצוגת תמונה/מודעה)
+        // טוען משרות חמות כולל טיפול בבאג "טוען בלי סוף"
         async function loadHotJobs() {
-            const swiperWrapper = document.querySelector('.job-stories-slider .swiper-wrapper');
+            const swiperWrapper = document.getElementById('hot-jobs-wrapper');
             if (!swiperWrapper) return;
             swiperWrapper.innerHTML = '<div class="flex justify-center items-center w-full h-60 text-blue-600 text-lg">טוען משרות...</div>';
-            const q = query(
-                collection(db, "jobs"),
-                where("isHot", "==", true),
-                orderBy("createdAt", "desc"),
-                limit(10)
-            );
-            const snapshot = await getDocs(q);
-            if (snapshot.empty) {
-                swiperWrapper.innerHTML = `
-                    <div class="swiper-slide flex flex-col justify-center items-center h-full bg-gray-100 rounded-2xl">
-                        <i class="fas fa-fire text-5xl text-red-400 mb-2"></i>
-                        <div class="text-lg font-bold text-gray-800">אין כרגע משרות חמות</div>
-                        <div class="text-gray-500 text-sm mt-2">נסה שוב מאוחר יותר או עיין בכל המשרות</div>
-                    </div>
-                `;
-                return;
+            try {
+                const q = query(
+                    collection(db, "jobs"),
+                    where("isHot", "==", true),
+                    orderBy("createdAt", "desc"),
+                    limit(10)
+                );
+                const snapshot = await getDocs(q);
+                swiperWrapper.innerHTML = ''; // ניקוי
+                if (snapshot.empty) {
+                    swiperWrapper.innerHTML = `
+                        <div class="swiper-slide flex flex-col justify-center items-center h-full bg-gray-100 rounded-2xl">
+                            <i class="fas fa-fire text-5xl text-red-400 mb-2"></i>
+                            <div class="text-lg font-bold text-gray-800">אין כרגע משרות חמות</div>
+                            <div class="text-gray-500 text-sm mt-2">נסה שוב מאוחר יותר או עיין בכל המשרות</div>
+                        </div>
+                    `;
+                    return;
+                }
+                snapshot.forEach(doc => {
+                    const job = doc.data();
+                    const jobId = doc.id;
+                    const imageHtml = (job.imageUrl && typeof job.imageUrl === 'string' && job.imageUrl.trim() !== '')
+                        ? `<img src="${job.imageUrl}" alt="${job.title || ''}" class="w-full h-40 object-cover rounded-xl mb-4">`
+                        : `<div class="w-full h-40 flex items-center justify-center bg-blue-50 rounded-xl mb-4"><i class="fas fa-image text-5xl text-blue-200"></i></div>`;
+                    const slide = document.createElement('div');
+                    slide.className = 'swiper-slide bg-white rounded-2xl shadow-lg flex flex-col justify-between items-start p-6 h-full relative';
+                    slide.innerHTML = `
+                        ${imageHtml}
+                        <div>
+                            <div class="text-blue-600 font-bold text-xl mb-2 flex items-center gap-2"><i class="fas fa-fire text-red-400"></i> ${job.title || ''}</div>
+                            <div class="text-gray-600 mb-2 text-base">${job.location || ''}${job.type ? ' • ' + job.type : ''}</div>
+                            <div class="text-gray-700 mb-4 line-clamp-3">${job.description ? job.description.substring(0, 160) : ''}${job.description && job.description.length > 160 ? '...' : ''}</div>
+                        </div>
+                        <button class="open-cv-modal-btn absolute bottom-6 left-6 bg-blue-600 text-white px-5 py-2 rounded-full font-bold shadow-lg hover:bg-blue-700 transition-all text-base" data-job-id="${jobId}" data-job-title="${job.title || ''}">
+                            <i class="fas fa-paper-plane ml-2"></i> שלח/י קו"ח למשרה זו
+                        </button>
+                    `;
+                    swiperWrapper.appendChild(slide);
+                });
+                // תמיד תפעיל סוויפר מחדש
+                if (window.hotJobsSwiper) window.hotJobsSwiper.update();
+            } catch (err) {
+                swiperWrapper.innerHTML = `<div class="flex justify-center items-center w-full h-60 text-red-600 text-lg">אירעה שגיאה בטעינה. נסה לרענן.</div>`;
             }
-            swiperWrapper.innerHTML = '';
-            snapshot.forEach(doc => {
-                const job = doc.data();
-                const jobId = doc.id;
-                const imageHtml = job.imageUrl
-                    ? `<img src="${job.imageUrl}" alt="${job.title}" class="w-full h-40 object-cover rounded-xl mb-4">`
-                    : `<div class="w-full h-40 flex items-center justify-center bg-blue-50 rounded-xl mb-4"><i class="fas fa-image text-5xl text-blue-200"></i></div>`;
-                const slide = document.createElement('div');
-                slide.className = 'swiper-slide bg-white rounded-2xl shadow-lg flex flex-col justify-between items-start p-6 h-full relative';
-                slide.innerHTML = `
-                    ${imageHtml}
-                    <div>
-                        <div class="text-blue-600 font-bold text-xl mb-2 flex items-center gap-2"><i class="fas fa-fire text-red-400"></i> ${job.title}</div>
-                        <div class="text-gray-600 mb-2 text-base">${job.location || ''} • ${job.type || ''}</div>
-                        <div class="text-gray-700 mb-4 line-clamp-3">${job.description ? job.description.substring(0, 160) : ''}${job.description && job.description.length > 160 ? '...' : ''}</div>
-                    </div>
-                    <button class="open-cv-modal-btn absolute bottom-6 left-6 bg-blue-600 text-white px-5 py-2 rounded-full font-bold shadow-lg hover:bg-blue-700 transition-all text-base" data-job-id="${jobId}" data-job-title="${job.title}">
-                        <i class="fas fa-paper-plane ml-2"></i> שלח/י קו"ח למשרה זו
-                    </button>
-                `;
-                swiperWrapper.appendChild(slide);
-            });
-            if (window.hotJobsSwiper) window.hotJobsSwiper.update();
         }
 
-        // השאר כמו בקוד המלא הקודם...
-
         document.addEventListener('DOMContentLoaded', function() {
+            // אנימציה
             const animatedSections = document.querySelectorAll('.animated-section');
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -235,6 +239,8 @@
                 });
             }, { threshold: 0.1 });
             animatedSections.forEach(section => observer.observe(section));
+
+            // טעינת משרות חמות + סוויפר
             loadHotJobs().then(() => {
                 window.hotJobsSwiper = new Swiper('.job-stories-slider', {
                     slidesPerView: 1,
@@ -244,11 +250,13 @@
                     navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
                     breakpoints: { 640: { slidesPerView: 1.2 }, 900: { slidesPerView: 2 }, 1200: { slidesPerView: 2.5 } }
                 });
+                // האזן לכפתורי קו"ח
                 document.querySelectorAll('.open-cv-modal-btn').forEach(btn => {
                     btn.addEventListener('click', () => openCVModal(btn.dataset.jobId, btn.dataset.jobTitle));
                 });
             });
 
+            // קריאה למודל קו"ח
             document.getElementById('open-cv-modal').addEventListener('click', () => openCVModal());
             document.getElementById('close-cv-modal').addEventListener('click', closeCVModal);
             document.getElementById('cv-modal').addEventListener('click', function(e) {
@@ -256,6 +264,7 @@
             });
         });
 
+        // טופס שליחת קו"ח (כמו קודם)
         let selectedJobId = null;
         let selectedJobTitle = null;
         function openCVModal(jobId, jobTitle) {
