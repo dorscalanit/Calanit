@@ -1,1 +1,506 @@
-<!DOCTYPE html> <html lang="he" dir="rtl"> <head>     <meta charset="UTF-8">     <meta name="viewport" content="width=device-width, initial-scale=1.0">     <title>כלנית | הבית שלך לקריירה</title>     <!-- Google Fonts -->     <link rel="preconnect" href="https://fonts.googleapis.com">     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap" rel="stylesheet">     <!-- SwiperJS for Sliders -->     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />     <!-- Font Awesome for Icons -->     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">     <!-- Tailwind CSS -->     <script src="https://cdn.tailwindcss.com"></script>     <!-- Custom Styles -->     <style>         /* Base styles using Heebo font */         body {              font-family: 'Heebo', sans-serif;              scroll-behavior: smooth;             background-color: #f8fafc;         }                  /* Custom brand logo style */         .brand-logo {              font-weight: 900;              font-size: 1.8rem;         }          /* Hero gradient */         .hero-gradient {              background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);          }          /* --- Story Slider Styles --- */         .story-slider-container .swiper {             height: 480px; /* Reduced height for a more square look */             border-radius: 1.5rem; /* 24px */             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);             position: relative;             overflow: hidden;         }         .story-slider-container .swiper-slide {             color: white;             display: flex;             flex-direction: column;             justify-content: flex-end;             padding: 2rem; /* 32px */             background-size: cover;             background-position: center;         }         /* Gradient overlay for text readability */         .story-slider-container .story-overlay {             position: absolute;             inset: 0;             background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0) 100%);         }         .story-slider-container .story-content {             position: relative; /* To appear above the overlay */             z-index: 10;         }                  /* Progress bar at the top */         .story-slider-container .swiper-pagination-progressbar {             top: 0 !important;             bottom: auto !important;             height: 4px !important;             background: rgba(255, 255, 255, 0.3) !important;         }         .story-slider-container .swiper-pagination-progressbar .swiper-pagination-progressbar-fill {              background: #fff !important;          }          /* Navigation buttons */         .story-slider-container .swiper-button-next,          .story-slider-container .swiper-button-prev {              color: white;              background-color: rgba(0, 0, 0, 0.2);              width: 50px;              height: 50px;              border-radius: 50%;             transition: background-color 0.2s ease;         }         .story-slider-container .swiper-button-next:hover,          .story-slider-container .swiper-button-prev:hover {              background-color: rgba(0, 0, 0, 0.4);         }         .story-slider-container .swiper-button-next::after,          .story-slider-container .swiper-button-prev::after {              font-size: 20px;              font-weight: bold;         }          /* Animation for sections appearing on scroll */         .animated-section {              opacity: 0;              transform: translateY(50px);              transition: opacity 0.6s ease-out, transform 0.6s ease-out;          }         .animated-section.is-visible {              opacity: 1;              transform: translateY(0);          }          /* Modal transition styles */         .modal { transition: opacity 0.3s ease; }         .modal-content { transition: transform 0.3s ease, opacity 0.3s ease; }     </style> </head> <body class="text-gray-800">      <!-- Header Placeholder (Loaded via JS) -->     <header id="header-placeholder" class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-40"></header>      <main>         <!-- Hero + Search Section -->         <section class="hero-gradient text-white">             <div class="container mx-auto px-6 pt-20 pb-28 text-center">                 <h1 class="text-4xl md:text-6xl font-black mb-4 drop-shadow-md">הצעד הבא בקריירה שלך מתחיל כאן</h1>                 <p class="text-lg md:text-xl mb-12 max-w-3xl mx-auto opacity-90">כלנית מחברת בין הכישרון שלך למשרות המובילות במשק. בואו נמצא יחד את ההזדמנות הבאה שלכם.</p>                 <div class="max-w-4xl mx-auto bg-white/20 backdrop-blur-sm p-4 rounded-xl shadow-2xl">                     <form action="#" class="grid grid-cols-1 md:grid-cols-5 gap-3 items-center">                         <input type="text" placeholder="חיפוש לפי תפקיד, חברה..." class="md:col-span-2 w-full px-4 py-3 rounded-lg text-gray-800 border-2 border-transparent focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300" />                         <select class="w-full px-4 py-3 rounded-lg text-gray-500 border-2 border-transparent focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300">                             <option>כל התחומים</option>                         </select>                         <select class="w-full px-4 py-3 rounded-lg text-gray-500 border-2 border-transparent focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300">                             <option>כל האזורים</option>                         </select>                         <button type="submit" class="md:col-span-1 w-full bg-white text-blue-600 font-bold px-8 py-3 rounded-lg hover:bg-blue-100 transition duration-300 text-lg shadow-md hover:shadow-lg">                             <i class="fas fa-search"></i>                             <span class="hidden md:inline ml-2">חיפוש</span>                         </button>                     </form>                 </div>             </div>         </section>          <!-- Hot Jobs Section -->         <section class="py-24 animated-section">             <div class="container mx-auto px-6">                 <div class="text-center mb-16">                     <h2 class="text-3xl md:text-4xl font-bold mb-3 text-gray-900">משרות חמות 🔥</h2>                     <p class="text-lg text-gray-600">הזדמנויות שאסור לכם לפספס, מתעדכנות כל הזמן.</p>                 </div>                 <div class="relative story-slider-container" id="hot-jobs-container">                     <div class="swiper hot-jobs-slider">                         <div class="swiper-wrapper">                             <!-- Slides will be populated dynamically by JS -->                         </div>                         <div class="swiper-button-next"></div>                         <div class="swiper-button-prev"></div>                         <div class="swiper-pagination swiper-pagination-progressbar swiper-pagination-horizontal"></div>                     </div>                 </div>             </div>         </section>          <!-- New Jobs Section -->         <section class="bg-white py-24 animated-section">             <div class="container mx-auto px-6">                 <div class="text-center mb-16">                     <h2 class="text-3xl md:text-4xl font-bold mb-3 text-gray-900">משרות חדשות ✨</h2>                     <p class="text-lg text-gray-600">ההזדמנויות האחרונות שהצטרפו למאגר שלנו.</p>                 </div>                 <div class="relative story-slider-container" id="new-jobs-container">                     <div class="swiper new-jobs-slider">                         <div class="swiper-wrapper">                             <!-- Slides will be populated dynamically by JS -->                         </div>                         <div class="swiper-button-next"></div>                         <div class="swiper-button-prev"></div>                         <div class="swiper-pagination swiper-pagination-progressbar swiper-pagination-horizontal"></div>                     </div>                 </div>             </div>         </section>           <!-- CTA - Send CV Section -->         <section id="send-cv-section" class="py-24 animated-section">             <div class="container mx-auto px-6 text-center">                 <div class="max-w-3xl mx-auto">                     <i class="fas fa-file-signature text-6xl text-blue-500 mb-6"></i>                     <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">לא מצאתם את מה שחיפשתם?</h2>                     <p class="text-lg text-gray-600 mb-8">אל דאגה. מאגר המשרות שלנו דינמי ומתעדכן יום-יום. שלחו לנו את קורות החיים והצוות המקצועי שלנו ימצא עבורכם את ההזדמנות הבאה.</p>                     <button id="open-cv-modal" class="bg-blue-600 text-white font-bold px-10 py-4 rounded-full hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 text-xl">                         <i class="fas fa-paper-plane mr-3"></i> שליחת קורות חיים                     </button>                 </div>             </div>         </section>     </main>      <!-- CV Submission Modal -->     <div id="cv-modal" class="modal fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 hidden opacity-0 z-50">         <div class="modal-content bg-white w-full max-w-lg rounded-2xl shadow-2xl p-6 md:p-8 transform scale-95 opacity-0 relative">             <button id="close-cv-modal" class="absolute top-4 left-4 text-gray-400 hover:text-gray-700 text-2xl w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition-all">                 <i class="fas fa-times"></i>             </button>             <h3 id="cv-modal-title" class="text-2xl font-bold mb-6 text-center text-blue-800">שליחת קורות חיים</h3>             <form id="cv-form" class="space-y-5">                  <div class="grid grid-cols-1 md:grid-cols-2 gap-5">                     <div>                         <label for="firstName" class="font-medium text-sm text-gray-700">שם פרטי <span class="text-red-500">*</span></label>                         <input type="text" id="firstName" name="firstName" required class="mt-1 w-full border-gray-300 rounded-lg shadow-sm px-4 py-2 focus:ring-blue-500 focus:border-blue-500 transition">                     </div>                     <div>                         <label for="lastName" class="font-medium text-sm text-gray-700">שם משפחה <span class="text-red-500">*</span></label>                         <input type="text" id="lastName" name="lastName" required class="mt-1 w-full border-gray-300 rounded-lg shadow-sm px-4 py-2 focus:ring-blue-500 focus:border-blue-500 transition">                     </div>                  </div>                  <div>                     <label for="phone" class="font-medium text-sm text-gray-700">טלפון <span class="text-red-500">*</span></label>                     <input type="tel" id="phone" name="phone" required pattern="^05\d{8}$" placeholder="05XXXXXXXX" class="mt-1 w-full border-gray-300 rounded-lg shadow-sm px-4 py-2 focus:ring-blue-500 focus:border-blue-500 transition">                 </div>                 <div>                     <label for="cvFile" class="font-medium text-sm block text-gray-700">קובץ קורות חיים <span class="text-red-500">*</span></label>                     <input type="file" id="cvFile" name="cvFile" required accept=".pdf,.doc,.docx" class="mt-2 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition">                     <p class="text-xs text-gray-500 mt-1">קבצים נתמכים: PDF, DOC, DOCX (עד 5MB)</p>                 </div>                 <button type="submit" id="cv-submit-button" class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold text-lg hover:bg-blue-700 transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-3">                     <span id="submit-text">שלח/י קורות חיים</span>                     <i id="submit-spinner" class="fas fa-spinner fa-spin hidden"></i>                 </button>                 <div id="cv-form-message" class="text-center text-sm font-medium mt-3 h-5"></div>             </form>         </div>     </div>      <!-- Footer Placeholder (Loaded via JS) -->     <footer id="footer-placeholder" class="bg-gray-800 text-white"></footer>      <!-- Scripts -->     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>     <script type="module">         // Firebase modules         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";         import { getFirestore, collection, query, where, getDocs, addDoc, serverTimestamp, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";         import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";          // IMPORTANT: Replace with your actual Firebase config         const firebaseConfig = {             apiKey: "AIzaSyAOKMJabnJ9JGE5CuclCCSjv5Bo3rT49Cw",             authDomain: "calanit-31a32.firebaseapp.com",             projectId: "calanit-31a32",             storageBucket: "calanit-31a32.appspot.com",             messagingSenderId: "91430351613",             appId: "1:91430351613:web:ae46b2063f2d4b71428494",         };          // Initialize Firebase         const app = initializeApp(firebaseConfig);         const db = getFirestore(app);         const storage = getStorage(app);          // --- Component Loader for Header/Footer ---         function loadComponent(url, elementId, callback) {             fetch(url)                 .then(response => {                     if (!response.ok) throw new Error(`Network response was not ok for ${url}`);                     return response.text();                 })                 .then(data => {                     document.getElementById(elementId).innerHTML = data;                     if (callback) callback();                 })                 .catch(error => console.error(`Error loading component from ${url}:`, error));         }          // --- Generic Function to Create and Populate a Story Slider ---         async function createStorySlider(sliderConfig) {             const { containerId, sliderClass, query, noJobsMessage, jobIconClass } = sliderConfig;              const swiperWrapper = document.querySelector(`${containerId} .swiper-wrapper`);             if (!swiperWrapper) return;                          swiperWrapper.innerHTML = `                 <div class="swiper-slide bg-gray-200">                     <div class="story-content text-center text-gray-600">                          <i class="fas fa-spinner fa-spin text-4xl"></i>                          <p class="mt-4 text-lg font-medium">טוען משרות...</p>                     </div>                 </div>`;                          try {                 const snapshot = await getDocs(query);                 if (snapshot.empty) {                     swiperWrapper.innerHTML = `                         <div class="swiper-slide bg-gray-200" style="background-image: url('https://placehold.co/800x500/e2e8f0/9ca3af?text=לא+נמצאו+משרות')">                            <div class="story-overlay"></div>                            <div class="story-content"><h3 class="text-3xl font-bold drop-shadow-md">${noJobsMessage}</h3></div>                         </div>`;                     return;                 }                  swiperWrapper.innerHTML = ''; // Clear loading state                 snapshot.forEach(doc => {                     const job = doc.data();                     const jobId = doc.id;                     const imageUrl = job.imageUrl || `https://placehold.co/800x500/3b82f6/ffffff?text=${encodeURIComponent(job.title)}`;                                          const slide = document.createElement('div');                     slide.className = 'swiper-slide';                     slide.style.backgroundImage = `url('${imageUrl}')`;                     slide.innerHTML = `                         <div class="story-overlay"></div>                         <div class="story-content w-full">                             <h3 class="text-3xl md:text-4xl font-black drop-shadow-lg flex items-center gap-3">                                 <i class="${jobIconClass}"></i> ${job.title || 'כותרת משרה'}                             </h3>                             <div class="text-lg font-medium mt-2 mb-6 opacity-90 drop-shadow-md">                                 <i class="fas fa-map-marker-alt ml-1"></i> ${job.location || 'מיקום'}                             </div>                             <p class="text-base mb-8 line-clamp-3 max-w-xl">${job.description || ''}</p>                             <button class="open-cv-modal-btn bg-white text-blue-600 px-8 py-3 rounded-full font-bold shadow-lg hover:bg-blue-100 transition-all text-lg" data-job-id="${jobId}" data-job-title="${job.title}">                                 הגשת מועמדות                             </button>                         </div>                     `;                     swiperWrapper.appendChild(slide);                 });                  // Initialize Swiper for the specific slider                 new Swiper(`${containerId} ${sliderClass}`, {                     slidesPerView: 1,                     effect: 'fade',                     fadeEffect: { crossFade: true },                     loop: snapshot.size > 1,                     autoplay: {                         delay: 7000,                         disableOnInteraction: false,                         pauseOnMouseEnter: true,                     },                     pagination: { el: `${containerId} .swiper-pagination`, type: 'progressbar' },                     navigation: { nextEl: `${containerId} .swiper-button-next`, prevEl: `${containerId} .swiper-button-prev` },                 });                                  document.querySelectorAll(`${containerId} .open-cv-modal-btn`).forEach(btn => {                     btn.addEventListener('click', () => openCVModal(btn.dataset.jobId, btn.dataset.jobTitle));                 });              } catch (error) {                 console.error(`Error loading jobs for ${containerId}:`, error);                 swiperWrapper.innerHTML = `<div class="swiper-slide bg-red-100 text-red-700 flex items-center justify-center p-8 text-lg text-center">אירעה שגיאה בטעינת המשרות.</div>`;             }         }           // --- Animations on Scroll ---         function setupScrollAnimations() {             const animatedSections = document.querySelectorAll('.animated-section');             const observer = new IntersectionObserver((entries) => {                 entries.forEach(entry => {                     if (entry.isIntersecting) {                         entry.target.classList.add('is-visible');                         observer.unobserve(entry.target);                     }                 });             }, { threshold: 0.15 });             animatedSections.forEach(section => observer.observe(section));         }                  // --- CV Modal Logic ---         const cvModal = document.getElementById('cv-modal');         const modalContent = cvModal.querySelector('.modal-content');         let selectedJobId = null;         let selectedJobTitle = null;          function openCVModal(jobId = null, jobTitle = '') {             selectedJobId = jobId;             selectedJobTitle = jobTitle;             cvModal.classList.remove('hidden');             document.body.style.overflow = 'hidden';             setTimeout(() => {                 cvModal.classList.remove('opacity-0');                 modalContent.classList.remove('scale-95', 'opacity-0');             }, 10);             document.getElementById('cv-form').reset();             document.getElementById('cv-form-message').innerHTML = "";             const modalTitle = document.getElementById('cv-modal-title');             if (jobTitle) {                 modalTitle.textContent = `הגשת מועמדות למשרת "${jobTitle}"`;             } else {                 modalTitle.textContent = "שליחת קורות חיים כללית";             }         }          function closeCVModal() {             modalContent.classList.add('scale-95', 'opacity-0');             cvModal.classList.add('opacity-0');             setTimeout(() => {                 cvModal.classList.add('hidden');                 document.body.style.overflow = 'auto';             }, 300);         }          // --- CV Form Submission ---         async function handleCvFormSubmit(e) {             e.preventDefault();             const form = e.target;             const msgEl = document.getElementById('cv-form-message');             const submitBtn = document.getElementById('cv-submit-button');             const submitText = document.getElementById('submit-text');             const submitSpinner = document.getElementById('submit-spinner');                          const cvFile = form.cvFile.files[0];             if (!cvFile) {                 msgEl.className = 'text-red-600';                 msgEl.textContent = 'חובה להעלות קובץ קורות חיים.';                 return;             }                          submitBtn.disabled = true;             submitText.classList.add('hidden');             submitSpinner.classList.remove('hidden');             msgEl.className = 'text-blue-600';             msgEl.textContent = 'שולח פרטים...';              const storageRef = ref(storage, `cvs/${Date.now()}_${cvFile.name}`);                          try {                 await uploadBytes(storageRef, cvFile);                 const fileURL = await getDownloadURL(storageRef);                 const docData = {                     firstName: form.firstName.value.trim(),                     lastName: form.lastName.value.trim(),                     phone: form.phone.value.trim(),                     fileURL: fileURL,                     jobId: selectedJobId || null,                     jobTitle: selectedJobTitle || 'הגשה כללית',                     createdAt: serverTimestamp(),                 };                 await addDoc(collection(db, "jobApplicants"), docData);                 msgEl.className = 'text-green-600';                 msgEl.textContent = 'הפרטים נשלחו בהצלחה!';                 form.reset();                 setTimeout(closeCVModal, 2500);             } catch (err) {                 console.error("Form submission error:", err);                 msgEl.className = 'text-red-600';                 msgEl.textContent = 'אירעה שגיאה. אנא נסו שנית.';             } finally {                 submitBtn.disabled = false;                 submitText.classList.remove('hidden');                 submitSpinner.classList.add('hidden');             }         }          // --- Run All Initialization Logic ---         document.addEventListener('DOMContentLoaded', () => {             // Load header, then set up its mobile menu functionality             loadComponent('menu.html', 'header-placeholder', () => {                 const mobileMenuButton = document.getElementById('mobile-menu-button');                 const mobileMenu = document.getElementById('mobile-menu');                 if (mobileMenuButton && mobileMenu) {                     mobileMenuButton.addEventListener('click', () => {                         mobileMenu.classList.toggle('hidden');                     });                 }             });             // Load footer             loadComponent('footer.html', 'footer-placeholder');              // --- Configure and Load Sliders ---             // 1. Hot Jobs Slider             const hotJobsQuery = query(collection(db, "jobs"), where("isHot", "==", true));             createStorySlider({                 containerId: '#hot-jobs-container',                 sliderClass: '.hot-jobs-slider',                 query: hotJobsQuery,                 noJobsMessage: 'אין כרגע משרות חמות',                 jobIconClass: 'fas fa-fire text-red-400'             });              // 2. New Jobs Slider (jobs from the last 7 days)             const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);             const newJobsQuery = query(collection(db, "jobs"), where("createdAt", ">=", sevenDaysAgo), orderBy("createdAt", "desc"));             createStorySlider({                 containerId: '#new-jobs-container',                 sliderClass: '.new-jobs-slider',                 query: newJobsQuery,                 noJobsMessage: 'אין משרות מהשבוע האחרון',                 jobIconClass: 'fas fa-sparkles text-yellow-300' // Using 'sparkles' from FontAwesome 6             });               // Initialize other page features             setupScrollAnimations();              // Modal listeners             document.getElementById('open-cv-modal').addEventListener('click', () => openCVModal());             document.getElementById('close-cv-modal').addEventListener('click', closeCVModal);             cvModal.addEventListener('click', (e) => {                 if (e.target === cvModal) closeCVModal();             });              // Form submission listener             document.getElementById('cv-form').addEventListener('submit', handleCvFormSubmit);         });      </script> </body> </html> 
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>כלנית | הבית שלך לקריירה</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <!-- SwiperJS for Sliders -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Custom Styles -->
+    <style>
+        /* Base styles using Heebo font */
+        body { 
+            font-family: 'Heebo', sans-serif; 
+            scroll-behavior: smooth;
+            background-color: #f8fafc;
+        }
+        
+        /* Custom brand logo style */
+        .brand-logo { 
+            font-weight: 900; 
+            font-size: 1.8rem;
+        }
+
+        /* Hero gradient */
+        .hero-gradient { 
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); 
+        }
+
+        /* --- Story Slider Styles --- */
+        .story-slider-container .swiper {
+            height: 480px; /* Reduced height for a more square look */
+            border-radius: 1.5rem; /* 24px */
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .story-slider-container .swiper-slide {
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 2rem; /* 32px */
+            background-size: cover;
+            background-position: center;
+        }
+        /* Gradient overlay for text readability */
+        .story-slider-container .story-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0) 100%);
+        }
+        .story-slider-container .story-content {
+            position: relative; /* To appear above the overlay */
+            z-index: 10;
+        }
+        
+        /* Progress bar at the top */
+        .story-slider-container .swiper-pagination-progressbar {
+            top: 0 !important;
+            bottom: auto !important;
+            height: 4px !important;
+            background: rgba(255, 255, 255, 0.3) !important;
+        }
+        .story-slider-container .swiper-pagination-progressbar .swiper-pagination-progressbar-fill { 
+            background: #fff !important; 
+        }
+
+        /* Navigation buttons */
+        .story-slider-container .swiper-button-next, 
+        .story-slider-container .swiper-button-prev { 
+            color: white; 
+            background-color: rgba(0, 0, 0, 0.2); 
+            width: 50px; 
+            height: 50px; 
+            border-radius: 50%;
+            transition: background-color 0.2s ease;
+        }
+        .story-slider-container .swiper-button-next:hover, 
+        .story-slider-container .swiper-button-prev:hover {
+             background-color: rgba(0, 0, 0, 0.4);
+        }
+        .story-slider-container .swiper-button-next::after, 
+        .story-slider-container .swiper-button-prev::after { 
+            font-size: 20px; 
+            font-weight: bold;
+        }
+
+        /* Animation for sections appearing on scroll */
+        .animated-section { 
+            opacity: 0; 
+            transform: translateY(50px); 
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out; 
+        }
+        .animated-section.is-visible { 
+            opacity: 1; 
+            transform: translateY(0); 
+        }
+
+        /* Modal transition styles */
+        .modal { transition: opacity 0.3s ease; }
+        .modal-content { transition: transform 0.3s ease, opacity 0.3s ease; }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Header Placeholder (Loaded via JS) -->
+    <header id="header-placeholder" class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-40"></header>
+
+    <main>
+        <!-- Hero + Search Section -->
+        <section class="hero-gradient text-white">
+            <div class="container mx-auto px-6 pt-20 pb-28 text-center">
+                <h1 class="text-4xl md:text-6xl font-black mb-4 drop-shadow-md">הצעד הבא בקריירה שלך מתחיל כאן</h1>
+                <p class="text-lg md:text-xl mb-12 max-w-3xl mx-auto opacity-90">כלנית מחברת בין הכישרון שלך למשרות המובילות במשק. בואו נמצא יחד את ההזדמנות הבאה שלכם.</p>
+                <div class="max-w-4xl mx-auto bg-white/20 backdrop-blur-sm p-4 rounded-xl shadow-2xl">
+                    <form action="#" class="grid grid-cols-1 md:grid-cols-5 gap-3 items-center">
+                        <input type="text" placeholder="חיפוש לפי תפקיד, חברה..." class="md:col-span-2 w-full px-4 py-3 rounded-lg text-gray-800 border-2 border-transparent focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300" />
+                        <select class="w-full px-4 py-3 rounded-lg text-gray-500 border-2 border-transparent focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300">
+                            <option>כל התחומים</option>
+                        </select>
+                        <select class="w-full px-4 py-3 rounded-lg text-gray-500 border-2 border-transparent focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300">
+                            <option>כל האזורים</option>
+                        </select>
+                        <button type="submit" class="md:col-span-1 w-full bg-white text-blue-600 font-bold px-8 py-3 rounded-lg hover:bg-blue-100 transition duration-300 text-lg shadow-md hover:shadow-lg">
+                            <i class="fas fa-search"></i>
+                            <span class="hidden md:inline ml-2">חיפוש</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hot Jobs Section -->
+        <section class="py-24 animated-section">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-3 text-gray-900">משרות חמות 🔥</h2>
+                    <p class="text-lg text-gray-600">הזדמנויות שאסור לכם לפספס, מתעדכנות כל הזמן.</p>
+                </div>
+                <div class="relative story-slider-container" id="hot-jobs-container">
+                    <div class="swiper hot-jobs-slider">
+                        <div class="swiper-wrapper">
+                            <!-- Slides will be populated dynamically by JS -->
+                        </div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-pagination swiper-pagination-progressbar swiper-pagination-horizontal"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- New Jobs Section -->
+        <section class="bg-white py-24 animated-section">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-3 text-gray-900">משרות חדשות ✨</h2>
+                    <p class="text-lg text-gray-600">ההזדמנויות האחרונות שהצטרפו למאגר שלנו.</p>
+                </div>
+                <div class="relative story-slider-container" id="new-jobs-container">
+                    <div class="swiper new-jobs-slider">
+                        <div class="swiper-wrapper">
+                            <!-- Slides will be populated dynamically by JS -->
+                        </div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-pagination swiper-pagination-progressbar swiper-pagination-horizontal"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- CTA - Send CV Section -->
+        <section id="send-cv-section" class="py-24 animated-section">
+            <div class="container mx-auto px-6 text-center">
+                <div class="max-w-3xl mx-auto">
+                    <i class="fas fa-file-signature text-6xl text-blue-500 mb-6"></i>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">לא מצאתם את מה שחיפשתם?</h2>
+                    <p class="text-lg text-gray-600 mb-8">אל דאגה. מאגר המשרות שלנו דינמי ומתעדכן יום-יום. שלחו לנו את קורות החיים והצוות המקצועי שלנו ימצא עבורכם את ההזדמנות הבאה.</p>
+                    <button id="open-cv-modal" class="bg-blue-600 text-white font-bold px-10 py-4 rounded-full hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 text-xl">
+                        <i class="fas fa-paper-plane mr-3"></i> שליחת קורות חיים
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- CV Submission Modal -->
+    <div id="cv-modal" class="modal fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 hidden opacity-0 z-50">
+        <div class="modal-content bg-white w-full max-w-lg rounded-2xl shadow-2xl p-6 md:p-8 transform scale-95 opacity-0 relative">
+            <button id="close-cv-modal" class="absolute top-4 left-4 text-gray-400 hover:text-gray-700 text-2xl w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition-all">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3 id="cv-modal-title" class="text-2xl font-bold mb-6 text-center text-blue-800">שליחת קורות חיים</h3>
+            <form id="cv-form" class="space-y-5">
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div>
+                        <label for="firstName" class="font-medium text-sm text-gray-700">שם פרטי <span class="text-red-500">*</span></label>
+                        <input type="text" id="firstName" name="firstName" required class="mt-1 w-full border-gray-300 rounded-lg shadow-sm px-4 py-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                    </div>
+                    <div>
+                        <label for="lastName" class="font-medium text-sm text-gray-700">שם משפחה <span class="text-red-500">*</span></label>
+                        <input type="text" id="lastName" name="lastName" required class="mt-1 w-full border-gray-300 rounded-lg shadow-sm px-4 py-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                    </div>
+                 </div>
+                 <div>
+                    <label for="phone" class="font-medium text-sm text-gray-700">טלפון <span class="text-red-500">*</span></label>
+                    <input type="tel" id="phone" name="phone" required pattern="^05\d{8}$" placeholder="05XXXXXXXX" class="mt-1 w-full border-gray-300 rounded-lg shadow-sm px-4 py-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                </div>
+                <div>
+                    <label for="cvFile" class="font-medium text-sm block text-gray-700">קובץ קורות חיים <span class="text-red-500">*</span></label>
+                    <input type="file" id="cvFile" name="cvFile" required accept=".pdf,.doc,.docx" class="mt-2 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition">
+                    <p class="text-xs text-gray-500 mt-1">קבצים נתמכים: PDF, DOC, DOCX (עד 5MB)</p>
+                </div>
+                <button type="submit" id="cv-submit-button" class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold text-lg hover:bg-blue-700 transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-3">
+                    <span id="submit-text">שלח/י קורות חיים</span>
+                    <i id="submit-spinner" class="fas fa-spinner fa-spin hidden"></i>
+                </button>
+                <div id="cv-form-message" class="text-center text-sm font-medium mt-3 h-5"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer Placeholder (Loaded via JS) -->
+    <footer id="footer-placeholder" class="bg-gray-800 text-white"></footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script type="module">
+        // Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getFirestore, collection, query, where, getDocs, addDoc, serverTimestamp, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+
+        // IMPORTANT: Replace with your actual Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyAOKMJabnJ9JGE5CuclCCSjv5Bo3rT49Cw",
+            authDomain: "calanit-31a32.firebaseapp.com",
+            projectId: "calanit-31a32",
+            storageBucket: "calanit-31a32.appspot.com",
+            messagingSenderId: "91430351613",
+            appId: "1:91430351613:web:ae46b2063f2d4b71428494",
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+
+        // --- Component Loader for Header/Footer ---
+        function loadComponent(url, elementId, callback) {
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) throw new Error(`Network response was not ok for ${url}`);
+                    return response.text();
+                })
+                .then(data => {
+                    document.getElementById(elementId).innerHTML = data;
+                    if (callback) callback();
+                })
+                .catch(error => console.error(`Error loading component from ${url}:`, error));
+        }
+
+        // --- Generic Function to Create and Populate a Story Slider ---
+        async function createStorySlider(sliderConfig) {
+            const { containerId, sliderClass, query, noJobsMessage, jobIconClass } = sliderConfig;
+
+            const swiperWrapper = document.querySelector(`${containerId} .swiper-wrapper`);
+            if (!swiperWrapper) return;
+            
+            swiperWrapper.innerHTML = `
+                <div class="swiper-slide bg-gray-200">
+                    <div class="story-content text-center text-gray-600">
+                         <i class="fas fa-spinner fa-spin text-4xl"></i>
+                         <p class="mt-4 text-lg font-medium">טוען משרות...</p>
+                    </div>
+                </div>`;
+            
+            try {
+                const snapshot = await getDocs(query);
+                if (snapshot.empty) {
+                    swiperWrapper.innerHTML = `
+                        <div class="swiper-slide bg-gray-200" style="background-image: url('https://placehold.co/800x500/e2e8f0/9ca3af?text=לא+נמצאו+משרות')">
+                           <div class="story-overlay"></div>
+                           <div class="story-content"><h3 class="text-3xl font-bold drop-shadow-md">${noJobsMessage}</h3></div>
+                        </div>`;
+                    return;
+                }
+
+                swiperWrapper.innerHTML = ''; // Clear loading state
+                snapshot.forEach(doc => {
+                    const job = doc.data();
+                    const jobId = doc.id;
+                    const imageUrl = job.imageUrl || `https://placehold.co/800x500/3b82f6/ffffff?text=${encodeURIComponent(job.title)}`;
+                    
+                    const slide = document.createElement('div');
+                    slide.className = 'swiper-slide';
+                    slide.style.backgroundImage = `url('${imageUrl}')`;
+                    slide.innerHTML = `
+                        <div class="story-overlay"></div>
+                        <div class="story-content w-full">
+                            <h3 class="text-3xl md:text-4xl font-black drop-shadow-lg flex items-center gap-3">
+                                <i class="${jobIconClass}"></i> ${job.title || 'כותרת משרה'}
+                            </h3>
+                            <div class="text-lg font-medium mt-2 mb-6 opacity-90 drop-shadow-md">
+                                <i class="fas fa-map-marker-alt ml-1"></i> ${job.location || 'מיקום'}
+                            </div>
+                            <p class="text-base mb-8 line-clamp-3 max-w-xl">${job.description || ''}</p>
+                            <button class="open-cv-modal-btn bg-white text-blue-600 px-8 py-3 rounded-full font-bold shadow-lg hover:bg-blue-100 transition-all text-lg" data-job-id="${jobId}" data-job-title="${job.title}">
+                                הגשת מועמדות
+                            </button>
+                        </div>
+                    `;
+                    swiperWrapper.appendChild(slide);
+                });
+
+                // Initialize Swiper for the specific slider
+                new Swiper(`${containerId} ${sliderClass}`, {
+                    slidesPerView: 1,
+                    effect: 'fade',
+                    fadeEffect: { crossFade: true },
+                    loop: snapshot.size > 1,
+                    autoplay: {
+                        delay: 7000,
+                        disableOnInteraction: false,
+                        pauseOnMouseEnter: true,
+                    },
+                    pagination: { el: `${containerId} .swiper-pagination`, type: 'progressbar' },
+                    navigation: { nextEl: `${containerId} .swiper-button-next`, prevEl: `${containerId} .swiper-button-prev` },
+                });
+                
+                document.querySelectorAll(`${containerId} .open-cv-modal-btn`).forEach(btn => {
+                    btn.addEventListener('click', () => openCVModal(btn.dataset.jobId, btn.dataset.jobTitle));
+                });
+
+            } catch (error) {
+                console.error(`Error loading jobs for ${containerId}:`, error);
+                swiperWrapper.innerHTML = `<div class="swiper-slide bg-red-100 text-red-700 flex items-center justify-center p-8 text-lg text-center">אירעה שגיאה בטעינת המשרות.</div>`;
+            }
+        }
+
+
+        // --- Animations on Scroll ---
+        function setupScrollAnimations() {
+            const animatedSections = document.querySelectorAll('.animated-section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15 });
+            animatedSections.forEach(section => observer.observe(section));
+        }
+        
+        // --- CV Modal Logic ---
+        const cvModal = document.getElementById('cv-modal');
+        const modalContent = cvModal.querySelector('.modal-content');
+        let selectedJobId = null;
+        let selectedJobTitle = null;
+
+        function openCVModal(jobId = null, jobTitle = '') {
+            selectedJobId = jobId;
+            selectedJobTitle = jobTitle;
+            cvModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => {
+                cvModal.classList.remove('opacity-0');
+                modalContent.classList.remove('scale-95', 'opacity-0');
+            }, 10);
+            document.getElementById('cv-form').reset();
+            document.getElementById('cv-form-message').innerHTML = "";
+            const modalTitle = document.getElementById('cv-modal-title');
+            if (jobTitle) {
+                modalTitle.textContent = `הגשת מועמדות למשרת "${jobTitle}"`;
+            } else {
+                modalTitle.textContent = "שליחת קורות חיים כללית";
+            }
+        }
+
+        function closeCVModal() {
+            modalContent.classList.add('scale-95', 'opacity-0');
+            cvModal.classList.add('opacity-0');
+            setTimeout(() => {
+                cvModal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }, 300);
+        }
+
+        // --- CV Form Submission ---
+        async function handleCvFormSubmit(e) {
+            e.preventDefault();
+            const form = e.target;
+            const msgEl = document.getElementById('cv-form-message');
+            const submitBtn = document.getElementById('cv-submit-button');
+            const submitText = document.getElementById('submit-text');
+            const submitSpinner = document.getElementById('submit-spinner');
+            
+            const cvFile = form.cvFile.files[0];
+            if (!cvFile) {
+                msgEl.className = 'text-red-600';
+                msgEl.textContent = 'חובה להעלות קובץ קורות חיים.';
+                return;
+            }
+            
+            submitBtn.disabled = true;
+            submitText.classList.add('hidden');
+            submitSpinner.classList.remove('hidden');
+            msgEl.className = 'text-blue-600';
+            msgEl.textContent = 'שולח פרטים...';
+
+            const storageRef = ref(storage, `cvs/${Date.now()}_${cvFile.name}`);
+            
+            try {
+                await uploadBytes(storageRef, cvFile);
+                const fileURL = await getDownloadURL(storageRef);
+                const docData = {
+                    firstName: form.firstName.value.trim(),
+                    lastName: form.lastName.value.trim(),
+                    phone: form.phone.value.trim(),
+                    fileURL: fileURL,
+                    jobId: selectedJobId || null,
+                    jobTitle: selectedJobTitle || 'הגשה כללית',
+                    createdAt: serverTimestamp(),
+                };
+                await addDoc(collection(db, "jobApplicants"), docData);
+                msgEl.className = 'text-green-600';
+                msgEl.textContent = 'הפרטים נשלחו בהצלחה!';
+                form.reset();
+                setTimeout(closeCVModal, 2500);
+            } catch (err) {
+                console.error("Form submission error:", err);
+                msgEl.className = 'text-red-600';
+                msgEl.textContent = 'אירעה שגיאה. אנא נסו שנית.';
+            } finally {
+                submitBtn.disabled = false;
+                submitText.classList.remove('hidden');
+                submitSpinner.classList.add('hidden');
+            }
+        }
+
+        // --- Run All Initialization Logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load header, then set up its mobile menu functionality
+            loadComponent('menu.html', 'header-placeholder', () => {
+                const mobileMenuButton = document.getElementById('mobile-menu-button');
+                const mobileMenu = document.getElementById('mobile-menu');
+                if (mobileMenuButton && mobileMenu) {
+                    mobileMenuButton.addEventListener('click', () => {
+                        mobileMenu.classList.toggle('hidden');
+                    });
+                }
+            });
+            // Load footer
+            loadComponent('footer.html', 'footer-placeholder');
+
+            // --- Configure and Load Sliders ---
+            // 1. Hot Jobs Slider
+            const hotJobsQuery = query(collection(db, "jobs"), where("isHot", "==", true));
+            createStorySlider({
+                containerId: '#hot-jobs-container',
+                sliderClass: '.hot-jobs-slider',
+                query: hotJobsQuery,
+                noJobsMessage: 'אין כרגע משרות חמות',
+                jobIconClass: 'fas fa-fire text-red-400'
+            });
+
+            // 2. New Jobs Slider (jobs from the last 7 days)
+            const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+            const newJobsQuery = query(collection(db, "jobs"), where("createdAt", ">=", sevenDaysAgo), orderBy("createdAt", "desc"));
+            createStorySlider({
+                containerId: '#new-jobs-container',
+                sliderClass: '.new-jobs-slider',
+                query: newJobsQuery,
+                noJobsMessage: 'אין משרות מהשבוע האחרון',
+                jobIconClass: 'fas fa-sparkles text-yellow-300' // Using 'sparkles' from FontAwesome 6
+            });
+
+
+            // Initialize other page features
+            setupScrollAnimations();
+
+            // Modal listeners
+            document.getElementById('open-cv-modal').addEventListener('click', () => openCVModal());
+            document.getElementById('close-cv-modal').addEventListener('click', closeCVModal);
+            cvModal.addEventListener('click', (e) => {
+                if (e.target === cvModal) closeCVModal();
+            });
+
+            // Form submission listener
+            document.getElementById('cv-form').addEventListener('submit', handleCvFormSubmit);
+        });
+
+    </script>
+</body>
+</html>
