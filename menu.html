@@ -1,16 +1,21 @@
 <!-- Main Navigation -->
 <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-    <a href="index.html" class="brand-logo text-blue-600">כלנית</a>
+    <a href="index.html" class="brand-logo text-teal-600">כלנית</a>
     
     <!-- Desktop Menu -->
     <div class="hidden md:flex items-center space-x-8 space-x-reverse">
-        <a href="index.html" class="text-gray-700 hover:text-blue-600 font-semibold transition-colors duration-300">דף הבית</a>
-        <a href="jobs.html" class="text-gray-700 hover:text-blue-600 font-semibold transition-colors duration-300">כל המשרות</a>
-        <!-- Points to the CV section on the index page -->
-        <a href="index.html#send-cv-section" class="text-gray-700 hover:text-blue-600 font-semibold transition-colors duration-300">שליחת קו"ח</a>
-        <a href="contact.html" class="text-gray-700 hover:text-blue-600 font-semibold transition-colors duration-300">יצירת קשר</a>
-        <!-- "Publish Job" button links to contact page -->
-        <a href="contact.html" class="bg-blue-600 text-white px-5 py-2.5 rounded-full font-bold hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl">פרסום דרישה</a>
+        <a href="index.html" class="text-gray-700 hover:text-teal-600 font-semibold transition-colors duration-300" data-translate-key="nav_home">דף הבית</a>
+        <a href="jobs.html" class="text-gray-700 hover:text-teal-600 font-semibold transition-colors duration-300" data-translate-key="nav_all_jobs">כל המשרות</a>
+        <a href="index.html#send-cv-section" class="text-gray-700 hover:text-teal-600 font-semibold transition-colors duration-300" data-translate-key="nav_send_cv">שליחת קו"ח</a>
+        <a href="contact.html" class="text-gray-700 hover:text-teal-600 font-semibold transition-colors duration-300" data-translate-key="nav_contact">יצירת קשר</a>
+        
+        <!-- Language switcher for desktop -->
+        <div class="flex items-center gap-2 border-r pr-6 border-gray-200">
+             <button id="lang-he-menu" class="lang-btn-menu px-2 py-1 text-sm rounded-md font-semibold transition-colors">עברית</button>
+             <button id="lang-ar-menu" class="lang-btn-menu px-2 py-1 text-sm rounded-md font-semibold transition-colors">العربية</button>
+        </div>
+
+        <a href="contact.html" class="bg-teal-500 text-white px-5 py-2.5 rounded-full font-bold hover:bg-teal-600 transition-all duration-300 shadow-lg hover:shadow-xl" data-translate-key="nav_publish_job">פרסום דרישה</a>
     </div>
 
     <!-- Mobile Menu Button -->
@@ -23,10 +28,14 @@
 
 <!-- Mobile Menu (hidden by default) -->
 <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
-    <a href="index.html" class="block py-3 px-6 text-gray-700 hover:bg-gray-100">דף הבית</a>
-    <a href="jobs.html" class="block py-3 px-6 text-gray-700 hover:bg-gray-100">כל המשרות</a>
-    <a href="index.html#send-cv-section" class="block py-3 px-6 text-gray-700 hover:bg-gray-100">שליחת קו"ח</a>
-    <a href="contact.html" class="block py-3 px-6 text-gray-700 hover:bg-gray-100">יצירת קשר</a>
-    <a href="contact.html" class="block py-3 px-6 text-blue-600 font-bold hover:bg-gray-100">פרסום דרישת עובדים</a>
+    <a href="index.html" data-translate-key="nav_home" class="block py-3 px-6 text-gray-700 hover:bg-gray-100">דף הבית</a>
+    <a href="jobs.html" data-translate-key="nav_all_jobs" class="block py-3 px-6 text-gray-700 hover:bg-gray-100">כל המשרות</a>
+    <a href="index.html#send-cv-section" data-translate-key="nav_send_cv" class="block py-3 px-6 text-gray-700 hover:bg-gray-100">שליחת קו"ח</a>
+    <a href="contact.html" data-translate-key="nav_contact" class="block py-3 px-6 text-gray-700 hover:bg-gray-100">יצירת קשר</a>
+    <a href="contact.html" data-translate-key="nav_publish_job_mobile" class="block py-3 px-6 text-teal-600 font-bold hover:bg-gray-100">פרסום דרישת עובדים</a>
+    <div class="border-t p-4 flex justify-center gap-4">
+        <button id="lang-he-mobile" class="lang-btn-menu w-full px-2 py-2 text-sm rounded-md font-semibold transition-colors">עברית</button>
+        <button id="lang-ar-mobile" class="lang-btn-menu w-full px-2 py-2 text-sm rounded-md font-semibold transition-colors">العربية</button>
+    </div>
 </div>
 
