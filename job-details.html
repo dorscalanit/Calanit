@@ -3,73 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-translate-key="contact_page_title">יצירת קשר | כלנית</title>
+    <title data-translate-key="page_title">פרטי משרה | כלנית</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <style> 
-        body { font-family: 'Heebo', sans-serif; background-color: #f8fafc; color: #2d3748; } 
+    <style>
+        body { font-family: 'Heebo', sans-serif; background-color: #f8fafc; color: #2d3748;}
         .lang-btn-menu.active { background-color: #14b8a6; color: white; }
+        .prose { max-width: none; }
+        .prose h3 { font-weight: 700; margin-bottom: 0.5em; }
+        .prose ul { list-style-position: inside; padding-right: 0; }
+        .prose li { margin-bottom: 0.5em; }
+        .modal { transition: opacity 0.3s ease; }
+        .modal-content { transition: transform 0.3s ease, opacity 0.3s ease; }
     </style>
 </head>
 <body>
     <header id="header-placeholder"></header>
 
-    <main class="container mx-auto p-4 md:p-8 my-10">
-        <div class="bg-white rounded-2xl shadow-2xl overflow-hidden">
-            <div class="grid grid-cols-1 lg:grid-cols-2">
-                <!-- Form Section -->
-                <div class="p-8 md:p-12">
-                    <h1 class="text-3xl md:text-4xl font-black text-gray-800 mb-2" data-translate-key="contact_title">יצירת קשר ופרסום משרות</h1>
-                    <p class="text-gray-600 mb-8" data-translate-key="contact_subtitle">נשמח לשמוע מכם! בין אם יש לכם שאלה, או שאתם מעסיקים המעוניינים לפרסם משרה - אנחנו כאן עבורכם.</p>
-                    <form id="contact-form" class="space-y-5">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                             <div><label for="name" class="font-medium" data-translate-key="form_full_name">שם מלא <span class="text-red-500">*</span></label><input type="text" id="name" required class="w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-teal-500 focus:border-teal-500 transition"></div>
-                             <div><label for="company" class="font-medium" data-translate-key="form_company_name">שם חברה (אופציונלי)</label><input type="text" id="company" class="w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-teal-500 focus:border-teal-500 transition"></div>
-                        </div>
-                        <div><label for="email" class="font-medium" data-translate-key="form_email">אימייל <span class="text-red-500">*</span></label><input type="email" id="email" required class="w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-teal-500 focus:border-teal-500 transition"></div>
-                        <div><label for="phone" class="font-medium" data-translate-key="form_phone">טלפון <span class="text-red-500">*</span></label><input type="tel" id="phone" required class="w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-teal-500 focus:border-teal-500 transition"></div>
-                        <div>
-                            <label for="subject" class="font-medium" data-translate-key="form_subject">נושא הפנייה <span class="text-red-500">*</span></label>
-                            <select id="subject" required class="w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-teal-500 focus:border-teal-500 transition">
-                                <option value="" data-translate-key="subject_select">יש לבחור...</option>
-                                <option value="פרסום משרה" data-translate-key="subject_publish">פרסום משרה</option>
-                                <option value="שאלה כללית" data-translate-key="subject_question">שאלה כללית</option>
-                                <option value="שיתוף פעולה" data-translate-key="subject_cooperation">שיתוף פעולה</option>
-                                <option value="אחר" data-translate-key="subject_other">אחר</option>
-                            </select>
-                        </div>
-                        <div><label for="message" class="font-medium" data-translate-key="form_message">הודעה <span class="text-red-500">*</span></label><textarea id="message" rows="5" required class="w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-teal-500 focus:border-teal-500 transition"></textarea></div>
-                        <div><button type="submit" id="submit-btn" class="w-full bg-teal-500 text-white font-bold py-3 rounded-lg hover:bg-teal-600 transition shadow-lg" data-translate-key="form_submit_button">שלח פנייה</button></div>
-                    </form>
-                    <div id="form-message" class="mt-4 text-center font-semibold"></div>
+    <main id="page-content" class="container mx-auto p-4 md:p-8 my-10 hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Main Job Details -->
+            <div class="lg:col-span-2 bg-white p-8 rounded-2xl shadow-lg">
+                <div class="flex items-center gap-4 mb-4">
+                     <div id="job-image-container" class="w-16 h-16 bg-teal-100 rounded-xl flex items-center justify-center text-teal-500 text-3xl flex-shrink-0"></div>
+                     <div>
+                        <h1 id="job-title" class="text-3xl md:text-4xl font-black text-gray-800"></h1>
+                        <div id="job-categories-container" class="flex flex-wrap gap-2 mt-2"></div>
+                     </div>
                 </div>
-                <!-- Info and Map Section -->
-                <div class="bg-teal-50 p-8 md:p-12 flex flex-col justify-center">
-                    <h2 class="text-2xl font-bold text-teal-800 mb-6" data-translate-key="contact_details_title">פרטי התקשרות</h2>
-                    <div class="space-y-6 text-gray-700">
-                        <div class="flex items-center gap-4"><i class="fas fa-map-marker-alt text-2xl text-teal-500"></i><div><h4 class="font-semibold" data-translate-key="address_title">כתובת</h4><p>רחוב לדוגמא 1, תל אביב</p></div></div>
-                        <div class="flex items-center gap-4"><i class="fas fa-phone text-2xl text-teal-500"></i><div><h4 class="font-semibold" data-translate-key="phone_title">טלפון</h4><p>03-1234567</p></div></div>
-                        <div class="flex items-center gap-4"><i class="fas fa-envelope text-2xl text-teal-500"></i><div><h4 class="font-semibold" data-translate-key="email_title">אימייל</h4><p>contact@calanit.co.il</p></div></div>
-                    </div>
-                    <div class="mt-8 rounded-lg overflow-hidden shadow-md"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3380.933869299432!2d34.780547315162!3d32.07299198118949!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151d4b8be1c38573%3A0x1a7f7c6e2b9e6e5a!2sTel%20Aviv-Yafo!5e0!3m2!1sen!2sil!4v1626274488582!5m2!1sen!2sil" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"></iframe></div>
-                </div>
+                <div id="job-description" class="prose prose-lg text-gray-700 mt-8"></div>
             </div>
+
+            <!-- Sidebar -->
+            <aside class="lg:col-span-1">
+                <div class="bg-white p-6 rounded-2xl shadow-lg sticky top-28">
+                    <button id="apply-btn" class="w-full bg-teal-500 text-white font-bold py-3 rounded-lg hover:bg-teal-600 transition shadow-lg text-lg">
+                        <i class="fas fa-paper-plane ml-2"></i> <span data-translate-key="apply_button">הגש מועמדות</span>
+                    </button>
+                    <div class="mt-6 border-t pt-6 space-y-4">
+                        <h3 class="text-lg font-bold text-gray-800" data-translate-key="job_summary">תקציר משרה</h3>
+                        <div class="flex items-start gap-3">
+                            <i class="fas fa-map-marker-alt text-teal-500 mt-1"></i>
+                            <div>
+                                <h4 class="font-semibold text-gray-600" data-translate-key="location">מיקום</h4>
+                                <p id="job-locations" class="text-gray-800"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
         </div>
     </main>
+
+    <!-- Loader & Error States -->
+    <div id="loader" class="text-center p-20"><i class="fas fa-spinner fa-spin text-5xl text-teal-500"></i></div>
+    <div id="not-found" class="hidden text-center p-20">
+        <i class="fas fa-exclamation-triangle text-5xl text-amber-500"></i>
+        <h2 class="text-2xl font-bold mt-4" data-translate-key="job_not_found">המשרה לא נמצאה</h2>
+        <p class="text-gray-600 mt-2" data-translate-key="job_not_found_subtitle">יתכן שהיא הוסרה או שהקישור אינו תקין.</p>
+    </div>
+
+    <!-- Application Modal -->
+    <div id="application-modal" class="modal fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 hidden opacity-0 z-50">
+        <div class="modal-content bg-white w-full max-w-lg rounded-2xl shadow-2xl p-8 transform scale-95 opacity-0 relative">
+            <button id="close-modal-btn" class="absolute top-4 left-4 text-gray-400 hover:text-gray-700 text-2xl w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition-all">&times;</button>
+            <h3 id="modal-title" class="text-2xl font-bold mb-6 text-center text-gray-800" data-translate-key="modal_title">הגשת מועמדות למשרה</h3>
+            <form id="application-form" class="space-y-5">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div><label for="firstName" class="font-medium text-sm" data-translate-key="form_first_name">שם פרטי <span class="text-red-500">*</span></label><input type="text" id="firstName" required class="w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-teal-500 focus:border-teal-500 transition"></div>
+                    <div><label for="lastName" class="font-medium text-sm" data-translate-key="form_last_name">שם משפחה <span class="text-red-500">*</span></label><input type="text" id="lastName" required class="w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-teal-500 focus:border-teal-500 transition"></div>
+                </div>
+                <div><label for="phone" class="font-medium text-sm" data-translate-key="form_phone">טלפון <span class="text-red-500">*</span></label><input type="tel" id="phone" required class="w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-teal-500 focus:border-teal-500 transition"></div>
+                <div><label for="age" class="font-medium text-sm" data-translate-key="form_age">גיל <span class="text-red-500">*</span></label><input type="number" id="age" min="16" max="99" required class="w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-teal-500 focus:border-teal-500 transition"></div>
+                <button type="submit" id="submit-application-btn" class="w-full bg-teal-500 text-white font-bold py-3 rounded-lg hover:bg-teal-600 transition shadow-lg"><span data-translate-key="form_submit_button">הגש מועמדות</span></button>
+            </form>
+            <div id="form-message" class="mt-4 text-center font-semibold"></div>
+        </div>
+    </div>
+
     <footer id="footer-placeholder"></footer>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, addDoc, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
         const firebaseConfig = { apiKey: "AIzaSyAOKMJabnJ9JGE5CuclCCSjv5Bo3rT49Cw", authDomain: "calanit-31a32.firebaseapp.com", projectId: "calanit-31a32", storageBucket: "calanit-31a32.appspot.com", messagingSenderId: "91430351613", appId: "1:91430351613:web:ae46b2063f2d4b71428494" };
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
         const translations = {
-            he: { contact_page_title: "יצירת קשר | כלנית", contact_title: "יצירת קשר ופרסום משרות", contact_subtitle: "נשמח לשמוע מכם! בין אם יש לכם שאלה, או שאתם מעסיקים המעוניינים לפרסם משרה - אנחנו כאן עבורכם.", form_full_name: "שם מלא", form_company_name: "שם חברה (אופציונלי)", form_email: "אימייל", form_phone: "טלפון", form_subject: "נושא הפנייה", subject_select: "יש לבחור...", subject_publish: "פרסום משרה", subject_question: "שאלה כללית", subject_cooperation: "שיתוף פעולה", subject_other: "אחר", form_message: "הודעה", form_submit_button: "שלח פנייה", contact_details_title: "פרטי התקשרות", address_title: "כתובת", phone_title: "טלפון", email_title: "אימייל", success_message: "הפנייה נשלחה בהצלחה! נחזור אליכם בהקדם.", error_message: "אירעה שגיאה בשליחת הטופס. אנא נסו שוב.", sending_message: "שולח..." },
-            ar: { contact_page_title: "اتصل بنا | كلانيت", contact_title: "اتصل بنا ونشر الوظائف", contact_subtitle: "يسعدنا أن نسمع منك! سواء كان لديك سؤال، أو كنت صاحب عمل مهتمًا بنشر وظيفة - نحن هنا من أجلك.", form_full_name: "الاسم الكامل", form_company_name: "اسم الشركة (اختياري)", form_email: "بريد إلكتروني", form_phone: "هاتف", form_subject: "موضوع الرسالة", subject_select: "الرجاء الاختيار...", subject_publish: "نشر وظيفة", subject_question: "سؤال عام", subject_cooperation: "تعاون", subject_other: "آخر", form_message: "رسالة", form_submit_button: "إرسال", contact_details_title: "بيانات الاتصال", address_title: "عنوان", phone_title: "هاتف", email_title: "بريد إلكتروني", success_message: "تم إرسال طلبك بنجاح! سوف نعود إليك قريبا.", error_message: "حدث خطأ أثناء إرسال النموذج. حاول مرة اخرى.", sending_message: "جار الإرسال..." }
+            he: { page_title: "פרטי משרה | כלנית", job_not_found: "המשרה לא נמצאה", job_not_found_subtitle: "יתכן שהיא הוסרה או שהקישור אינו תקין.", apply_button: "הגש מועמדות", job_summary: "תקציר משרה", location: "מיקום", modal_title: "הגשת מועמדות למשרה", form_first_name: "שם פרטי", form_last_name: "שם משפחה", form_phone: "טלפון", form_age: "גיל", form_submit_button: "הגש מועמדות", success_message: "הפנייה נשלחה בהצלחה!", error_message: "אירעה שגיאה בשליחת הטופס.", sending_message: "שולח...", nav_home: "דף הבית", nav_all_jobs: "כל המשרות", nav_send_cv: "שליחת קו\"ח", nav_contact: "יצירת קשר", nav_publish_job: "פרסום דרישה", nav_publish_job_mobile: "פרסום דרישת עובדים", footer_about: "מחברים בין אנשים להזדמנויות.", footer_nav_quick: "ניווט מהיר", footer_nav_all_jobs: "כל המשרות", footer_nav_send_cv: "שליחת קורות חיים", footer_nav_publish_job: "פרסום דרישה", footer_nav_contact: "צור קשר", footer_nav_legal: "מידע ומשפטי", footer_nav_privacy: "מדיניות פרטיות", footer_nav_terms: "תנאי שימוש", footer_nav_talk: "דברו איתנו", footer_copyright: "&copy; 2024 כלנית. כל הזכויות שמורות." },
+            ar: { page_title: "تفاصيل الوظيفة | كلانيت", job_not_found: "الوظيفة غير موجودة", job_not_found_subtitle: "قد تكون قد أُزيلت أو الرابط غير صالح.", apply_button: "قدم الآن", job_summary: "ملخص الوظيفة", location: "الموقع", modal_title: "التقديم للوظيفة", form_first_name: "الاسم الأول", form_last_name: "اسم العائلة", form_phone: "هاتف", form_age: "العمر", form_submit_button: "قدم الآن", success_message: "تم إرسال طلبك بنجاح!", error_message: "حدث خطأ أثناء إرسال النموذج.", sending_message: "جار الإرسال...", nav_home: "الصفحة الرئيسية", nav_all_jobs: "كل الوظائف", nav_send_cv: "إرسال السيرة الذاتية", nav_contact: "اتصل بنا", nav_publish_job: "نشر طلب", nav_publish_job_mobile: "نشر طلب موظفين", footer_about: "نربط الناس بالفرص.", footer_nav_quick: "روابط سريعة", footer_nav_all_jobs: "كل الوظائف", footer_nav_send_cv: "إرسال السيرة الذاتية", footer_nav_publish_job: "نشر طلب", footer_nav_contact: "اتصل بنا", footer_nav_legal: "معلومات وقانونية", footer_nav_privacy: "سياسة الخصوصية", footer_nav_terms: "شروط الاستخدام", footer_nav_talk: "تحدث معنا", footer_copyright: "&copy; 2024 كلانيت. جميع الحقوق محفوظة." }
         };
 
         function setLanguage(lang) {
@@ -83,7 +108,20 @@
 
         function loadComponent(url, id, cb) { fetch(url).then(res => res.ok ? res.text() : Promise.reject()).then(html => { document.getElementById(id).innerHTML = html; if (cb) cb(); }).catch(err => console.error(`Failed loading ${url}`)); }
 
-        document.addEventListener('DOMContentLoaded', () => {
+        function renderJobDetails(jobData) {
+            const currentLang = localStorage.getItem('calanit_lang') || 'he';
+            document.querySelector('[data-translate-key="page_title"]').textContent = `${jobData.title} | ${currentLang === 'he' ? 'כלנית' : 'كلانيت'}`;
+            document.getElementById('job-title').textContent = jobData.title;
+            const description = currentLang === 'ar' && jobData.description_ar ? jobData.description_ar : jobData.description;
+            document.getElementById('job-description').innerHTML = description.replace(/\n/g, '<br>');
+            const imageContainer = document.getElementById('job-image-container');
+            if (jobData.imageUrl) { imageContainer.innerHTML = `<img src="${jobData.imageUrl}" alt="${jobData.title}" class="w-full h-full object-cover">`; } else { imageContainer.innerHTML = `<i class="fas fa-briefcase"></i>`; }
+            const categoriesContainer = document.getElementById('job-categories-container');
+            (jobData.categories || []).forEach(cat => { const bubble = document.createElement('span'); bubble.className = 'bg-teal-100 text-teal-800 text-xs font-semibold px-2.5 py-1 rounded-full'; bubble.textContent = cat; categoriesContainer.appendChild(bubble); });
+            document.getElementById('job-locations').textContent = (jobData.locations || []).join(', ');
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
             loadComponent('menu.html', 'header-placeholder', () => {
                 document.getElementById('mobile-menu-button')?.addEventListener('click', () => document.getElementById('mobile-menu')?.classList.toggle('hidden'));
                 document.querySelectorAll('.lang-btn-menu').forEach(btn => btn.addEventListener('click', () => setLanguage(btn.id.includes('-ar-') ? 'ar' : 'he')));
@@ -91,20 +129,32 @@
             });
             loadComponent('footer.html', 'footer-placeholder', () => { setLanguage(localStorage.getItem('calanit_lang') || 'he'); });
 
-            const contactForm = document.getElementById('contact-form'), formMessage = document.getElementById('form-message'), submitBtn = document.getElementById('submit-btn');
-            contactForm.addEventListener('submit', async (e) => {
+            const params = new URLSearchParams(window.location.search), jobId = params.get('id');
+            const loader = document.getElementById('loader'), notFoundEl = document.getElementById('not-found'), pageContent = document.getElementById('page-content');
+
+            if (!jobId) { loader.style.display = 'none'; notFoundEl.style.display = 'block'; return; }
+
+            try {
+                const docRef = doc(db, "jobs", jobId);
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) { renderJobDetails(docSnap.data()); pageContent.style.display = 'grid'; } else { notFoundEl.style.display = 'block'; }
+            } catch (error) { console.error("Error fetching job:", error); notFoundEl.style.display = 'block'; } finally { loader.style.display = 'none'; }
+
+            const modal = document.getElementById('application-modal'), openModalBtn = document.getElementById('apply-btn'), closeModalBtn = document.getElementById('close-modal-btn'), applicationForm = document.getElementById('application-form'), formMessage = document.getElementById('form-message');
+            openModalBtn.addEventListener('click', () => { modal.classList.remove('hidden'); setTimeout(() => { modal.classList.remove('opacity-0'); modal.querySelector('.modal-content').classList.remove('scale-95'); }, 10); });
+            closeModalBtn.addEventListener('click', () => { modal.classList.add('opacity-0'); modal.querySelector('.modal-content').classList.add('scale-95'); setTimeout(() => modal.classList.add('hidden'), 300); });
+            applicationForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                const currentLang = localStorage.getItem('calanit_lang') || 'he';
+                const submitBtn = document.getElementById('submit-application-btn'), currentLang = localStorage.getItem('calanit_lang') || 'he';
                 submitBtn.disabled = true; submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${translations[currentLang].sending_message}`;
                 try {
-                    await addDoc(collection(db, 'contacts'), { name: document.getElementById('name').value, company: document.getElementById('company').value, email: document.getElementById('email').value, phone: document.getElementById('phone').value, subject: document.getElementById('subject').value, message: document.getElementById('message').value, submittedAt: serverTimestamp() });
-                    formMessage.className = 'text-green-600 font-semibold'; formMessage.textContent = translations[currentLang].success_message;
-                    contactForm.reset();
-                } catch (error) { formMessage.className = 'text-red-600 font-semibold'; formMessage.textContent = translations[currentLang].error_message;
-                } finally { submitBtn.disabled = false; submitBtn.textContent = translations[currentLang].form_submit_button; }
+                    await addDoc(collection(db, 'jobApplications'), { jobId: jobId, jobTitle: document.getElementById('job-title').textContent, firstName: document.getElementById('firstName').value, lastName: document.getElementById('lastName').value, phone: document.getElementById('phone').value, age: document.getElementById('age').value, submittedAt: serverTimestamp() });
+                    formMessage.className = 'text-green-600'; formMessage.textContent = translations[currentLang].success_message;
+                    applicationForm.reset(); setTimeout(() => closeModalBtn.click(), 2000);
+                } catch (error) { formMessage.className = 'text-red-600'; formMessage.textContent = translations[currentLang].error_message;
+                } finally { submitBtn.disabled = false; submitBtn.innerHTML = translations[currentLang].form_submit_button; }
             });
         });
     </script>
 </body>
 </html>
-
