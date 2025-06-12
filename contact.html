@@ -7,9 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <style>
-        body { font-family: 'Heebo', sans-serif; background-color: #f8fafc; }
-    </style>
+    <style> body { font-family: 'Heebo', sans-serif; background-color: #f8fafc; } </style>
 </head>
 <body>
     <header id="header-placeholder"></header>
@@ -21,7 +19,6 @@
                 <div class="p-8 md:p-12">
                     <h1 class="text-3xl md:text-4xl font-black text-gray-800 mb-2">יצירת קשר ופרסום משרות</h1>
                     <p class="text-gray-600 mb-8">נשמח לשמוע מכם! בין אם יש לכם שאלה, או שאתם מעסיקים המעוניינים לפרסם משרה - אנחנו כאן עבורכם.</p>
-                    
                     <form id="contact-form" class="space-y-5">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                              <div><label for="name" class="font-medium">שם מלא <span class="text-red-500">*</span></label><input type="text" id="name" required class="w-full mt-1 border-gray-300 rounded-lg shadow-sm"></div>
@@ -53,15 +50,65 @@
                         <div class="flex items-center gap-4"><i class="fas fa-phone text-2xl text-blue-500"></i><div><h4 class="font-semibold">טלפון</h4><p>03-1234567</p></div></div>
                         <div class="flex items-center gap-4"><i class="fas fa-envelope text-2xl text-blue-500"></i><div><h4 class="font-semibold">אימייל</h4><p>contact@calanit.co.il</p></div></div>
                     </div>
-                    <div class="mt-8 rounded-lg overflow-hidden shadow-md">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3380.933869299432!2d34.780547315162!3d32.07299198118949!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151d4b8be1c38573%3A0x1a7f7c6e2b9e6e5a!2sTel%20Aviv-Yafo!5e0!3m2!1sen!2sil!4v1626274488582!5m2!1sen!2sil" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                    </div>
+                    <div class="mt-8 rounded-lg overflow-hidden shadow-md"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3380.933869299432!2d34.780547315162!3d32.07299198118949!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151d4b8be1c38573%3A0x1a7f7c6e2b9e6e5a!2sTel%20Aviv-Yafo!5e0!3m2!1sen!2sil!4v1626274488582!5m2!1sen!2sil" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"></iframe></div>
                 </div>
             </div>
         </div>
     </main>
     <footer id="footer-placeholder"></footer>
 
-    <script type="module" src="contact.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        const firebaseConfig = { apiKey: "AIzaSyAOKMJabnJ9JGE5CuclCCSjv5Bo3rT49Cw", authDomain: "calanit-31a32.firebaseapp.com", projectId: "calanit-31a32", storageBucket: "calanit-31a32.appspot.com", messagingSenderId: "91430351613", appId: "1:91430351613:web:ae46b2063f2d4b71428494" };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        function loadComponent(url, id, cb) {
+            fetch(url).then(res => res.ok ? res.text() : Promise.reject(res))
+            .then(html => { document.getElementById(id).innerHTML = html; if (cb) cb(); })
+            .catch(err => console.error(`Error loading ${url}`, err));
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadComponent('menu.html', 'header-placeholder', () => {
+                document.getElementById('mobile-menu-button')?.addEventListener('click', () => {
+                    document.getElementById('mobile-menu')?.classList.toggle('hidden');
+                });
+            });
+            loadComponent('footer.html', 'footer-placeholder');
+
+            const contactForm = document.getElementById('contact-form');
+            const formMessage = document.getElementById('form-message');
+            const submitBtn = document.getElementById('submit-btn');
+
+            contactForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> שולח...`;
+                try {
+                    await addDoc(collection(db, 'contacts'), {
+                        name: document.getElementById('name').value,
+                        company: document.getElementById('company').value,
+                        email: document.getElementById('email').value,
+                        phone: document.getElementById('phone').value,
+                        subject: document.getElementById('subject').value,
+                        message: document.getElementById('message').value,
+                        submittedAt: serverTimestamp()
+                    });
+                    formMessage.className = 'text-green-600 font-semibold';
+                    formMessage.textContent = 'הפנייה נשלחה בהצלחה! נחזור אליכם בהקדם.';
+                    contactForm.reset();
+                } catch (error) {
+                    formMessage.className = 'text-red-600 font-semibold';
+                    formMessage.textContent = 'אירעה שגיאה בשליחת הטופס. אנא נסו שוב.';
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = 'שלח פנייה';
+                }
+            });
+        });
+    </script>
 </body>
 </html>
