@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-translate-key="page_title">פרטי משרה | כלנית</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        body { font-family: 'Heebo', sans-serif; background-color: #f8fafc; }
+        .lang-btn.active { background-color: #14b8a6; color: white; }
+        .prose { max-width: none; }
+        .prose h3 { font-weight: 700; margin-bottom: 0.5em; }
+        .prose ul { list-style-position: inside; padding-right: 0; }
+        .prose li { margin-bottom: 0.5em; }
+        .modal { transition: opacity 0.3s ease; }
+        .modal-content { transition: transform 0.3s ease, opacity 0.3s ease; }
+    </style>
+</head>
+<body>
+    <header id="header-placeholder"></header>
+
+    <!-- Language Switcher -->
+    <div class="bg-gray-100 border-b border-gray-200">
+        <div class="container mx-auto px-6 py-1.5 text-xs flex justify-end items-center gap-2">
+            <button id="lang-he" class="lang-btn px-2 py-1 rounded-md font-semibold transition-colors">עברית</button>
+            <span class="text-gray-300">|</span>
+            <button id="lang-ar" class="lang-btn px-2 py-1 rounded-md font-semibold transition-colors">العربية</button>
+        </div>
+    </div>
+
+    <main id="page-content" class="container mx-auto p-4 md:p-8 hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Main Job Details -->
+            <div class="lg:col-span-2 bg-white p-8 rounded-2xl shadow-lg">
+                <div class="flex items-center gap-4 mb-4">
+                     <div id="job-image-container" class="w-16 h-16 bg-teal-100 rounded-xl flex items-center justify-center text-teal-500 text-3xl"></div>
+                     <div>
+                        <h1 id="job-title" class="text-3xl md:text-4xl font-black text-gray-800"></h1>
+                        <div id="job-categories-container" class="flex flex-wrap gap-2 mt-2"></div>
+                     </div>
+                </div>
+                <div id="job-description" class="prose prose-lg text-gray-700 mt-8"></div>
+            </div>
+
+            <!-- Sidebar -->
+            <aside class="lg:col-span-1">
+                <div class="bg-white p-6 rounded-2xl shadow-lg sticky top-28">
+                    <button id="apply-btn" class="w-full bg-teal-500 text-white font-bold py-3 rounded-lg hover:bg-teal-600 transition shadow-lg text-lg">
+                        <i class="fas fa-paper-plane ml-2"></i> <span data-translate-key="apply_button">הגש מועמדות</span>
+                    </button>
+                    <div class="mt-6 border-t pt-6 space-y-4">
+                        <h3 class="text-lg font-bold text-gray-800" data-translate-key="job_summary">תקציר משרה</h3>
+                        <div class="flex items-start gap-3">
+                            <i class="fas fa-map-marker-alt text-teal-500 mt-1"></i>
+                            <div>
+                                <h4 class="font-semibold text-gray-600" data-translate-key="location">מיקום</h4>
+                                <p id="job-locations" class="text-gray-800"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- Loader & Error States -->
+    <div id="loader" class="text-center p-20"><i class="fas fa-spinner fa-spin text-5xl text-teal-500"></i></div>
+    <div id="not-found" class="hidden text-center p-20">
+        <i class="fas fa-exclamation-triangle text-5xl text-amber-500"></i>
+        <h2 class="text-2xl font-bold mt-4" data-translate-key="job_not_found">המשרה לא נמצאה</h2>
+        <p class="text-gray-600 mt-2" data-translate-key="job_not_found_subtitle">יתכן שהיא הוסרה או שהקישור אינו תקין.</p>
+    </div>
+
+    <!-- Application Modal -->
+    <div id="application-modal" class="modal fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 hidden opacity-0 z-50">
+        <div class="modal-content bg-white w-full max-w-lg rounded-2xl shadow-2xl p-8 transform scale-95 opacity-0 relative">
+            <button id="close-modal-btn" class="absolute top-4 left-4 text-gray-400 hover:text-gray-700 text-2xl w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition-all">&times;</button>
+            <h3 class="text-2xl font-bold mb-6 text-center text-gray-800" data-translate-key="modal_title">הגשת מועמדות למשרה</h3>
+            <form id="application-form" class="space-y-5">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div><label for="firstName" class="font-medium text-sm" data-translate-key="form_first_name">שם פרטי <span class="text-red-500">*</span></label><input type="text" id="firstName" required class="w-full mt-1 border-gray-300 rounded-lg shadow-sm"></div>
+                    <div><label for="lastName" class="font-medium text-sm" data-translate-key="form_last_name">שם משפחה <span class="text-red-500">*</span></label><input type="text" id="lastName" required class="w-full mt-1 border-gray-300 rounded-lg shadow-sm"></div>
+                </div>
+                <div><label for="phone" class="font-medium text-sm" data-translate-key="form_phone">טלפון <span class="text-red-500">*</span></label><input type="tel" id="phone" required class="w-full mt-1 border-gray-300 rounded-lg shadow-sm"></div>
+                <div><label for="age" class="font-medium text-sm" data-translate-key="form_age">גיל <span class="text-red-500">*</span></label><input type="number" id="age" min="16" max="99" required class="w-full mt-1 border-gray-300 rounded-lg shadow-sm"></div>
+                <button type="submit" id="submit-application-btn" class="w-full bg-teal-500 text-white font-bold py-3 rounded-lg hover:bg-teal-600 transition shadow-lg"><span data-translate-key="form_submit_button">הגש מועמדות</span></button>
+            </form>
+            <div id="form-message" class="mt-4 text-center font-semibold"></div>
+        </div>
+    </div>
+
+    <footer id="footer-placeholder"></footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getFirestore, doc, getDoc, addDoc, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        const firebaseConfig = { apiKey: "AIzaSyAOKMJabnJ9JGE5CuclCCSjv5Bo3rT49Cw", authDomain: "calanit-31a32.firebaseapp.com", projectId: "calanit-31a32", storageBucket: "calanit-31a32.appspot.com", messagingSenderId: "91430351613", appId: "1:91430351613:web:ae46b2063f2d4b71428494" };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // --- Translation & Language ---
+        const translations = {
+            he: {
+                page_title: 'פרטי משרה | כלנית', job_not_found: 'המשרה לא נמצאה', job_not_found_subtitle: 'יתכן שהיא הוסרה או שהקישור אינו תקין.', apply_button: 'הגש מועמדות', job_summary: 'תקציר משרה', location: 'מיקום', modal_title: 'הגשת מועמדות למשרה', form_first_name: 'שם פרטי', form_last_name: 'שם משפחה', form_phone: 'טלפון', form_age: 'גיל', form_submit_button: 'הגש מועמדות', success_message: 'הפנייה נשלחה בהצלחה!', error_message: 'אירעה שגיאה בשליחת הטופס.', sending_message: 'שולח...'
+            },
+            ar: {
+                page_title: 'تفاصيل الوظيفة | كلانيت', job_not_found: 'الوظيفة غير موجودة', job_not_found_subtitle: 'قد تكون قد أُزيلت أو الرابط غير صالح.', apply_button: 'قدم الآن', job_summary: 'ملخص الوظيفة', location: 'الموقع', modal_title: 'التقديم للوظيفة', form_first_name: 'الاسم الأول', form_last_name: 'اسم العائلة', form_phone: 'هاتف', form_age: 'العمر', form_submit_button: 'قدم الآن', success_message: 'تم إرسال طلبك بنجاح!', error_message: 'حدث خطأ أثناء إرسال النموذج.', sending_message: 'جار الإرسال...'
+            }
+        };
+
+        function setLanguage(lang) {
+            localStorage.setItem('calanit_lang', lang); document.documentElement.lang = lang;
+            document.querySelectorAll('[data-translate-key]').forEach(el => {
+                const key = el.dataset.translateKey;
+                if (translations[lang] && translations[lang][key]) {
+                    const value = translations[lang][key];
+                    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') { el.placeholder = value; } else { el.textContent = value; }
+                }
+            });
+            document.getElementById('lang-he').classList.toggle('active', lang === 'he'); document.getElementById('lang-ar').classList.toggle('active', lang === 'ar');
+        }
+
+        function loadComponent(url, id, cb) { fetch(url).then(res => res.ok ? res.text() : Promise.reject(res)).then(html => { document.getElementById(id).innerHTML = html; if (cb) cb(); }).catch(err => console.error(`Failed loading ${url}`)); }
+
+        function renderJobDetails(jobData) {
+            document.querySelector('[data-translate-key="page_title"]').textContent = `${jobData.title} | כלנית`;
+            document.getElementById('job-title').textContent = jobData.title;
+            document.getElementById('job-description').innerHTML = jobData.description.replace(/\n/g, '<br>');
+
+            const imageContainer = document.getElementById('job-image-container');
+            if (jobData.imageUrl) {
+                imageContainer.innerHTML = `<img src="${jobData.imageUrl}" alt="${jobData.title}" class="w-full h-full object-cover">`;
+            } else {
+                imageContainer.innerHTML = `<i class="fas fa-briefcase"></i>`;
+            }
+
+            const categoriesContainer = document.getElementById('job-categories-container');
+            (jobData.categories || []).forEach(cat => {
+                const bubble = document.createElement('span');
+                bubble.className = 'bg-teal-100 text-teal-800 text-xs font-semibold px-2.5 py-1 rounded-full';
+                bubble.textContent = cat;
+                categoriesContainer.appendChild(bubble);
+            });
+            
+            document.getElementById('job-locations').textContent = (jobData.locations || []).join(', ');
+        }
+
+        // --- Main Initialization ---
+        document.addEventListener('DOMContentLoaded', async () => {
+            loadComponent('menu.html', 'header-placeholder', () => document.getElementById('mobile-menu-button')?.addEventListener('click', () => document.getElementById('mobile-menu')?.classList.toggle('hidden')));
+            loadComponent('footer.html', 'footer-placeholder');
+
+            const params = new URLSearchParams(window.location.search);
+            const jobId = params.get('id');
+
+            const loader = document.getElementById('loader');
+            const notFoundEl = document.getElementById('not-found');
+            const pageContent = document.getElementById('page-content');
+
+            if (!jobId) {
+                loader.style.display = 'none';
+                notFoundEl.style.display = 'block';
+                return;
+            }
+
+            try {
+                const docRef = doc(db, "jobs", jobId);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    renderJobDetails(docSnap.data());
+                    pageContent.style.display = 'block';
+                } else {
+                    notFoundEl.style.display = 'block';
+                }
+            } catch (error) {
+                console.error("Error fetching job:", error);
+                notFoundEl.style.display = 'block';
+            } finally {
+                loader.style.display = 'none';
+            }
+
+            // Modal Logic
+            const modal = document.getElementById('application-modal');
+            const openModalBtn = document.getElementById('apply-btn');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            const applicationForm = document.getElementById('application-form');
+            const formMessage = document.getElementById('form-message');
+
+            openModalBtn.addEventListener('click', () => {
+                modal.classList.remove('hidden');
+                setTimeout(() => { modal.classList.remove('opacity-0'); modal.querySelector('.modal-content').classList.remove('scale-95'); }, 10);
+            });
+
+            closeModalBtn.addEventListener('click', () => {
+                modal.classList.add('opacity-0');
+                modal.querySelector('.modal-content').classList.add('scale-95');
+                setTimeout(() => modal.classList.add('hidden'), 300);
+            });
+
+            applicationForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const submitBtn = document.getElementById('submit-application-btn');
+                const currentLang = localStorage.getItem('calanit_lang') || 'he';
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${translations[currentLang].sending_message}`;
+                
+                try {
+                    await addDoc(collection(db, 'jobApplications'), {
+                        jobId: jobId,
+                        jobTitle: document.getElementById('job-title').textContent,
+                        firstName: document.getElementById('firstName').value,
+                        lastName: document.getElementById('lastName').value,
+                        phone: document.getElementById('phone').value,
+                        age: document.getElementById('age').value,
+                        submittedAt: serverTimestamp()
+                    });
+                    formMessage.className = 'text-green-600';
+                    formMessage.textContent = translations[currentLang].success_message;
+                    applicationForm.reset();
+                    setTimeout(() => closeModalBtn.click(), 2000);
+                } catch (error) {
+                    formMessage.className = 'text-red-600';
+                    formMessage.textContent = translations[currentLang].error_message;
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = translations[currentLang].form_submit_button;
+                }
+            });
+
+            // Setup language switcher
+            document.getElementById('lang-he').addEventListener('click', () => setLanguage('he'));
+            document.getElementById('lang-ar').addEventListener('click', () => setLanguage('ar'));
+            setLanguage(localStorage.getItem('calanit_lang') || 'he');
+        });
+    </script>
+</body>
+</html>
+
