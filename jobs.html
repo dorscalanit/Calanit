@@ -8,30 +8,84 @@
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
-        body { font-family: 'Heebo', sans-serif; background-color: #f8fafc; }
+        body { font-family: 'Heebo', sans-serif; background-color: #f8fafc; color: #2d3748; }
         .job-card { transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; }
-        .job-card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+        .job-card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -4px rgba(0, 0, 0, 0.07); }
         select:disabled { background-color: #e5e7eb; cursor: not-allowed; }
         .bubble { animation: fadeIn 0.3s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
-        .lang-btn.active { background-color: #14b8a6; color: white; }
+        .lang-btn-menu.active { background-color: #14b8a6; color: white; }
         .modal { transition: opacity 0.3s ease; }
         .modal-content { transition: transform 0.3s ease, opacity 0.3s ease; }
+        .bubble-location { background-color: #cffafe; color: #155e75; }
+        .bubble-category { background-color: #d1fae5; color: #065f46; }
     </style>
 </head>
 <body>
 
     <header id="header-placeholder"></header>
-    <div class="bg-gray-100 border-b border-gray-200"><div class="container mx-auto px-6 py-1.5 text-xs flex justify-end items-center gap-2"><button id="lang-he" class="lang-btn px-2 py-1 rounded-md font-semibold transition-colors">עברית</button><span class="text-gray-300">|</span><button id="lang-ar" class="lang-btn px-2 py-1 rounded-md font-semibold transition-colors">العربية</button></div></div>
 
     <main class="container mx-auto p-4 md:p-8">
-        <div class="mb-8 text-center"><h1 class="text-4xl md:text-5xl font-black text-gray-800" data-translate-key="page_main_title">מצא/י את המשרה הבאה שלך</h1><p class="text-lg text-gray-600 mt-2" data-translate-key="page_main_subtitle">סנן/י את התוצאות ומצא/י את ההזדמנות המושלמת עבורך.</p></div>
+        <div class="mb-8 text-center">
+            <h1 class="text-4xl md:text-5xl font-black text-gray-800" data-translate-key="page_main_title">מצא/י את המשרה הבאה שלך</h1>
+            <p class="text-lg text-gray-600 mt-2" data-translate-key="page_main_subtitle">סנן/י את התוצאות ומצא/י את ההזדמנות המושלמת עבורך.</p>
+        </div>
+
         <div class="flex flex-col md:flex-row gap-8">
-            <aside class="w-full md:w-1/4 lg:w-1/5"><div class="bg-white p-6 rounded-2xl shadow-lg sticky top-28"><h3 class="text-xl font-bold mb-6 border-b pb-3 flex items-center gap-2" data-translate-key="filter_title"><i class="fas fa-filter text-teal-500"></i> סינון תוצאות</h3><div class="space-y-6"><div><label for="keyword-search" class="font-semibold block mb-2" data-translate-key="keyword_label">חיפוש חופשי</label><input type="text" id="keyword-search" data-translate-key="keyword_placeholder" placeholder="שם תפקיד, חברה..." class="w-full border-gray-300 rounded-lg shadow-sm"></div><div><label class="font-semibold block mb-2" data-translate-key="location_label">מיקום</label><div class="relative"><input type="text" id="location-search" data-translate-key="location_placeholder" placeholder="הקלד/י עיר..." class="w-full border-gray-300 rounded-lg shadow-sm"><div id="location-autocomplete" class="absolute w-full bg-white border z-10 rounded-b-lg max-h-48 overflow-y-auto hidden"></div></div><div id="location-bubbles" class="flex flex-wrap gap-1 mt-2"></div></div><div><label class="font-semibold block mb-2" data-translate-key="category_label">תחום</label><select id="main-category" class="w-full border-gray-300 rounded-lg shadow-sm"></select><select id="subcategory" disabled class="w-full border-gray-300 rounded-lg shadow-sm mt-2"></select><div id="category-bubbles" class="flex flex-wrap gap-1 mt-2"></div></div></div></div></aside>
-            <section id="job-listings" class="w-full md:w-3/4 lg:w-4/5"><div class="mb-4 text-sm text-gray-500 font-medium"><span data-translate-key="jobs_found_1">נמצאו</span> <span id="job-count" class="font-bold">0</span> <span data-translate-key="jobs_found_2">משרות</span></div><div id="jobs-container" class="space-y-6"></div><div id="no-results" class="hidden text-center bg-white p-12 rounded-2xl shadow-md"><i class="fas fa-search-minus text-5xl text-gray-400 mb-4"></i><h3 class="text-2xl font-bold text-gray-700" data-translate-key="no_results_title">לא נמצאו משרות התואמות לחיפוש</h3><p class="text-gray-500 mt-2" data-translate-key="no_results_subtitle">נסי/ה להסיר חלק מהמסננים.</p></div><div id="jobs-loader" class="text-center p-12"><i class="fas fa-spinner fa-spin text-5xl text-teal-500"></i></div></section>
+            <!-- Filters Sidebar -->
+            <aside class="w-full md:w-1/4 lg:w-1/5">
+                <div class="bg-white p-6 rounded-2xl shadow-lg sticky top-28">
+                    <h3 class="text-xl font-bold mb-6 border-b pb-3 flex items-center gap-2" data-translate-key="filter_title"><i class="fas fa-filter text-teal-500"></i> סינון תוצאות</h3>
+                    <div class="space-y-6">
+                        <div><label for="keyword-search" class="font-semibold block mb-2" data-translate-key="keyword_label">חיפוש חופשי</label><input type="text" id="keyword-search" data-translate-key="keyword_placeholder" placeholder="שם תפקיד, חברה..." class="w-full border-gray-300 rounded-lg shadow-sm"></div>
+                        <div>
+                            <label class="font-semibold block mb-2" data-translate-key="location_label">מיקום</label>
+                            <div class="relative"><input type="text" id="location-search" data-translate-key="location_placeholder" placeholder="הקלד/י עיר..." class="w-full border-gray-300 rounded-lg shadow-sm"><div id="location-autocomplete" class="absolute w-full bg-white border z-10 rounded-b-lg max-h-48 overflow-y-auto hidden"></div></div>
+                            <div id="location-bubbles" class="flex flex-wrap gap-1 mt-2"></div>
+                        </div>
+                        <div>
+                            <label class="font-semibold block mb-2" data-translate-key="category_label">תחום</label>
+                            <select id="main-category" class="w-full border-gray-300 rounded-lg shadow-sm"></select>
+                            <select id="subcategory" disabled class="w-full border-gray-300 rounded-lg shadow-sm mt-2"></select>
+                            <div id="category-bubbles" class="flex flex-wrap gap-1 mt-2"></div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Job Listings -->
+            <section id="job-listings" class="w-full md:w-3/4 lg:w-4/5">
+                <div class="mb-4 text-sm text-gray-500 font-medium"><span data-translate-key="jobs_found_1">נמצאו</span> <span id="job-count" class="font-bold">0</span> <span data-translate-key="jobs_found_2">משרות</span></div>
+                <div id="jobs-container" class="space-y-6"></div>
+                <div id="no-results" class="hidden text-center bg-white p-12 rounded-2xl shadow-md">
+                    <i class="fas fa-search-minus text-5xl text-gray-400 mb-4"></i>
+                    <h3 class="text-2xl font-bold text-gray-700" data-translate-key="no_results_title">לא נמצאו משרות התואמות לחיפוש</h3>
+                    <p class="text-gray-500 mt-2" data-translate-key="no_results_subtitle">נסי/ה להסיר חלק מהמסננים.</p>
+                </div>
+                 <div id="jobs-loader" class="text-center p-12">
+                    <i class="fas fa-spinner fa-spin text-5xl text-teal-500"></i>
+                </div>
+            </section>
         </div>
     </main>
-    <div id="cv-modal-container"></div>
+    
+    <div id="cv-modal" class="modal fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 hidden opacity-0 z-50">
+        <div class="modal-content bg-white w-full max-w-lg rounded-2xl shadow-2xl p-6 md:p-8 transform scale-95 opacity-0 relative">
+            <button id="close-cv-modal" class="absolute top-4 left-4 text-gray-400 hover:text-gray-700 text-2xl w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition-all">&times;</button>
+            <h3 id="cv-modal-title" class="text-2xl font-bold mb-6 text-center text-gray-800" data-translate-key="cv_modal_title">שליחת קורות חיים</h3>
+            <form id="cv-form" class="space-y-5">
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div><label for="firstName" class="font-medium text-sm text-gray-700" data-translate-key="form_first_name">שם פרטי <span class="text-red-500">*</span></label><input type="text" id="firstName" required class="mt-1 w-full border-gray-300 rounded-lg shadow-sm px-4 py-2 focus:ring-teal-500 focus:border-teal-500 transition"></div>
+                    <div><label for="lastName" class="font-medium text-sm text-gray-700" data-translate-key="form_last_name">שם משפחה <span class="text-red-500">*</span></label><input type="text" id="lastName" required class="mt-1 w-full border-gray-300 rounded-lg shadow-sm px-4 py-2 focus:ring-teal-500 focus:border-teal-500 transition"></div>
+                 </div>
+                 <div><label for="phone" class="font-medium text-sm text-gray-700" data-translate-key="form_phone">טלפון <span class="text-red-500">*</span></label><input type="tel" id="phone" required pattern="^05\d{8}$" placeholder="05XXXXXXXX" class="mt-1 w-full border-gray-300 rounded-lg shadow-sm px-4 py-2 focus:ring-teal-500 focus:border-teal-500 transition"></div>
+                 <div><label for="cvFile" class="font-medium text-sm block text-gray-700" data-translate-key="form_cv_file">קובץ קורות חיים <span class="text-red-500">*</span></label><input type="file" id="cvFile" required accept=".pdf,.doc,.docx" class="mt-2 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-50 file:text-teal-700 hover:file:bg-teal-100 transition"><p class="text-xs text-gray-500 mt-1" data-translate-key="form_supported_files">קבצים נתמכים: PDF, DOC, DOCX</p></div>
+                 <button type="submit" id="cv-submit-button" class="w-full bg-teal-500 text-white py-3 rounded-lg font-bold text-lg hover:bg-teal-600 transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-3"><span data-translate-key="form_submit_button_cv">הגש מועמדות</span></button>
+                 <div id="cv-form-message" class="text-center text-sm font-medium mt-3 h-5"></div>
+            </form>
+        </div>
+    </div>
+    
     <footer id="footer-placeholder"></footer>
 
     <script type="module">
@@ -44,10 +98,9 @@
         const db = getFirestore(app);
         const storage = getStorage(app);
 
-        // --- Translation & Language ---
         const translations = {
-            he: { all_jobs_page_title: 'כל המשרות | כלנית', page_main_title: 'מצא/י את המשרה הבאה שלך', page_main_subtitle: 'סנן/י את התוצאות ומצא/י את ההזדמנות המושלמת עבורך.', filter_title: 'סינון תוצאות', keyword_label: 'חיפוש חופשי', keyword_placeholder: 'שם תפקיד, חברה...', location_label: 'מיקום', location_placeholder: 'הקלד/י עיר...', category_label: 'תחום', jobs_found_1: 'נמצאו', jobs_found_2: 'משרות', no_results_title: 'לא נמצאו משרות התואמות לחיפוש', no_results_subtitle: 'נסי/ה להסיר חלק מהמסננים.', details_button: 'פרטים נוספים' },
-            ar: { all_jobs_page_title: 'كل الوظائف | كلانيت', page_main_title: 'ابحث عن وظيفتك التالية', page_main_subtitle: 'قم بتصفية النتائج وابحث عن الفرصة المثالية لك.', filter_title: 'تصفية النتائج', keyword_label: 'بحث حر', keyword_placeholder: 'اسم الوظيفة، شركة...', location_label: 'الموقع', location_placeholder: 'أدخل مدينة...', category_label: 'المجال', jobs_found_1: 'تم العثور على', jobs_found_2: 'وظائف', no_results_title: 'لم يتم العثور على وظائف تطابق البحث', no_results_subtitle: 'حاول إزالة بعض عوامل التصفية.', details_button: 'التفاصيل' }
+            he: { all_jobs_page_title: "כל המשרות | כלנית", page_main_title: "מצא/י את המשרה הבאה שלך", page_main_subtitle: "סנן/י את התוצאות ומצא/י את ההזדמנות המושלמת עבורך.", filter_title: "סינון תוצאות", keyword_label: "חיפוש חופשי", keyword_placeholder: "שם תפקיד, חברה...", location_label: "מיקום", location_placeholder: "הקלד/י עיר...", category_label: "תחום", select_main_category: 'בחר/י תחום ראשי', select_subcategory: 'בחר/י תת קטגוריה', jobs_found_1: "נמצאו", jobs_found_2: "משרות", no_results_title: "לא נמצאו משרות התואמות לחיפוש", no_results_subtitle: "נסי/ה להסיר חלק מהמסננים.", details_button: "פרטים נוספים", cv_modal_title: "הגשת מועמדות", form_first_name: "שם פרטי", form_last_name: "שם משפחה", form_phone: "טלפון", form_cv_file: "קובץ קורות חיים", form_supported_files: "קבצים נתמכים: PDF, DOC, DOCX", form_submit_button_cv: 'הגש מועמדות', success_message: 'הפרטים נשלחו בהצלחה!', error_message: 'אירעה שגיאה בשליחה.', sending_message: 'שולח...' },
+            ar: { all_jobs_page_title: "كل الوظائف | كلانيت", page_main_title: "ابحث عن وظيفتك التالية", page_main_subtitle: "قم بتصفية النتائج وابحث عن الفرصة المثالية لك.", filter_title: "تصفية النتائج", keyword_label: "بحث حر", keyword_placeholder: "اسم الوظيفة، شركة...", location_label: "الموقع", location_placeholder: "أدخل مدينة...", category_label: "المجال", select_main_category: 'اختر مجال رئيسي', select_subcategory: 'اختر تخصص فرعي', jobs_found_1: "تم العثور على", jobs_found_2: "وظائف", no_results_title: "لم يتم العثور على وظائف تطابق البحث", no_results_subtitle: "حاول إزالة بعض عوامل التصفية.", details_button: "التفاصيل", cv_modal_title: "التقديم للوظيفة", form_first_name: "الاسم الأول", form_last_name: "اسم العائلة", form_phone: "هاتف", form_cv_file: "ملف السيرة الذاتية", form_supported_files: "الملفات المدعومة: PDF, DOC, DOCX", form_submit_button_cv: 'قدم الآن', success_message: 'تم إرسال طلبك بنجاح!', error_message: 'حدث خطأ أثناء إرسال النموذج.', sending_message: 'جار الإرسال...' }
         };
 
         function setLanguage(lang) {
@@ -56,21 +109,19 @@
                 const key = el.dataset.translateKey;
                 if (translations[lang] && translations[lang][key]) {
                     const value = translations[lang][key];
-                    if (el.tagName === 'INPUT') { el.placeholder = value; } else { el.innerHTML = value; }
+                    if (el.placeholder !== undefined) { el.placeholder = value; } else { el.innerHTML = value; }
                 }
             });
-            document.getElementById('lang-he').classList.toggle('active', lang === 'he'); document.getElementById('lang-ar').classList.toggle('active', lang === 'ar');
+            document.querySelectorAll('.lang-btn-menu').forEach(btn => btn.classList.toggle('active', btn.id.includes(`-${lang}-`)));
             renderJobs();
         }
 
-        // --- Global State ---
         let allJobs = [], allCities = [], jobTypesData = {}, filters = { keyword: '', locations: new Set(), categories: new Set() };
         async function loadData() { [allCities, jobTypesData, allJobs] = await Promise.all([ fetch('cities.json').then(res => res.json()).catch(() => []), fetch('jobTypesHierarchical.json').then(res => res.json()).catch(() => ({})), getDocs(query(collection(db, "jobs"), orderBy("createdAt", "desc"))).then(snapshot => snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))) ]); }
-
+        
         function renderJobs() {
             const container = document.getElementById('jobs-container'), noResultsEl = document.getElementById('no-results'), jobCountEl = document.getElementById('job-count');
-            container.innerHTML = '';
-            const keyword = filters.keyword.toLowerCase();
+            container.innerHTML = ''; const keyword = filters.keyword.toLowerCase();
             const filteredJobs = allJobs.filter(job => {
                 const keywordMatch = !keyword || (job.title && job.title.toLowerCase().includes(keyword)) || (job.description && job.description.toLowerCase().includes(keyword)) || (job.locations && job.locations.some(loc => loc.toLowerCase().includes(keyword))) || (job.categories && job.categories.some(cat => cat.toLowerCase().includes(keyword)));
                 const locationMatch = filters.locations.size === 0 || (job.locations && job.locations.some(loc => filters.locations.has(loc)));
@@ -92,21 +143,78 @@
             document.getElementById('jobs-loader').style.display = 'none';
         }
 
-        function setupFilters() { /* [Same as index.html, full function is omitted for brevity] */ }
+        function setupFilters() {
+            const keywordInput = document.getElementById('keyword-search');
+            keywordInput.addEventListener('input', () => { filters.keyword = keywordInput.value; renderJobs(); });
+            function setupBubbleFilter(config) {
+                const { input, autocompleteContainer, bubblesContainer, dataSet, filterSet, color } = config;
+                input.addEventListener('input', () => {
+                    const query = input.value.trim();
+                    autocompleteContainer.innerHTML = '';
+                    if (query.length < 1) { autocompleteContainer.classList.add('hidden'); return; }
+                    const filtered = dataSet.filter(i => i.startsWith(query) && !filterSet.has(i)).slice(0, 5);
+                    if (filtered.length) { filtered.forEach(itemText => { const item = document.createElement('div'); item.className = 'p-2 cursor-pointer hover:bg-gray-100'; item.textContent = itemText; item.addEventListener('click', () => addItem(itemText)); autocompleteContainer.appendChild(item); }); autocompleteContainer.classList.remove('hidden'); } else { autocompleteContainer.classList.add('hidden'); }
+                });
+                const addItem = (item) => { filterSet.add(item); renderBubbles(); renderJobs(); input.value = ''; autocompleteContainer.classList.add('hidden'); };
+                const removeItem = (item) => { filterSet.delete(item); renderBubbles(); renderJobs(); };
+                const renderBubbles = () => { bubblesContainer.innerHTML = ''; filterSet.forEach(item => { const bubble = document.createElement('div'); bubble.className = `bubble bg-${color}-100 text-${color}-800 text-xs font-semibold px-2 py-1 rounded-full flex items-center gap-2`; bubble.innerHTML = `<span>${item}</span><button class="text-${color}-500">&times;</button>`; bubble.querySelector('button').addEventListener('click', () => removeItem(item)); bubblesContainer.appendChild(bubble); }); };
+                document.addEventListener('click', e => { if (!input.contains(e.target)) autocompleteContainer.classList.add('hidden'); });
+                return { render: renderBubbles };
+            }
+            const locationBubbleSystem = setupBubbleFilter({ input: document.getElementById('location-search'), autocompleteContainer: document.getElementById('location-autocomplete'), bubblesContainer: document.getElementById('location-bubbles'), dataSet: allCities, filterSet: filters.locations, color: 'blue' });
+            const mainCat = document.getElementById('main-category'), subCat = document.getElementById('subcategory'), catBubbles = document.getElementById('category-bubbles');
+            const lang = localStorage.getItem('calanit_lang') || 'he';
+            mainCat.innerHTML = `<option value="">${translations[lang].select_main_category}</option>`;
+            Object.keys(jobTypesData).sort().forEach(cat => mainCat.add(new Option(cat, cat)));
+            mainCat.addEventListener('change', () => { subCat.innerHTML = `<option value="">${translations[lang].select_subcategory}</option>`; if (mainCat.value) { subCat.disabled = false; jobTypesData[mainCat.value].forEach(sc => subCat.add(new Option(sc, sc))); } else { subCat.disabled = true; } });
+            subCat.addEventListener('change', () => { if (subCat.value) { filters.categories.add(subCat.value); categoryBubbleSystem.render(); renderJobs(); subCat.value = ''; } });
+            const categoryBubbleSystem = { render: () => { catBubbles.innerHTML = ''; filters.categories.forEach(item => { const bubble = document.createElement('div'); bubble.className = `bubble bg-green-100 text-green-800 text-xs font-semibold px-2 py-1 rounded-full flex items-center gap-2`; bubble.innerHTML = `<span>${item}</span><button class="text-green-500">&times;</button>`; bubble.querySelector('button').addEventListener('click', () => { filters.categories.delete(item); this.render(); renderJobs(); }); catBubbles.appendChild(bubble); }); } };
+            const params = new URLSearchParams(window.location.search);
+            if (params.has('keyword')) { keywordInput.value = params.get('keyword'); filters.keyword = keywordInput.value; }
+            if (params.has('locations')) { params.get('locations').split(',').forEach(loc => filters.locations.add(loc)); locationBubbleSystem.render(); }
+            if (params.has('categories')) { params.get('categories').split(',').forEach(cat => filters.categories.add(cat)); categoryBubbleSystem.render(); }
+        }
+
+        function setupCVModal() {
+            const modal = document.getElementById('cv-modal'), form = document.getElementById('cv-form');
+            window.openCVModal = (jobId, jobTitle) => {
+                window.currentJobIdForModal = jobId; window.currentJobTitleForModal = jobTitle;
+                if(modal) { modal.querySelector('#cv-modal-title').innerHTML = jobTitle ? `${translations[localStorage.getItem('calanit_lang') || 'he']['cv_modal_title']} - ${jobTitle}` : translations[localStorage.getItem('calanit_lang') || 'he']['cv_modal_title']; modal.classList.remove('hidden'); setTimeout(() => { modal.classList.remove('opacity-0'); modal.querySelector('.modal-content').classList.remove('scale-95'); }, 10); }
+            };
+            const closeModal = () => { if(modal) { modal.classList.add('opacity-0'); modal.querySelector('.modal-content').classList.add('scale-95'); setTimeout(() => modal.classList.add('hidden'), 300); }};
+            document.getElementById('close-cv-modal').addEventListener('click', closeModal);
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const submitBtn = form.querySelector('#cv-submit-button'), msgEl = form.querySelector('#cv-form-message');
+                const lang = localStorage.getItem('calanit_lang') || 'he';
+                submitBtn.disabled = true; submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${translations[lang].sending_message}`;
+                const cvFile = form.querySelector('#cvFile').files[0];
+                if (!cvFile) { msgEl.className = 'text-red-600 font-semibold'; msgEl.textContent = 'חובה להעלות קובץ.'; submitBtn.disabled = false; submitBtn.innerHTML = `<span>${translations[lang].form_submit_button_cv}</span>`; return; }
+                const storageRef = ref(storage, `cvs/${Date.now()}_${cvFile.name}`);
+                try {
+                    await uploadBytes(storageRef, cvFile);
+                    const fileURL = await getDownloadURL(storageRef);
+                    await addDoc(collection(db, "jobApplicants"), { firstName: form.querySelector('#firstName').value, lastName: form.querySelector('#lastName').value, phone: form.querySelector('#phone').value, fileURL, jobId: window.currentJobIdForModal || null, jobTitle: window.currentJobTitleForModal || 'הגשה כללית', createdAt: serverTimestamp() });
+                    msgEl.className = 'text-green-600 font-semibold'; msgEl.textContent = translations[lang].success_message; form.reset(); setTimeout(closeModal, 2000);
+                } catch (err) { msgEl.className = 'text-red-600 font-semibold'; msgEl.textContent = translations[lang].error_message; } finally { submitBtn.disabled = false; submitBtn.innerHTML = `<span>${translations[lang].form_submit_button_cv}</span>`; }
+            });
+        }
+
         function loadComponent(url, id, cb) { fetch(url).then(res => res.ok ? res.text() : Promise.reject()).then(html => { document.getElementById(id).innerHTML = html; if (cb) cb(); }).catch(err => console.error(`Failed loading ${url}`)); }
 
         document.addEventListener('DOMContentLoaded', async () => {
-            loadComponent('menu.html', 'header-placeholder', () => { document.getElementById('mobile-menu-button')?.addEventListener('click', () => document.getElementById('mobile-menu')?.classList.toggle('hidden')); });
-            loadComponent('footer.html', 'footer-placeholder');
-            loadComponent('cv-modal.html', 'cv-modal-container');
+            loadComponent('menu.html', 'header-placeholder', () => {
+                document.getElementById('mobile-menu-button')?.addEventListener('click', () => document.getElementById('mobile-menu')?.classList.toggle('hidden'));
+                document.querySelectorAll('.lang-btn-menu').forEach(btn => btn.addEventListener('click', () => setLanguage(btn.id.includes('-ar-') ? 'ar' : 'he')));
+                setLanguage(localStorage.getItem('calanit_lang') || 'he');
+            });
+            loadComponent('footer.html', 'footer-placeholder', () => { setLanguage(localStorage.getItem('calanit_lang') || 'he'); });
+            
             await loadData();
             setupFilters();
             renderJobs();
-            document.getElementById('lang-he').addEventListener('click', () => setLanguage('he'));
-            document.getElementById('lang-ar').addEventListener('click', () => setLanguage('ar'));
-            setLanguage(localStorage.getItem('calanit_lang') || 'he');
+            setupCVModal();
         });
     </script>
 </body>
 </html>
-
