@@ -51,9 +51,7 @@
             <!-- Job Listings -->
             <section id="job-listings" class="w-full md:w-3/4 lg:w-4/5">
                 <div class="mb-4 text-sm text-gray-500 font-medium">נמצאו <span id="job-count" class="font-bold">0</span> משרות</div>
-                <div id="jobs-container" class="space-y-6">
-                    <!-- Job cards will be injected here -->
-                </div>
+                <div id="jobs-container" class="space-y-6"></div>
                 <div id="no-results" class="hidden text-center bg-white p-12 rounded-2xl shadow-md">
                     <i class="fas fa-search-minus text-5xl text-gray-400 mb-4"></i>
                     <h3 class="text-2xl font-bold text-gray-700">לא נמצאו משרות התואמות לחיפוש</h3>
@@ -81,16 +79,10 @@
         const storage = getStorage(app);
 
         // --- Global State ---
-        let allJobs = [];
-        let allCities = [];
-        let jobTypesData = {};
-        let filters = {
-            keyword: '',
-            locations: new Set(),
-            categories: new Set()
-        };
+        let allJobs = [], allCities = [], jobTypesData = {}, filters = { keyword: '', locations: new Set(), categories: new Set() };
 
-        // --- Data Loading ---
+        // --- Component & Data Loading ---
+        function loadComponent(url, id, cb) { fetch(url).then(res => res.ok ? res.text() : Promise.reject(res)).then(html => { document.getElementById(id).innerHTML = html; if (cb) cb(); }).catch(err => console.error(`Failed loading ${url}`)); }
         async function loadData() {
             [allCities, jobTypesData, allJobs] = await Promise.all([
                 fetch('cities.json').then(res => res.json()).catch(() => []),
@@ -101,54 +93,25 @@
 
         // --- Job Rendering Logic ---
         function renderJobs() {
-            const container = document.getElementById('jobs-container');
-            const noResultsEl = document.getElementById('no-results');
-            const jobCountEl = document.getElementById('job-count');
+            const container = document.getElementById('jobs-container'), noResultsEl = document.getElementById('no-results'), jobCountEl = document.getElementById('job-count');
             container.innerHTML = '';
-
             const keyword = filters.keyword.toLowerCase();
-            
             const filteredJobs = allJobs.filter(job => {
-                const keywordMatch = !keyword || 
-                    (job.title && job.title.toLowerCase().includes(keyword)) ||
-                    (job.description && job.description.toLowerCase().includes(keyword)) ||
-                    (job.locations && job.locations.some(loc => loc.toLowerCase().includes(keyword))) ||
-                    (job.categories && job.categories.some(cat => cat.toLowerCase().includes(keyword)));
-
-                const locationMatch = filters.locations.size === 0 || 
-                    (job.locations && job.locations.some(loc => filters.locations.has(loc)));
-                
-                const categoryMatch = filters.categories.size === 0 || 
-                    (job.categories && job.categories.some(cat => filters.categories.has(cat)));
-
+                const keywordMatch = !keyword || (job.title && job.title.toLowerCase().includes(keyword)) || (job.description && job.description.toLowerCase().includes(keyword)) || (job.locations && job.locations.some(loc => loc.toLowerCase().includes(keyword))) || (job.categories && job.categories.some(cat => cat.toLowerCase().includes(keyword)));
+                const locationMatch = filters.locations.size === 0 || (job.locations && job.locations.some(loc => filters.locations.has(loc)));
+                const categoryMatch = filters.categories.size === 0 || (job.categories && job.categories.some(cat => filters.categories.has(cat)));
                 return keywordMatch && locationMatch && categoryMatch;
             });
-
             jobCountEl.textContent = filteredJobs.length;
-
-            if (filteredJobs.length === 0) {
-                noResultsEl.style.display = 'block';
-            } else {
+            if (filteredJobs.length === 0) { noResultsEl.style.display = 'block'; }
+            else {
                 noResultsEl.style.display = 'none';
                 filteredJobs.forEach(job => {
                     const jobCard = document.createElement('div');
                     jobCard.className = 'job-card bg-white p-6 rounded-xl shadow-sm border border-transparent hover:border-blue-500 transition-all duration-300';
-                    jobCard.innerHTML = `
-                        <div class="flex flex-col sm:flex-row justify-between items-start gap-4">
-                            <div>
-                                <h2 class="text-xl font-bold text-gray-800">${job.title}</h2>
-                                <div class="text-sm text-gray-500 mt-2 flex flex-wrap items-center gap-x-4 gap-y-1">
-                                    <span><i class="fas fa-map-marker-alt mr-1 text-gray-400"></i> ${job.locations ? job.locations.join(', ') : ''}</span>
-                                    <span><i class="fas fa-briefcase mr-1 text-gray-400"></i> ${job.categories ? job.categories.join(', ') : ''}</span>
-                                </div>
-                            </div>
-                            <button class="open-cv-modal-btn bg-blue-500 text-white font-bold px-6 py-2 rounded-lg hover:bg-blue-600 transition whitespace-nowrap" data-job-id="${job.id}" data-job-title="${job.title}">הגש מועמדות</button>
-                        </div>
-                        <p class="mt-4 text-gray-600 leading-relaxed line-clamp-3">${job.description}</p>
-                    `;
+                    jobCard.innerHTML = `<div class="flex flex-col sm:flex-row justify-between items-start gap-4"><div><h2 class="text-xl font-bold text-gray-800">${job.title}</h2><div class="text-sm text-gray-500 mt-2 flex flex-wrap items-center gap-x-4 gap-y-1"><span><i class="fas fa-map-marker-alt mr-1 text-gray-400"></i> ${job.locations ? job.locations.join(', ') : ''}</span><span><i class="fas fa-briefcase mr-1 text-gray-400"></i> ${job.categories ? job.categories.join(', ') : ''}</span></div></div><button class="open-cv-modal-btn bg-blue-500 text-white font-bold px-6 py-2 rounded-lg hover:bg-blue-600 transition whitespace-nowrap" data-job-id="${job.id}" data-job-title="${job.title}">הגש מועמדות</button></div><p class="mt-4 text-gray-600 leading-relaxed line-clamp-3">${job.description}</p>`;
                     container.appendChild(jobCard);
                 });
-                // Re-attach event listeners for the newly created buttons
                 document.querySelectorAll('.open-cv-modal-btn').forEach(btn => btn.addEventListener('click', () => window.openCVModal(btn.dataset.jobId, btn.dataset.jobTitle)));
             }
             document.getElementById('jobs-loader').style.display = 'none';
@@ -158,7 +121,6 @@
         function setupFilters() {
             const keywordInput = document.getElementById('keyword-search');
             keywordInput.addEventListener('input', () => { filters.keyword = keywordInput.value; renderJobs(); });
-
             function setupBubbleFilter(config) {
                 const { input, autocompleteContainer, bubblesContainer, dataSet, filterSet, color } = config;
                 input.addEventListener('input', () => {
@@ -166,135 +128,57 @@
                     autocompleteContainer.innerHTML = '';
                     if (query.length < 1) { autocompleteContainer.classList.add('hidden'); return; }
                     const filtered = dataSet.filter(i => i.startsWith(query) && !filterSet.has(i)).slice(0, 5);
-                    if (filtered.length) {
-                        filtered.forEach(itemText => {
-                            const item = document.createElement('div');
-                            item.className = 'p-2 cursor-pointer hover:bg-gray-100';
-                            item.textContent = itemText;
-                            item.addEventListener('click', () => addItem(itemText));
-                            autocompleteContainer.appendChild(item);
-                        });
-                        autocompleteContainer.classList.remove('hidden');
-                    } else { autocompleteContainer.classList.add('hidden'); }
+                    if (filtered.length) { filtered.forEach(itemText => { const item = document.createElement('div'); item.className = 'p-2 cursor-pointer hover:bg-gray-100'; item.textContent = itemText; item.addEventListener('click', () => addItem(itemText)); autocompleteContainer.appendChild(item); }); autocompleteContainer.classList.remove('hidden'); } else { autocompleteContainer.classList.add('hidden'); }
                 });
                 const addItem = (item) => { filterSet.add(item); renderBubbles(); renderJobs(); input.value = ''; autocompleteContainer.classList.add('hidden'); };
                 const removeItem = (item) => { filterSet.delete(item); renderBubbles(); renderJobs(); };
                 const renderBubbles = () => {
                     bubblesContainer.innerHTML = '';
-                    filterSet.forEach(item => {
-                        const bubble = document.createElement('div');
-                        bubble.className = `bubble bg-${color}-100 text-${color}-800 text-xs font-semibold px-2 py-1 rounded-full flex items-center gap-2`;
-                        bubble.innerHTML = `<span>${item}</span><button class="text-${color}-500">&times;</button>`;
-                        bubble.querySelector('button').addEventListener('click', () => removeItem(item));
-                        bubblesContainer.appendChild(bubble);
-                    });
+                    filterSet.forEach(item => { const bubble = document.createElement('div'); bubble.className = `bubble bg-${color}-100 text-${color}-800 text-xs font-semibold px-2 py-1 rounded-full flex items-center gap-2`; bubble.innerHTML = `<span>${item}</span><button class="text-${color}-500">&times;</button>`; bubble.querySelector('button').addEventListener('click', () => removeItem(item)); bubblesContainer.appendChild(bubble); });
                 };
                 document.addEventListener('click', e => { if (!input.contains(e.target)) autocompleteContainer.classList.add('hidden'); });
                 return { render: renderBubbles };
             }
-
             const locationBubbleSystem = setupBubbleFilter({ input: document.getElementById('location-search'), autocompleteContainer: document.getElementById('location-autocomplete'), bubblesContainer: document.getElementById('location-bubbles'), dataSet: allCities, filterSet: filters.locations, color: 'blue' });
-            
-            const mainCat = document.getElementById('main-category');
-            const subCat = document.getElementById('subcategory');
-            const catBubbles = document.getElementById('category-bubbles');
+            const mainCat = document.getElementById('main-category'), subCat = document.getElementById('subcategory'), catBubbles = document.getElementById('category-bubbles');
             Object.keys(jobTypesData).sort().forEach(cat => mainCat.add(new Option(cat, cat)));
-            mainCat.addEventListener('change', () => {
-                subCat.innerHTML = '<option value="">בחר תת קטגוריה</option>';
-                if (mainCat.value) { subCat.disabled = false; jobTypesData[mainCat.value].forEach(sc => subCat.add(new Option(sc, sc))); } 
-                else { subCat.disabled = true; }
-            });
-            subCat.addEventListener('change', () => {
-                if (subCat.value) { filters.categories.add(subCat.value); categoryBubbleSystem.render(); renderJobs(); subCat.value = ''; }
-            });
-            const categoryBubbleSystem = {
-                render: () => {
-                    catBubbles.innerHTML = '';
-                    filters.categories.forEach(item => {
-                        const bubble = document.createElement('div');
-                        bubble.className = `bubble bg-green-100 text-green-800 text-xs font-semibold px-2 py-1 rounded-full flex items-center gap-2`;
-                        bubble.innerHTML = `<span>${item}</span><button class="text-green-500">&times;</button>`;
-                        bubble.querySelector('button').addEventListener('click', () => { filters.categories.delete(item); this.render(); renderJobs(); });
-                        catBubbles.appendChild(bubble);
-                    });
-                }
-            };
-
-            // Initialize filters from URL
+            mainCat.addEventListener('change', () => { subCat.innerHTML = '<option value="">בחר תת קטגוריה</option>'; if (mainCat.value) { subCat.disabled = false; jobTypesData[mainCat.value].forEach(sc => subCat.add(new Option(sc, sc))); } else { subCat.disabled = true; } });
+            subCat.addEventListener('change', () => { if (subCat.value) { filters.categories.add(subCat.value); categoryBubbleSystem.render(); renderJobs(); subCat.value = ''; } });
+            const categoryBubbleSystem = { render: () => { catBubbles.innerHTML = ''; filters.categories.forEach(item => { const bubble = document.createElement('div'); bubble.className = `bubble bg-green-100 text-green-800 text-xs font-semibold px-2 py-1 rounded-full flex items-center gap-2`; bubble.innerHTML = `<span>${item}</span><button class="text-green-500">&times;</button>`; bubble.querySelector('button').addEventListener('click', () => { filters.categories.delete(item); this.render(); renderJobs(); }); catBubbles.appendChild(bubble); }); } };
             const params = new URLSearchParams(window.location.search);
             if (params.has('keyword')) { keywordInput.value = params.get('keyword'); filters.keyword = keywordInput.value; }
             if (params.has('locations')) { params.get('locations').split(',').forEach(loc => filters.locations.add(loc)); locationBubbleSystem.render(); }
             if (params.has('categories')) { params.get('categories').split(',').forEach(cat => filters.categories.add(cat)); categoryBubbleSystem.render(); }
         }
 
-        // --- Component Loading ---
-        function loadComponent(url, id, cb) { fetch(url).then(res => res.ok ? res.text() : Promise.reject(res)).then(html => { document.getElementById(id).innerHTML = html; if (cb) cb(); }).catch(err => console.error(`Failed loading ${url}`)); }
-
         // --- Main Initialization ---
         document.addEventListener('DOMContentLoaded', async () => {
             loadComponent('menu.html', 'header-placeholder', () => { document.getElementById('mobile-menu-button')?.addEventListener('click', () => document.getElementById('mobile-menu')?.classList.toggle('hidden')); });
             loadComponent('footer.html', 'footer-placeholder');
             loadComponent('cv-modal.html', 'cv-modal-container', () => {
-                // Attach listeners after the modal is loaded
                 const modalContainer = document.getElementById('cv-modal-container');
                 const form = modalContainer.querySelector('#cv-form-injected');
                 if(form) {
                     form.addEventListener('submit', async (e) => {
                         e.preventDefault();
-                        const submitBtn = form.querySelector('#cv-submit-button-injected');
-                        const msgEl = form.querySelector('#cv-form-message-injected');
-                        submitBtn.disabled = true;
-                        submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i>`;
+                        const submitBtn = form.querySelector('#cv-submit-button-injected'), msgEl = form.querySelector('#cv-form-message-injected');
+                        submitBtn.disabled = true; submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i>`;
                         const cvFile = form.querySelector('#cvFile-injected').files[0];
-                        if (!cvFile) {
-                           msgEl.className = 'text-red-600 font-semibold';
-                           msgEl.textContent = 'חובה להעלות קובץ.';
-                           submitBtn.disabled = false;
-                           submitBtn.textContent = 'שלח/י קורות חיים';
-                           return;
-                        }
+                        if (!cvFile) { msgEl.className = 'text-red-600 font-semibold'; msgEl.textContent = 'חובה להעלות קובץ.'; submitBtn.disabled = false; submitBtn.textContent = 'שלח/י קורות חיים'; return; }
                         const storageRef = ref(storage, `cvs/${Date.now()}_${cvFile.name}`);
                         try {
                             await uploadBytes(storageRef, cvFile);
                             const fileURL = await getDownloadURL(storageRef);
-                            await addDoc(collection(db, "jobApplicants"), { 
-                                firstName: form.querySelector('#firstName-injected').value, 
-                                lastName: form.querySelector('#lastName-injected').value, 
-                                phone: form.querySelector('#phone-injected').value, 
-                                fileURL, 
-                                jobId: window.currentJobIdForModal, 
-                                jobTitle: window.currentJobTitleForModal,
-                                createdAt: serverTimestamp() 
-                            });
-                            msgEl.className = 'text-green-600 font-semibold';
-                            msgEl.textContent = 'הפרטים נשלחו בהצלחה!';
-                            form.reset();
+                            await addDoc(collection(db, "jobApplicants"), { firstName: form.querySelector('#firstName-injected').value, lastName: form.querySelector('#lastName-injected').value, phone: form.querySelector('#phone-injected').value, fileURL, jobId: window.currentJobIdForModal, jobTitle: window.currentJobTitleForModal, createdAt: serverTimestamp() });
+                            msgEl.className = 'text-green-600 font-semibold'; msgEl.textContent = 'הפרטים נשלחו בהצלחה!'; form.reset();
                             setTimeout(() => document.getElementById('cv-modal')?.classList.add('hidden'), 2000);
-                        } catch (err) {
-                            msgEl.className = 'text-red-600 font-semibold';
-                            msgEl.textContent = 'אירעה שגיאה בשליחה.';
-                        } finally {
-                            submitBtn.disabled = false;
-                            submitBtn.textContent = 'שלח/י קורות חיים';
-                        }
+                        } catch (err) { msgEl.className = 'text-red-600 font-semibold'; msgEl.textContent = 'אירעה שגיאה בשליחה.'; }
+                        finally { submitBtn.disabled = false; submitBtn.textContent = 'שלח/י קורות חיים'; }
                     });
                 }
-                modalContainer.querySelector('#close-cv-modal')?.addEventListener('click', () => {
-                    modalContainer.querySelector('#cv-modal')?.classList.add('hidden');
-                });
+                modalContainer.querySelector('#close-cv-modal')?.addEventListener('click', () => modalContainer.querySelector('#cv-modal')?.classList.add('hidden'));
             });
-            
-            // Global function to open the CV modal
-            window.openCVModal = (jobId, jobTitle) => {
-                window.currentJobIdForModal = jobId;
-                window.currentJobTitleForModal = jobTitle;
-                const modal = document.getElementById('cv-modal');
-                if(modal) {
-                    modal.querySelector('#cv-modal-title-injected').textContent = `הגשת מועמדות למשרת "${jobTitle}"`;
-                    modal.classList.remove('hidden');
-                }
-            }
-
+            window.openCVModal = (jobId, jobTitle) => { window.currentJobIdForModal = jobId; window.currentJobTitleForModal = jobTitle; const modal = document.getElementById('cv-modal'); if(modal) { modal.querySelector('#cv-modal-title-injected').textContent = `הגשת מועמדות למשרת "${jobTitle}"`; modal.classList.remove('hidden'); } };
             await loadData();
             setupFilters();
             renderJobs();
