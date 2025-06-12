@@ -3,52 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>יצירת קשר | כלנית</title>
+    <title data-translate-key="contact_page_title">יצירת קשר | כלנית</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <style> body { font-family: 'Heebo', sans-serif; background-color: #f8fafc; } </style>
+    <style> 
+        body { font-family: 'Heebo', sans-serif; background-color: #f8fafc; } 
+        .lang-btn.active { background-color: #14b8a6; color: white; }
+    </style>
 </head>
 <body>
     <header id="header-placeholder"></header>
-
+    <div class="bg-gray-100 border-b border-gray-200"><div class="container mx-auto px-6 py-1.5 text-xs flex justify-end items-center gap-2"><button id="lang-he" class="lang-btn px-2 py-1 rounded-md font-semibold transition-colors">עברית</button><span class="text-gray-300">|</span><button id="lang-ar" class="lang-btn px-2 py-1 rounded-md font-semibold transition-colors">العربية</button></div></div>
     <main class="container mx-auto p-4 md:p-8">
         <div class="bg-white rounded-2xl shadow-2xl overflow-hidden">
             <div class="grid grid-cols-1 lg:grid-cols-2">
-                <!-- Form Section -->
                 <div class="p-8 md:p-12">
-                    <h1 class="text-3xl md:text-4xl font-black text-gray-800 mb-2">יצירת קשר ופרסום משרות</h1>
-                    <p class="text-gray-600 mb-8">נשמח לשמוע מכם! בין אם יש לכם שאלה, או שאתם מעסיקים המעוניינים לפרסם משרה - אנחנו כאן עבורכם.</p>
+                    <h1 class="text-3xl md:text-4xl font-black text-gray-800 mb-2" data-translate-key="contact_title">יצירת קשר ופרסום משרות</h1>
+                    <p class="text-gray-600 mb-8" data-translate-key="contact_subtitle">נשמח לשמוע מכם! אנו כאן עבורכם.</p>
                     <form id="contact-form" class="space-y-5">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                             <div><label for="name" class="font-medium">שם מלא <span class="text-red-500">*</span></label><input type="text" id="name" required class="w-full mt-1 border-gray-300 rounded-lg shadow-sm"></div>
-                             <div><label for="company" class="font-medium">שם חברה (אופציונלי)</label><input type="text" id="company" class="w-full mt-1 border-gray-300 rounded-lg shadow-sm"></div>
+                             <div><label for="name" class="font-medium" data-translate-key="form_full_name">שם מלא <span class="text-red-500">*</span></label><input type="text" id="name" required class="w-full mt-1 border-gray-300 rounded-lg shadow-sm"></div>
+                             <div><label for="company" class="font-medium" data-translate-key="form_company_name">שם חברה (אופציונלי)</label><input type="text" id="company" class="w-full mt-1 border-gray-300 rounded-lg shadow-sm"></div>
                         </div>
-                        <div><label for="email" class="font-medium">אימייל <span class="text-red-500">*</span></label><input type="email" id="email" required class="w-full mt-1 border-gray-300 rounded-lg shadow-sm"></div>
-                        <div><label for="phone" class="font-medium">טלפון <span class="text-red-500">*</span></label><input type="tel" id="phone" required class="w-full mt-1 border-gray-300 rounded-lg shadow-sm"></div>
+                        <div><label for="email" class="font-medium" data-translate-key="form_email">אימייל <span class="text-red-500">*</span></label><input type="email" id="email" required class="w-full mt-1 border-gray-300 rounded-lg shadow-sm"></div>
+                        <div><label for="phone" class="font-medium" data-translate-key="form_phone">טלפון <span class="text-red-500">*</span></label><input type="tel" id="phone" required class="w-full mt-1 border-gray-300 rounded-lg shadow-sm"></div>
                         <div>
-                            <label for="subject" class="font-medium">נושא הפנייה <span class="text-red-500">*</span></label>
+                            <label for="subject" class="font-medium" data-translate-key="form_subject">נושא הפנייה <span class="text-red-500">*</span></label>
                             <select id="subject" required class="w-full mt-1 border-gray-300 rounded-lg shadow-sm">
-                                <option value="">יש לבחור...</option>
-                                <option value="פרסום משרה">פרסום משרה</option>
-                                <option value="שאלה כללית">שאלה כללית</option>
-                                <option value="שיתוף פעולה">שיתוף פעולה</option>
-                                <option value="אחר">אחר</option>
+                                <option value="" data-translate-key="subject_select">יש לבחור...</option>
+                                <option value="פרסום משרה" data-translate-key="subject_publish">פרסום משרה</option>
+                                <option value="שאלה כללית" data-translate-key="subject_question">שאלה כללית</option>
+                                <option value="שיתוף פעולה" data-translate-key="subject_cooperation">שיתוף פעולה</option>
+                                <option value="אחר" data-translate-key="subject_other">אחר</option>
                             </select>
                         </div>
-                        <div><label for="message" class="font-medium">הודעה <span class="text-red-500">*</span></label><textarea id="message" rows="5" required class="w-full mt-1 border-gray-300 rounded-lg shadow-sm"></textarea></div>
-                        <div><button type="submit" id="submit-btn" class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition shadow-lg">שלח פנייה</button></div>
+                        <div><label for="message" class="font-medium" data-translate-key="form_message">הודעה <span class="text-red-500">*</span></label><textarea id="message" rows="5" required class="w-full mt-1 border-gray-300 rounded-lg shadow-sm"></textarea></div>
+                        <div><button type="submit" id="submit-btn" class="w-full bg-teal-500 text-white font-bold py-3 rounded-lg hover:bg-teal-600 transition shadow-lg" data-translate-key="form_submit_button">שלח פנייה</button></div>
                     </form>
-                    <div id="form-message" class="mt-4 text-center"></div>
+                    <div id="form-message" class="mt-4 text-center font-semibold"></div>
                 </div>
-
-                <!-- Info and Map Section -->
-                <div class="bg-blue-50 p-8 md:p-12 flex flex-col justify-center">
-                    <h2 class="text-2xl font-bold text-blue-800 mb-6">פרטי התקשרות</h2>
+                <div class="bg-teal-50 p-8 md:p-12 flex flex-col justify-center">
+                    <h2 class="text-2xl font-bold text-teal-800 mb-6" data-translate-key="contact_details_title">פרטי התקשרות</h2>
                     <div class="space-y-6 text-gray-700">
-                        <div class="flex items-center gap-4"><i class="fas fa-map-marker-alt text-2xl text-blue-500"></i><div><h4 class="font-semibold">כתובת</h4><p>רחוב לדוגמא 1, תל אביב</p></div></div>
-                        <div class="flex items-center gap-4"><i class="fas fa-phone text-2xl text-blue-500"></i><div><h4 class="font-semibold">טלפון</h4><p>03-1234567</p></div></div>
-                        <div class="flex items-center gap-4"><i class="fas fa-envelope text-2xl text-blue-500"></i><div><h4 class="font-semibold">אימייל</h4><p>contact@calanit.co.il</p></div></div>
+                        <div class="flex items-center gap-4"><i class="fas fa-map-marker-alt text-2xl text-teal-500"></i><div><h4 class="font-semibold" data-translate-key="address_title">כתובת</h4><p>רחוב לדוגמא 1, תל אביב</p></div></div>
+                        <div class="flex items-center gap-4"><i class="fas fa-phone text-2xl text-teal-500"></i><div><h4 class="font-semibold" data-translate-key="phone_title">טלפון</h4><p>03-1234567</p></div></div>
+                        <div class="flex items-center gap-4"><i class="fas fa-envelope text-2xl text-teal-500"></i><div><h4 class="font-semibold" data-translate-key="email_title">אימייל</h4><p>contact@calanit.co.il</p></div></div>
                     </div>
                     <div class="mt-8 rounded-lg overflow-hidden shadow-md"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3380.933869299432!2d34.780547315162!3d32.07299198118949!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151d4b8be1c38573%3A0x1a7f7c6e2b9e6e5a!2sTel%20Aviv-Yafo!5e0!3m2!1sen!2sil!4v1626274488582!5m2!1sen!2sil" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"></iframe></div>
                 </div>
@@ -65,49 +65,42 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        function loadComponent(url, id, cb) {
-            fetch(url).then(res => res.ok ? res.text() : Promise.reject(res))
-            .then(html => { document.getElementById(id).innerHTML = html; if (cb) cb(); })
-            .catch(err => console.error(`Error loading ${url}`, err));
+        const translations = {
+            he: { contact_page_title: 'יצירת קשר | כלנית', contact_title: 'יצירת קשר ופרסום משרות', contact_subtitle: 'נשמח לשמוע מכם! אנו כאן עבורכם.', form_full_name: 'שם מלא', form_company_name: 'שם חברה (אופציונלי)', form_email: 'אימייל', form_phone: 'טלפון', form_subject: 'נושא הפנייה', subject_select: 'יש לבחור...', subject_publish: 'פרסום משרה', subject_question: 'שאלה כללית', subject_cooperation: 'שיתוף פעולה', subject_other: 'אחר', form_message: 'הודעה', form_submit_button: 'שלח פנייה', contact_details_title: 'פרטי התקשרות', address_title: 'כתובת', phone_title: 'טלפון', email_title: 'אימייל', success_message: 'הפנייה נשלחה בהצלחה! נחזור אליכם בהקדם.', error_message: 'אירעה שגיאה בשליחת הטופס. אנא נסו שוב.', sending_message: 'שולח...' },
+            ar: { contact_page_title: 'اتصل بنا | كلانيت', contact_title: 'اتصل بنا ونشر الوظائف', contact_subtitle: 'يسعدنا أن نسمع منك! نحن هنا من أجلك.', form_full_name: 'الاسم الكامل', form_company_name: 'اسم الشركة (اختياري)', form_email: 'بريد إلكتروني', form_phone: 'هاتف', form_subject: 'موضوع الرسالة', subject_select: 'الرجاء الاختيار...', subject_publish: 'نشر وظيفة', subject_question: 'سؤال عام', subject_cooperation: 'تعاون', subject_other: 'آخر', form_message: 'رسالة', form_submit_button: 'إرسال', contact_details_title: 'بيانات الاتصال', address_title: 'عنوان', phone_title: 'هاتف', email_title: 'بريد إلكتروني', success_message: 'تم إرسال طلبك بنجاح! سوف نعود إليك قريبا.', error_message: 'حدث خطأ أثناء إرسال النموذج. حاول مرة اخرى.', sending_message: 'جار الإرسال...' }
+        };
+
+        function setLanguage(lang) {
+            localStorage.setItem('calanit_lang', lang); document.documentElement.lang = lang;
+            document.querySelectorAll('[data-translate-key]').forEach(el => {
+                const key = el.dataset.translateKey;
+                if (translations[lang] && translations[lang][key]) { const value = translations[lang][key]; if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') { el.placeholder = value; } else { el.textContent = value; } }
+            });
+            document.getElementById('lang-he').classList.toggle('active', lang === 'he'); document.getElementById('lang-ar').classList.toggle('active', lang === 'ar');
         }
 
+        function loadComponent(url, id, cb) { fetch(url).then(res => res.ok ? res.text() : Promise.reject()).then(html => { document.getElementById(id).innerHTML = html; if (cb) cb(); }).catch(err => console.error(`Failed loading ${url}`)); }
+
         document.addEventListener('DOMContentLoaded', () => {
-            loadComponent('menu.html', 'header-placeholder', () => {
-                document.getElementById('mobile-menu-button')?.addEventListener('click', () => {
-                    document.getElementById('mobile-menu')?.classList.toggle('hidden');
-                });
-            });
+            loadComponent('menu.html', 'header-placeholder', () => document.getElementById('mobile-menu-button')?.addEventListener('click', () => document.getElementById('mobile-menu')?.classList.toggle('hidden')));
             loadComponent('footer.html', 'footer-placeholder');
 
-            const contactForm = document.getElementById('contact-form');
-            const formMessage = document.getElementById('form-message');
-            const submitBtn = document.getElementById('submit-btn');
-
+            const contactForm = document.getElementById('contact-form'), formMessage = document.getElementById('form-message'), submitBtn = document.getElementById('submit-btn');
             contactForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                submitBtn.disabled = true;
-                submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> שולח...`;
+                const currentLang = localStorage.getItem('calanit_lang') || 'he';
+                submitBtn.disabled = true; submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${translations[currentLang].sending_message}`;
                 try {
-                    await addDoc(collection(db, 'contacts'), {
-                        name: document.getElementById('name').value,
-                        company: document.getElementById('company').value,
-                        email: document.getElementById('email').value,
-                        phone: document.getElementById('phone').value,
-                        subject: document.getElementById('subject').value,
-                        message: document.getElementById('message').value,
-                        submittedAt: serverTimestamp()
-                    });
-                    formMessage.className = 'text-green-600 font-semibold';
-                    formMessage.textContent = 'הפנייה נשלחה בהצלחה! נחזור אליכם בהקדם.';
+                    await addDoc(collection(db, 'contacts'), { name: document.getElementById('name').value, company: document.getElementById('company').value, email: document.getElementById('email').value, phone: document.getElementById('phone').value, subject: document.getElementById('subject').value, message: document.getElementById('message').value, submittedAt: serverTimestamp() });
+                    formMessage.className = 'text-green-600 font-semibold'; formMessage.textContent = translations[currentLang].success_message;
                     contactForm.reset();
-                } catch (error) {
-                    formMessage.className = 'text-red-600 font-semibold';
-                    formMessage.textContent = 'אירעה שגיאה בשליחת הטופס. אנא נסו שוב.';
-                } finally {
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = 'שלח פנייה';
-                }
+                } catch (error) { formMessage.className = 'text-red-600 font-semibold'; formMessage.textContent = translations[currentLang].error_message;
+                } finally { submitBtn.disabled = false; submitBtn.textContent = translations[currentLang].form_submit_button; }
             });
+            
+            document.getElementById('lang-he').addEventListener('click', () => setLanguage('he'));
+            document.getElementById('lang-ar').addEventListener('click', () => setLanguage('ar'));
+            setLanguage(localStorage.getItem('calanit_lang') || 'he');
         });
     </script>
 </body>
