@@ -4,64 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>כלנית | הבית שלך לקריירה</title>
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap" rel="stylesheet">
-    <!-- SwiperJS for Sliders -->
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-    <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Custom Styles -->
     <style>
-        body { 
-            font-family: 'Heebo', sans-serif; 
-            scroll-behavior: smooth;
-            background-color: #f8fafc;
-        }
-        .brand-logo { 
-            font-weight: 900; 
-            font-size: 1.8rem;
-        }
-        .hero-gradient { 
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); 
-        }
-        /* --- Story Slider Styles --- */
-        .story-slider-container .swiper {
-            height: 480px;
-            border-radius: 1.5rem;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-        .story-slider-container .swiper-slide {
-            color: white; display: flex; flex-direction: column; justify-content: flex-end;
-            padding: 2rem; background-size: cover; background-position: center;
-        }
-        .story-slider-container .story-overlay {
-            position: absolute; inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0) 100%);
-        }
+        body { font-family: 'Heebo', sans-serif; scroll-behavior: smooth; background-color: #f8fafc; }
+        .brand-logo { font-weight: 900; font-size: 1.8rem; }
+        .hero-gradient { background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); }
+        .story-slider-container .swiper { height: 480px; border-radius: 1.5rem; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); position: relative; overflow: hidden; }
+        .story-slider-container .swiper-slide { color: white; display: flex; flex-direction: column; justify-content: flex-end; padding: 2rem; background-size: cover; background-position: center; }
+        .story-slider-container .story-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0) 100%); }
         .story-slider-container .story-content { position: relative; z-index: 10; }
-        .story-slider-container .swiper-pagination-progressbar {
-            top: 0 !important; bottom: auto !important; height: 4px !important;
-            background: rgba(255, 255, 255, 0.3) !important;
-        }
-        .story-slider-container .swiper-pagination-progressbar .swiper-pagination-progressbar-fill { background: #fff !important; }
-        .story-slider-container .swiper-button-next, 
-        .story-slider-container .swiper-button-prev { 
-            color: white; background-color: rgba(0, 0, 0, 0.2); 
-            width: 50px; height: 50px; border-radius: 50%;
-            transition: background-color 0.2s ease;
-        }
-        .story-slider-container .swiper-button-next:hover, 
-        .story-slider-container .swiper-button-prev:hover { background-color: rgba(0, 0, 0, 0.4); }
-        .story-slider-container .swiper-button-next::after, 
-        .story-slider-container .swiper-button-prev::after { font-size: 20px; font-weight: bold; }
-
-        /* General UI Styles */
+        .story-slider-container .swiper-pagination-progressbar { top: 0 !important; bottom: auto !important; height: 4px !important; background: rgba(255,255,255,0.3) !important; }
+        .story-slider-container .swiper-pagination-progressbar-fill { background: #fff !important; }
+        .story-slider-container .swiper-button-next, .story-slider-container .swiper-button-prev { color: white; background-color: rgba(0,0,0,0.2); width: 50px; height: 50px; border-radius: 50%; transition: background-color 0.2s ease; }
+        .story-slider-container .swiper-button-next:hover, .story-slider-container .swiper-button-prev:hover { background-color: rgba(0,0,0,0.4); }
+        .story-slider-container .swiper-button-next::after, .story-slider-container .swiper-button-prev::after { font-size: 20px; font-weight: bold; }
         .animated-section { opacity: 0; transform: translateY(50px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
         .animated-section.is-visible { opacity: 1; transform: translateY(0); }
         .modal { transition: opacity 0.3s ease; }
@@ -71,8 +32,7 @@
     </style>
 </head>
 <body class="text-gray-800">
-
-    <header id="header-placeholder" class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-40"></header>
+    <header id="header-placeholder"></header>
 
     <main>
         <section class="hero-gradient text-white">
@@ -80,37 +40,13 @@
                 <h1 class="text-4xl md:text-6xl font-black mb-4 drop-shadow-md">הצעד הבא בקריירה שלך מתחיל כאן</h1>
                 <p class="text-lg md:text-xl mb-12 max-w-3xl mx-auto opacity-90">כלנית מחברת בין הכישרון שלך למשרות המובילות במשק. בואו נמצא יחד את ההזדמנות הבאה שלכם.</p>
                 <div class="max-w-5xl mx-auto bg-white/20 backdrop-blur-sm p-4 rounded-xl shadow-2xl">
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-start">
-                        <input type="text" id="keyword-search-input" placeholder="חיפוש לפי תפקיד, חברה..." class="md:col-span-4 w-full px-4 py-3 rounded-lg text-gray-800 border-2 border-transparent focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300" />
-                        
-                        <!-- Location Filter -->
-                        <div class="relative md:col-span-2">
-                            <input type="text" id="location-search-input" placeholder="הקלד/י אזור או עיר..." autocomplete="off" class="w-full px-4 py-3 rounded-lg text-gray-800 border-2 border-transparent focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300">
-                            <div id="autocomplete-results" class="absolute top-full left-0 right-0 bg-white border border-gray-300 rounded-b-lg shadow-lg z-20 hidden max-h-60 overflow-y-auto text-right"></div>
-                        </div>
-
-                        <!-- Hierarchical Category Filter -->
-                        <div class="relative">
-                            <select id="main-category-select" class="w-full px-4 py-3 rounded-lg text-gray-500 border-2 border-transparent focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300">
-                                <option value="">בחר/י תחום ראשי</option>
-                            </select>
-                        </div>
-                        <div class="relative">
-                           <select id="subcategory-select" disabled class="w-full px-4 py-3 rounded-lg text-gray-500 border-2 border-transparent focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300">
-                                <option value="">בחר/י תת קטגוריה</option>
-                            </select>
-                        </div>
-                        
-                        <!-- Filters Bubbles Containers -->
-                        <div class="md:col-span-4 flex flex-col md:flex-row gap-4 mt-2 px-2 min-h-[40px]">
-                           <div id="selected-locations-container" class="flex flex-wrap gap-2 items-center justify-center md:justify-start flex-grow"></div>
-                           <div id="selected-categories-container" class="flex flex-wrap gap-2 items-center justify-center md:justify-start flex-grow"></div>
-                        </div>
-
-                        <button id="search-button" class="md:col-span-4 w-full bg-white text-blue-600 font-bold px-8 py-3 rounded-lg hover:bg-blue-100 transition duration-300 text-lg shadow-md hover:shadow-lg mt-2">
-                            <i class="fas fa-search"></i>
-                            <span class="ml-2">חיפוש משרות</span>
-                        </button>
+                    <div id="search-form" class="grid grid-cols-1 md:grid-cols-4 gap-4 items-start">
+                        <input type="text" id="keyword-search-input" placeholder="לדוגמא: 40 שקלים לשעה, מפתח Full-Stack..." class="md:col-span-4 w-full px-4 py-3 rounded-lg text-gray-800 border-2 border-transparent focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300" />
+                        <div class="relative md:col-span-2"><input type="text" id="location-search-input" placeholder="הקלד/י אזור או עיר..." autocomplete="off" class="w-full px-4 py-3 rounded-lg text-gray-800 border-2 border-transparent focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300"><div id="autocomplete-results" class="absolute top-full left-0 right-0 bg-white border border-gray-300 rounded-b-lg shadow-lg z-20 hidden max-h-60 overflow-y-auto text-right"></div></div>
+                        <div class="relative"><select id="main-category-select" class="w-full px-4 py-3 rounded-lg text-gray-500 border-2 border-transparent focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300"><option value="">בחר/י תחום ראשי</option></select></div>
+                        <div class="relative"><select id="subcategory-select" disabled class="w-full px-4 py-3 rounded-lg text-gray-500 border-2 border-transparent focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300"><option value="">בחר/י תת קטגוריה</option></select></div>
+                        <div class="md:col-span-4 flex flex-col md:flex-row gap-4 mt-2 px-2 min-h-[40px]"><div id="selected-locations-container" class="flex flex-wrap gap-2 items-center justify-center md:justify-start flex-grow"></div><div id="selected-categories-container" class="flex flex-wrap gap-2 items-center justify-center md:justify-start flex-grow"></div></div>
+                        <button id="search-button" class="md:col-span-4 w-full bg-white text-blue-600 font-bold px-8 py-3 rounded-lg hover:bg-blue-100 transition duration-300 text-lg shadow-md hover:shadow-lg mt-2"><i class="fas fa-search"></i><span class="ml-2">חיפוש משרות</span></button>
                     </div>
                 </div>
             </div>
@@ -119,326 +55,156 @@
         <!-- Dynamic Sections: Hot Jobs, New Jobs, etc. -->
         <section class="py-24 animated-section">
             <div class="container mx-auto px-6">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-3 text-gray-900">משרות חמות 🔥</h2>
-                    <p class="text-lg text-gray-600">הזדמנויות שאסור לכם לפספס, מתעדכנות כל הזמן.</p>
-                </div>
-                <div class="relative story-slider-container" id="hot-jobs-container">
-                    <div class="swiper hot-jobs-slider"><div class="swiper-wrapper"></div><div class="swiper-button-next"></div><div class="swiper-button-prev"></div><div class="swiper-pagination swiper-pagination-progressbar swiper-pagination-horizontal"></div></div>
-                </div>
+                <div class="text-center mb-16"><h2 class="text-3xl md:text-4xl font-bold mb-3 text-gray-900">משרות חמות 🔥</h2><p class="text-lg text-gray-600">הזדמנויות שאסור לכם לפספס, מתעדכנות כל הזמן.</p></div>
+                <div class="relative story-slider-container" id="hot-jobs-container"><div class="swiper hot-jobs-slider"><div class="swiper-wrapper"></div><div class="swiper-button-next"></div><div class="swiper-button-prev"></div><div class="swiper-pagination swiper-pagination-progressbar swiper-pagination-horizontal"></div></div></div>
             </div>
         </section>
         <section class="bg-white py-24 animated-section">
             <div class="container mx-auto px-6">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-3 text-gray-900">משרות חדשות ✨</h2>
-                    <p class="text-lg text-gray-600">ההזדמנויות האחרונות שהצטרפו למאגר שלנו.</p>
-                </div>
-                <div class="relative story-slider-container" id="new-jobs-container">
-                    <div class="swiper new-jobs-slider"><div class="swiper-wrapper"></div><div class="swiper-button-next"></div><div class="swiper-button-prev"></div><div class="swiper-pagination swiper-pagination-progressbar swiper-pagination-horizontal"></div></div>
-                </div>
+                <div class="text-center mb-16"><h2 class="text-3xl md:text-4xl font-bold mb-3 text-gray-900">משרות חדשות ✨</h2><p class="text-lg text-gray-600">ההזדמנויות האחרונות שהצטרפו למאגר שלנו.</p></div>
+                <div class="relative story-slider-container" id="new-jobs-container"><div class="swiper new-jobs-slider"><div class="swiper-wrapper"></div><div class="swiper-button-next"></div><div class="swiper-button-prev"></div><div class="swiper-pagination swiper-pagination-progressbar swiper-pagination-horizontal"></div></div></div>
             </div>
         </section>
         <section id="send-cv-section" class="py-24 animated-section">
             <div class="container mx-auto px-6 text-center">
-                <div class="max-w-3xl mx-auto">
-                    <i class="fas fa-file-signature text-6xl text-blue-500 mb-6"></i>
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">לא מצאתם את מה שחיפשתם?</h2>
-                    <p class="text-lg text-gray-600 mb-8">שלחו לנו את קורות החיים והצוות המקצועי שלנו ימצא עבורכם את ההזדמנות הבאה.</p>
-                    <button id="open-cv-modal" class="bg-blue-600 text-white font-bold px-10 py-4 rounded-full hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 text-xl"><i class="fas fa-paper-plane mr-3"></i> שליחת קורות חיים</button>
-                </div>
+                <div class="max-w-3xl mx-auto"><i class="fas fa-file-signature text-6xl text-blue-500 mb-6"></i><h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">לא מצאתם את מה שחיפשתם?</h2><p class="text-lg text-gray-600 mb-8">שלחו לנו את קורות החיים והצוות המקצועי שלנו ימצא עבורכם את ההזדמנות הבאה.</p><button id="open-cv-modal" class="bg-blue-600 text-white font-bold px-10 py-4 rounded-full hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 text-xl"><i class="fas fa-paper-plane mr-3"></i> שליחת קורות חיים</button></div>
             </div>
         </section>
     </main>
 
-    <!-- CV Modal -->
-    <div id="cv-modal" class="modal fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 hidden opacity-0 z-50">
-        <div class="modal-content bg-white w-full max-w-lg rounded-2xl shadow-2xl p-6 md:p-8 transform scale-95 opacity-0 relative">
-            <button id="close-cv-modal" class="absolute top-4 left-4 text-gray-400 hover:text-gray-700 text-2xl w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition-all"><i class="fas fa-times"></i></button>
-            <h3 id="cv-modal-title" class="text-2xl font-bold mb-6 text-center text-blue-800">שליחת קורות חיים</h3>
-            <form id="cv-form" class="space-y-5">
-                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    <div><label for="firstName" class="font-medium text-sm text-gray-700">שם פרטי <span class="text-red-500">*</span></label><input type="text" id="firstName" name="firstName" required class="mt-1 w-full border-gray-300 rounded-lg shadow-sm px-4 py-2 focus:ring-blue-500 focus:border-blue-500 transition"></div>
-                    <div><label for="lastName" class="font-medium text-sm text-gray-700">שם משפחה <span class="text-red-500">*</span></label><input type="text" id="lastName" name="lastName" required class="mt-1 w-full border-gray-300 rounded-lg shadow-sm px-4 py-2 focus:ring-blue-500 focus:border-blue-500 transition"></div>
-                 </div>
-                 <div><label for="phone" class="font-medium text-sm text-gray-700">טלפון <span class="text-red-500">*</span></label><input type="tel" id="phone" name="phone" required pattern="^05\d{8}$" placeholder="05XXXXXXXX" class="mt-1 w-full border-gray-300 rounded-lg shadow-sm px-4 py-2 focus:ring-blue-500 focus:border-blue-500 transition"></div>
-                 <div><label for="cvFile" class="font-medium text-sm block text-gray-700">קובץ קורות חיים <span class="text-red-500">*</span></label><input type="file" id="cvFile" name="cvFile" required accept=".pdf,.doc,.docx" class="mt-2 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition"><p class="text-xs text-gray-500 mt-1">קבצים נתמכים: PDF, DOC, DOCX</p></div>
-                 <button type="submit" id="cv-submit-button" class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold text-lg hover:bg-blue-700 transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-3"><span id="submit-text">שלח/י קורות חיים</span><i id="submit-spinner" class="fas fa-spinner fa-spin hidden"></i></button>
-                 <div id="cv-form-message" class="text-center text-sm font-medium mt-3 h-5"></div>
-            </form>
-        </div>
-    </div>
-
-    <footer id="footer-placeholder" class="bg-gray-800 text-white"></footer>
-
+    <div id="cv-modal-container"></div>
+    <footer id="footer-placeholder"></footer>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getFirestore, collection, query, where, getDocs, addDoc, serverTimestamp, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyAOKMJabnJ9JGE5CuclCCSjv5Bo3rT49Cw",
-            authDomain: "calanit-31a32.firebaseapp.com",
-            projectId: "calanit-31a32",
-            storageBucket: "calanit-31a32.appspot.com",
-            messagingSenderId: "91430351613",
-            appId: "1:91430351613:web:ae46b2063f2d4b71428494",
-        };
-
+        import { getFirestore, collection, query, where, getDocs, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        
+        const firebaseConfig = { apiKey: "AIzaSyAOKMJabnJ9JGE5CuclCCSjv5Bo3rT49Cw", authDomain: "calanit-31a32.firebaseapp.com", projectId: "calanit-31a32", storageBucket: "calanit-31a32.appspot.com", messagingSenderId: "91430351613", appId: "1:91430351613:web:ae46b2063f2d4b71428494" };
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-        const storage = getStorage(app);
 
-        // --- State Management ---
-        let allCities = [];
-        let jobTypesData = {};
-        let selectedLocations = new Set();
-        let selectedCategories = new Set();
+        let allCities = [], jobTypesData = {}, selectedLocations = new Set(), selectedCategories = new Set();
 
-        // --- Component & Data Loaders ---
-        function loadComponent(url, elementId, cb) {
-            fetch(url).then(res => res.ok ? res.text() : Promise.reject(res))
-            .then(html => { document.getElementById(elementId).innerHTML = html; if (cb) cb(); })
-            .catch(err => console.error(`Error loading ${url}`, err));
-        }
-        
-        async function loadJsonData(filePath, fallback) {
-            try {
-                const response = await fetch(filePath);
-                if (!response.ok) throw new Error(`Network response was not ok for ${filePath}`);
-                return await response.json();
-            } catch (error) {
-                console.error(`Failed to load ${filePath}:`, error);
-                return fallback;
-            }
-        }
+        async function loadJsonData(filePath, fallback) { try { const res = await fetch(filePath); return res.ok ? res.json() : fallback; } catch (e) { console.error(`Failed to load ${filePath}:`, e); return fallback; } }
+        function loadComponent(url, id, cb) { fetch(url).then(res => res.ok ? res.text() : Promise.reject()).then(html => { document.getElementById(id).innerHTML = html; if (cb) cb(); }).catch(err => console.error(`Failed loading ${url}`)); }
 
-        // --- Hierarchical Category Filter Logic ---
-        function setupCategoryFilter() {
-            const mainSelect = document.getElementById('main-category-select');
-            const subSelect = document.getElementById('subcategory-select');
-            const bubblesContainer = document.getElementById('selected-categories-container');
-
-            // Populate main categories
-            Object.keys(jobTypesData).forEach(mainCategory => {
-                const option = document.createElement('option');
-                option.value = mainCategory;
-                option.textContent = mainCategory;
-                mainSelect.appendChild(option);
-            });
-
-            // Handle main category change
-            mainSelect.addEventListener('change', () => {
-                const selectedMain = mainSelect.value;
-                subSelect.innerHTML = '<option value="">בחר/י תת קטגוריה</option>'; // Reset
-                if (selectedMain && jobTypesData[selectedMain]) {
-                    jobTypesData[selectedMain].forEach(subCategory => {
-                        if (!selectedCategories.has(subCategory)) {
-                             const option = document.createElement('option');
-                             option.value = subCategory;
-                             option.textContent = subCategory;
-                             subSelect.appendChild(option);
-                        }
-                    });
-                    subSelect.disabled = false;
-                } else {
-                    subSelect.disabled = true;
-                }
-            });
-
-            // Handle subcategory selection
-            subSelect.addEventListener('change', () => {
-                const selectedSub = subSelect.value;
-                if (selectedSub) {
-                    selectedCategories.add(selectedSub);
-                    renderCategoryBubbles();
-                    // Reset selects to allow more selections
-                    subSelect.value = "";
-                    mainSelect.dispatchEvent(new Event('change')); // Refresh subcategory list
-                }
-            });
-
-            function renderCategoryBubbles() {
-                bubblesContainer.innerHTML = '';
-                selectedCategories.forEach(category => {
-                    const bubble = document.createElement('div');
-                    bubble.className = 'bg-green-500 text-white text-sm font-semibold px-3 py-1.5 rounded-full flex items-center gap-2';
-                    bubble.innerHTML = `<span>${category}</span><button type="button" class="bg-green-600 hover:bg-green-700 rounded-full w-5 h-5 flex items-center justify-center text-xs transition-colors">&times;</button>`;
-                    bubble.querySelector('button').addEventListener('click', () => {
-                        selectedCategories.delete(category);
-                        renderCategoryBubbles();
-                        mainSelect.dispatchEvent(new Event('change')); // Refresh subcategory list
-                    });
-                    bubblesContainer.appendChild(bubble);
-                });
-            }
-        }
-
-        // --- City Autocomplete Logic ---
-        function setupAutocomplete() {
-            const locationInput = document.getElementById('location-search-input');
-            const resultsContainer = document.getElementById('autocomplete-results');
-            const selectedContainer = document.getElementById('selected-locations-container');
-
-            locationInput.addEventListener('input', () => {
-                const query = locationInput.value.trim();
+        function setupFilterBubbles(config) {
+            const { input, resultsContainer, bubblesContainer, dataSet, selectedSet } = config;
+            input.addEventListener('input', () => {
+                const query = input.value.trim();
                 if (query.length < 2) { resultsContainer.classList.add('hidden'); return; }
-                const filtered = allCities.filter(c => c.startsWith(query) && !selectedLocations.has(c)).slice(0, 7);
+                const filtered = dataSet.filter(c => c.startsWith(query) && !selectedSet.has(c)).slice(0, 7);
                 resultsContainer.innerHTML = '';
-                if (filtered.length) {
-                    filtered.forEach(city => {
+                if(filtered.length) {
+                    filtered.forEach(itemText => {
                         const item = document.createElement('div');
                         item.className = 'p-3 text-gray-800 cursor-pointer autocomplete-item';
-                        item.textContent = city;
-                        item.addEventListener('click', () => selectCity(city));
+                        item.textContent = itemText;
+                        item.addEventListener('click', () => addItem(itemText));
                         resultsContainer.appendChild(item);
                     });
                     resultsContainer.classList.remove('hidden');
                 } else { resultsContainer.classList.add('hidden'); }
             });
-
-            function selectCity(city) {
-                if(selectedLocations.has(city)) return;
-                selectedLocations.add(city);
-                renderLocationBubbles();
-                resultsContainer.classList.add('hidden');
-                locationInput.value = '';
-            }
-
-            function renderLocationBubbles() {
-                selectedContainer.innerHTML = '';
-                selectedLocations.forEach(city => {
+            const addItem = (item) => { if (item && !selectedSet.has(item)) { selectedSet.add(item); renderBubbles(); } input.value = ''; resultsContainer.classList.add('hidden'); };
+            const removeItem = (item) => { selectedSet.delete(item); renderBubbles(); };
+            const renderBubbles = () => {
+                bubblesContainer.innerHTML = '';
+                const bubbleColor = config.color || 'blue';
+                selectedSet.forEach(item => {
                     const bubble = document.createElement('div');
-                    bubble.className = 'bg-blue-500 text-white text-sm font-semibold px-3 py-1.5 rounded-full flex items-center gap-2';
-                    bubble.innerHTML = `<span>${city}</span><button type="button" class="bg-blue-600 hover:bg-blue-700 rounded-full w-5 h-5 flex items-center justify-center text-xs transition-colors">&times;</button>`;
-                    bubble.querySelector('button').addEventListener('click', () => {
-                        selectedLocations.delete(city);
-                        renderLocationBubbles();
-                    });
-                    selectedContainer.appendChild(bubble);
+                    bubble.className = `bg-${bubbleColor}-500 text-white text-sm font-semibold px-3 py-1.5 rounded-full flex items-center gap-2`;
+                    bubble.innerHTML = `<span>${item}</span><button type="button" class="bg-${bubbleColor}-600 hover:bg-${bubbleColor}-700 rounded-full w-5 h-5 flex items-center justify-center text-xs transition-colors">&times;</button>`;
+                    bubble.querySelector('button').addEventListener('click', () => removeItem(item));
+                    bubblesContainer.appendChild(bubble);
                 });
-            }
-            document.addEventListener('click', (e) => { if (!locationInput.contains(e.target)) resultsContainer.classList.add('hidden'); });
+            };
+            document.addEventListener('click', e => { if (!input.contains(e.target)) resultsContainer.classList.add('hidden'); });
+        }
+
+        function setupCategoryFilter() {
+            const mainSelect = document.getElementById('main-category-select');
+            const subSelect = document.getElementById('subcategory-select');
+            Object.keys(jobTypesData).sort().forEach(cat => mainSelect.add(new Option(cat, cat)));
+            mainSelect.addEventListener('change', () => {
+                const selectedMain = mainSelect.value;
+                subSelect.innerHTML = '<option value="">בחר/י תת קטגוריה</option>';
+                if (selectedMain && jobTypesData[selectedMain]) {
+                    jobTypesData[selectedMain].forEach(sub => subSelect.add(new Option(sub, sub)));
+                    subSelect.disabled = false;
+                } else { subSelect.disabled = true; }
+            });
+            subSelect.addEventListener('change', () => {
+                if (subSelect.value) {
+                    selectedCategories.add(subSelect.value);
+                    document.getElementById('selected-categories-container').dispatchEvent(new Event('render'));
+                    subSelect.value = "";
+                }
+            });
         }
         
-        // --- Generic Story Slider Creation ---
-        async function createStorySlider({ containerId, sliderClass, query, noJobsMessage, jobIconClass }) {
-            const swiperWrapper = document.querySelector(`${containerId} .swiper-wrapper`);
+        async function createStorySlider(config) {
+            const swiperWrapper = document.querySelector(`${config.containerId} .swiper-wrapper`);
             if (!swiperWrapper) return;
-            swiperWrapper.innerHTML = `<div class="swiper-slide bg-gray-200"><div class="story-content text-center text-gray-600"><i class="fas fa-spinner fa-spin text-4xl"></i><p class="mt-4 text-lg">טוען משרות...</p></div></div>`;
+            swiperWrapper.innerHTML = `<div class="swiper-slide bg-gray-200"><div class="story-content text-center text-gray-600"><i class="fas fa-spinner fa-spin text-4xl"></i></div></div>`;
             try {
-                const snapshot = await getDocs(query);
-                if (snapshot.empty) {
-                    swiperWrapper.innerHTML = `<div class="swiper-slide bg-gray-200"><div class="story-overlay"></div><div class="story-content"><h3 class="text-3xl font-bold">${noJobsMessage}</h3></div></div>`;
-                    return;
-                }
+                const snapshot = await getDocs(config.query);
+                if (snapshot.empty) { swiperWrapper.innerHTML = `<div class="swiper-slide bg-gray-200"><div class="story-overlay"></div><div class="story-content"><h3 class="text-3xl font-bold">${config.noJobsMessage}</h3></div></div>`; return; }
                 swiperWrapper.innerHTML = '';
                 snapshot.forEach(doc => {
                     const job = doc.data();
-                    const jobId = doc.id;
                     const imageUrl = job.imageUrl || `https://placehold.co/800x500/3b82f6/ffffff?text=${encodeURIComponent(job.title)}`;
                     const slide = document.createElement('div');
                     slide.className = 'swiper-slide';
                     slide.style.backgroundImage = `url('${imageUrl}')`;
-                    slide.innerHTML = `<div class="story-overlay"></div><div class="story-content w-full"><h3 class="text-3xl md:text-4xl font-black drop-shadow-lg flex items-center gap-3"><i class="${jobIconClass}"></i> ${job.title || ''}</h3><div class="text-lg font-medium mt-2 mb-6 opacity-90"><i class="fas fa-map-marker-alt ml-1"></i> ${job.location || ''}</div><p class="text-base mb-8 line-clamp-3 max-w-xl">${job.description || ''}</p><button class="open-cv-modal-btn bg-white text-blue-600 px-8 py-3 rounded-full font-bold shadow-lg" data-job-id="${jobId}" data-job-title="${job.title}">הגשת מועמדות</button></div>`;
+                    slide.innerHTML = `<div class="story-overlay"></div><div class="story-content w-full"><h3 class="text-3xl md:text-4xl font-black drop-shadow-lg flex items-center gap-3"><i class="${config.jobIconClass}"></i> ${job.title || ''}</h3><div class="text-lg font-medium mt-2 mb-6 opacity-90"><i class="fas fa-map-marker-alt ml-1"></i> ${job.locations ? job.locations.join(', ') : ''}</div></div>`;
                     swiperWrapper.appendChild(slide);
                 });
-                new Swiper(`${containerId} ${sliderClass}`, { slidesPerView: 1, effect: 'fade', loop: snapshot.size > 1, autoplay: { delay: 7000 }, pagination: { el: `${containerId} .swiper-pagination`, type: 'progressbar' }, navigation: { nextEl: `${containerId} .swiper-button-next`, prevEl: `${containerId} .swiper-button-prev` } });
-                document.querySelectorAll(`${containerId} .open-cv-modal-btn`).forEach(btn => btn.addEventListener('click', () => openCVModal(btn.dataset.jobId, btn.dataset.jobTitle)));
-            } catch (error) {
-                console.error(`Error loading jobs for ${containerId}:`, error);
-                swiperWrapper.innerHTML = `<div class="swiper-slide bg-red-100 text-red-700 flex items-center justify-center p-8 text-lg">אירעה שגיאה בטעינת המשרות.</div>`;
-            }
+                new Swiper(`${config.containerId} .swiper`, { slidesPerView: 1, effect: 'fade', loop: snapshot.size > 1, autoplay: { delay: 7000 }, pagination: { el: `${config.containerId} .swiper-pagination`, type: 'progressbar' }, navigation: { nextEl: `${config.containerId} .swiper-button-next`, prevEl: `${config.containerId} .swiper-button-prev` } });
+            } catch (error) { console.error(`Error loading jobs for ${config.containerId}:`, error); }
         }
-        
-        // --- Other UI Logic (Modals, Animations, etc.) ---
-        function setupUI() {
-            function setupScrollAnimations() {
-                const animatedSections = document.querySelectorAll('.animated-section');
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); } });
-                }, { threshold: 0.15 });
-                animatedSections.forEach(section => observer.observe(section));
-            }
-            setupScrollAnimations();
-            
-            const cvModal = document.getElementById('cv-modal');
-            const modalContent = cvModal.querySelector('.modal-content');
-            let selectedJobId = null;
-            let selectedJobTitle = null;
 
-            window.openCVModal = (jobId = null, jobTitle = '') => {
-                selectedJobId = jobId; selectedJobTitle = jobTitle;
-                cvModal.classList.remove('hidden'); document.body.style.overflow = 'hidden';
-                setTimeout(() => { cvModal.classList.remove('opacity-0'); modalContent.classList.remove('scale-95', 'opacity-0'); }, 10);
-                document.getElementById('cv-form').reset(); document.getElementById('cv-form-message').innerHTML = "";
-                document.getElementById('cv-modal-title').textContent = jobTitle ? `הגשת מועמדות למשרת "${jobTitle}"` : "שליחת קורות חיים כללית";
-            };
-            const closeCVModal = () => {
-                modalContent.classList.add('scale-95', 'opacity-0'); cvModal.classList.add('opacity-0');
-                setTimeout(() => { cvModal.classList.add('hidden'); document.body.style.overflow = 'auto'; }, 300);
-            };
-            document.getElementById('open-cv-modal').addEventListener('click', () => window.openCVModal());
-            document.getElementById('close-cv-modal').addEventListener('click', closeCVModal);
-            cvModal.addEventListener('click', (e) => { if (e.target === cvModal) closeCVModal(); });
-
-            document.getElementById('cv-form').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const form = e.target;
-                const msgEl = document.getElementById('cv-form-message');
-                const submitBtn = document.getElementById('cv-submit-button');
-                const submitText = document.getElementById('submit-text');
-                const submitSpinner = document.getElementById('submit-spinner');
-                const cvFile = form.cvFile.files[0];
-                if (!cvFile) { msgEl.className = 'text-red-600'; msgEl.textContent = 'חובה להעלות קובץ קורות חיים.'; return; }
-                submitBtn.disabled = true; submitText.classList.add('hidden'); submitSpinner.classList.remove('hidden');
-                msgEl.className = 'text-blue-600'; msgEl.textContent = 'שולח פרטים...';
-                const storageRef = ref(storage, `cvs/${Date.now()}_${cvFile.name}`);
-                try {
-                    await uploadBytes(storageRef, cvFile);
-                    const fileURL = await getDownloadURL(storageRef);
-                    await addDoc(collection(db, "jobApplicants"), { firstName: form.firstName.value.trim(), lastName: form.lastName.value.trim(), phone: form.phone.value.trim(), fileURL, jobId: selectedJobId, jobTitle: selectedJobTitle || 'הגשה כללית', createdAt: serverTimestamp() });
-                    msgEl.className = 'text-green-600'; msgEl.textContent = 'הפרטים נשלחו בהצלחה!';
-                    form.reset();
-                    setTimeout(closeCVModal, 2500);
-                } catch (err) {
-                    msgEl.className = 'text-red-600'; msgEl.textContent = 'אירעה שגיאה. אנא נסו שנית.';
-                } finally {
-                    submitBtn.disabled = false; submitText.classList.remove('hidden'); submitSpinner.classList.add('hidden');
-                }
-            });
-
-            document.getElementById('search-button').addEventListener('click', () => {
-                const keyword = document.getElementById('keyword-search-input').value;
-                const locations = Array.from(selectedLocations);
-                const categories = Array.from(selectedCategories);
-                console.log("Searching for:", { keyword, locations, categories });
-                alert(`מחפש...\nמילת מפתח: ${keyword}\nאזורים: ${locations.join(', ')}\nקטגוריות: ${categories.join(', ')}`);
-            });
-        }
-        
-        // --- Main Application Start ---
         document.addEventListener('DOMContentLoaded', async () => {
             loadComponent('menu.html', 'header-placeholder', () => { document.getElementById('mobile-menu-button')?.addEventListener('click', () => document.getElementById('mobile-menu')?.classList.toggle('hidden')); });
             loadComponent('footer.html', 'footer-placeholder');
+            loadComponent('cv-modal.html', 'cv-modal-container');
 
-            [allCities, jobTypesData] = await Promise.all([
-                loadJsonData('cities.json', ["תל אביב-יפו", "ירושלים", "חיפה"]),
-                loadJsonData('jobTypesHierarchical.json', {})
-            ]);
+            [allCities, jobTypesData] = await Promise.all([ loadJsonData('cities.json', []), loadJsonData('jobTypesHierarchical.json', {}) ]);
 
-            setupAutocomplete();
+            setupFilterBubbles({ input: document.getElementById('location-search-input'), resultsContainer: document.getElementById('autocomplete-results'), bubblesContainer: document.getElementById('selected-locations-container'), dataSet: allCities, selectedSet: selectedLocations, color: 'blue' });
             setupCategoryFilter();
-            setupUI();
+            const categoriesContainer = document.getElementById('selected-categories-container');
+            categoriesContainer.addEventListener('render', () => {
+                categoriesContainer.innerHTML = '';
+                selectedCategories.forEach(item => {
+                    const bubble = document.createElement('div');
+                    bubble.className = `bg-green-500 text-white text-sm font-semibold px-3 py-1.5 rounded-full flex items-center gap-2`;
+                    bubble.innerHTML = `<span>${item}</span><button type="button" class="bg-green-600 hover:bg-green-700 rounded-full w-5 h-5 flex items-center justify-center text-xs transition-colors">&times;</button>`;
+                    bubble.querySelector('button').addEventListener('click', () => { selectedCategories.delete(item); categoriesContainer.dispatchEvent(new Event('render')); });
+                    categoriesContainer.appendChild(bubble);
+                });
+            });
 
             const hotJobsQuery = query(collection(db, "jobs"), where("isHot", "==", true));
-            createStorySlider({ containerId: '#hot-jobs-container', sliderClass: '.hot-jobs-slider', query: hotJobsQuery, noJobsMessage: 'אין כרגע משרות חמות', jobIconClass: 'fas fa-fire text-red-400' });
+            createStorySlider({ containerId: '#hot-jobs-container', query: hotJobsQuery, noJobsMessage: 'אין כרגע משרות חמות', jobIconClass: 'fas fa-fire text-red-400' });
             
             const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
             const newJobsQuery = query(collection(db, "jobs"), where("createdAt", ">=", sevenDaysAgo), orderBy("createdAt", "desc"));
-            createStorySlider({ containerId: '#new-jobs-container', sliderClass: '.new-jobs-slider', query: newJobsQuery, noJobsMessage: 'אין משרות מהשבוע האחרון', jobIconClass: 'fas fa-sparkles text-yellow-300' });
+            createStorySlider({ containerId: '#new-jobs-container', query: newJobsQuery, noJobsMessage: 'אין משרות מהשבוע האחרון', jobIconClass: 'fas fa-sparkles text-yellow-300' });
+            
+            document.getElementById('search-button').addEventListener('click', () => {
+                const params = new URLSearchParams();
+                const keyword = document.getElementById('keyword-search-input').value;
+                if(keyword) params.append('keyword', keyword);
+                if(selectedLocations.size > 0) params.append('locations', Array.from(selectedLocations).join(','));
+                if(selectedCategories.size > 0) params.append('categories', Array.from(selectedCategories).join(','));
+                
+                window.location.href = `jobs.html?${params.toString()}`;
+            });
+
+            document.querySelectorAll('.animated-section').forEach(el => new IntersectionObserver((entries) => { if(entries[0].isIntersecting) el.classList.add('is-visible'); }, {threshold: 0.1}).observe(el));
         });
     </script>
 </body>
 </html>
+
