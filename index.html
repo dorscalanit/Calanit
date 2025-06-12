@@ -16,97 +16,59 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Custom Styles -->
     <style>
-        /* Base styles using Heebo font */
         body { 
             font-family: 'Heebo', sans-serif; 
             scroll-behavior: smooth;
             background-color: #f8fafc;
         }
-        
-        /* Custom brand logo style */
         .brand-logo { 
             font-weight: 900; 
             font-size: 1.8rem;
         }
-
-        /* Hero gradient */
         .hero-gradient { 
             background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); 
         }
-
         /* --- Story Slider Styles --- */
         .story-slider-container .swiper {
-            height: 480px; /* Reduced height for a more square look */
-            border-radius: 1.5rem; /* 24px */
+            height: 480px;
+            border-radius: 1.5rem;
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
             position: relative;
             overflow: hidden;
         }
         .story-slider-container .swiper-slide {
-            color: white;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding: 2rem; /* 32px */
-            background-size: cover;
-            background-position: center;
+            color: white; display: flex; flex-direction: column; justify-content: flex-end;
+            padding: 2rem; background-size: cover; background-position: center;
         }
-        /* Gradient overlay for text readability */
         .story-slider-container .story-overlay {
-            position: absolute;
-            inset: 0;
+            position: absolute; inset: 0;
             background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0) 100%);
         }
-        .story-slider-container .story-content {
-            position: relative; /* To appear above the overlay */
-            z-index: 10;
-        }
-        
-        /* Progress bar at the top */
+        .story-slider-container .story-content { position: relative; z-index: 10; }
         .story-slider-container .swiper-pagination-progressbar {
-            top: 0 !important;
-            bottom: auto !important;
-            height: 4px !important;
+            top: 0 !important; bottom: auto !important; height: 4px !important;
             background: rgba(255, 255, 255, 0.3) !important;
         }
-        .story-slider-container .swiper-pagination-progressbar .swiper-pagination-progressbar-fill { 
-            background: #fff !important; 
-        }
-
-        /* Navigation buttons */
+        .story-slider-container .swiper-pagination-progressbar .swiper-pagination-progressbar-fill { background: #fff !important; }
         .story-slider-container .swiper-button-next, 
         .story-slider-container .swiper-button-prev { 
-            color: white; 
-            background-color: rgba(0, 0, 0, 0.2); 
-            width: 50px; 
-            height: 50px; 
-            border-radius: 50%;
+            color: white; background-color: rgba(0, 0, 0, 0.2); 
+            width: 50px; height: 50px; border-radius: 50%;
             transition: background-color 0.2s ease;
         }
         .story-slider-container .swiper-button-next:hover, 
-        .story-slider-container .swiper-button-prev:hover {
-             background-color: rgba(0, 0, 0, 0.4);
-        }
+        .story-slider-container .swiper-button-prev:hover { background-color: rgba(0, 0, 0, 0.4); }
         .story-slider-container .swiper-button-next::after, 
-        .story-slider-container .swiper-button-prev::after { 
-            font-size: 20px; 
-            font-weight: bold;
-        }
+        .story-slider-container .swiper-button-prev::after { font-size: 20px; font-weight: bold; }
 
         /* Animation for sections appearing on scroll */
-        .animated-section { 
-            opacity: 0; 
-            transform: translateY(50px); 
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out; 
-        }
-        .animated-section.is-visible { 
-            opacity: 1; 
-            transform: translateY(0); 
-        }
-
-        /* Modal transition styles */
+        .animated-section { opacity: 0; transform: translateY(50px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+        .animated-section.is-visible { opacity: 1; transform: translateY(0); }
         .modal { transition: opacity 0.3s ease; }
         .modal-content { transition: transform 0.3s ease, opacity 0.3s ease; }
+
+        /* Autocomplete styles */
+        .autocomplete-item:hover { background-color: #eef2ff; }
     </style>
 </head>
 <body class="text-gray-800">
@@ -121,23 +83,31 @@
                 <h1 class="text-4xl md:text-6xl font-black mb-4 drop-shadow-md">הצעד הבא בקריירה שלך מתחיל כאן</h1>
                 <p class="text-lg md:text-xl mb-12 max-w-3xl mx-auto opacity-90">כלנית מחברת בין הכישרון שלך למשרות המובילות במשק. בואו נמצא יחד את ההזדמנות הבאה שלכם.</p>
                 <div class="max-w-4xl mx-auto bg-white/20 backdrop-blur-sm p-4 rounded-xl shadow-2xl">
-                    <form action="#" class="grid grid-cols-1 md:grid-cols-5 gap-3 items-center">
-                        <input type="text" placeholder="חיפוש לפי תפקיד, חברה..." class="md:col-span-2 w-full px-4 py-3 rounded-lg text-gray-800 border-2 border-transparent focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300" />
-                        <select class="w-full px-4 py-3 rounded-lg text-gray-500 border-2 border-transparent focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300">
-                            <option>כל התחומים</option>
+                    <form id="search-form" class="grid grid-cols-1 md:grid-cols-4 gap-3 items-center">
+                        <input type="text" id="keyword-search-input" placeholder="חיפוש לפי תפקיד, חברה..." class="md:col-span-2 w-full px-4 py-3 rounded-lg text-gray-800 border-2 border-transparent focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300" />
+                        
+                        <!-- Autocomplete Location Input -->
+                        <div class="relative">
+                            <input type="text" id="location-search-input" placeholder="הקלד/י אזור או עיר..." class="w-full px-4 py-3 rounded-lg text-gray-800 border-2 border-transparent focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300">
+                            <div id="autocomplete-results" class="absolute top-full left-0 right-0 bg-white border border-gray-300 rounded-b-lg shadow-lg z-20 hidden max-h-60 overflow-y-auto text-right"></div>
+                        </div>
+
+                        <select id="category-select" class="w-full px-4 py-3 rounded-lg text-gray-500 border-2 border-transparent focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300">
+                            <option value="">כל התחומים</option>
+                            <!-- Options can be added here -->
                         </select>
-                        <select class="w-full px-4 py-3 rounded-lg text-gray-500 border-2 border-transparent focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300">
-                            <option>כל האזורים</option>
-                        </select>
-                        <button type="submit" class="md:col-span-1 w-full bg-white text-blue-600 font-bold px-8 py-3 rounded-lg hover:bg-blue-100 transition duration-300 text-lg shadow-md hover:shadow-lg">
+                        <button type="submit" class="md:col-span-4 w-full bg-white text-blue-600 font-bold px-8 py-3 rounded-lg hover:bg-blue-100 transition duration-300 text-lg shadow-md hover:shadow-lg mt-2">
                             <i class="fas fa-search"></i>
-                            <span class="hidden md:inline ml-2">חיפוש</span>
+                            <span class="ml-2">חיפוש משרות</span>
                         </button>
                     </form>
+                    <!-- Container for selected location bubbles -->
+                    <div id="selected-locations-container" class="flex flex-wrap gap-2 mt-4 px-2 justify-center min-h-[36px]"></div>
                 </div>
             </div>
         </section>
 
+        <!-- The rest of the page sections (Hot Jobs, New Jobs, CTA, etc.) -->
         <!-- Hot Jobs Section -->
         <section class="py-24 animated-section">
             <div class="container mx-auto px-6">
@@ -147,9 +117,7 @@
                 </div>
                 <div class="relative story-slider-container" id="hot-jobs-container">
                     <div class="swiper hot-jobs-slider">
-                        <div class="swiper-wrapper">
-                            <!-- Slides will be populated dynamically by JS -->
-                        </div>
+                        <div class="swiper-wrapper"></div>
                         <div class="swiper-button-next"></div>
                         <div class="swiper-button-prev"></div>
                         <div class="swiper-pagination swiper-pagination-progressbar swiper-pagination-horizontal"></div>
@@ -167,9 +135,7 @@
                 </div>
                 <div class="relative story-slider-container" id="new-jobs-container">
                     <div class="swiper new-jobs-slider">
-                        <div class="swiper-wrapper">
-                            <!-- Slides will be populated dynamically by JS -->
-                        </div>
+                        <div class="swiper-wrapper"></div>
                         <div class="swiper-button-next"></div>
                         <div class="swiper-button-prev"></div>
                         <div class="swiper-pagination swiper-pagination-progressbar swiper-pagination-horizontal"></div>
@@ -177,7 +143,6 @@
                 </div>
             </div>
         </section>
-
 
         <!-- CTA - Send CV Section -->
         <section id="send-cv-section" class="py-24 animated-section">
@@ -251,114 +216,141 @@
             appId: "1:91430351613:web:ae46b2063f2d4b71428494",
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const storage = getStorage(app);
 
+        // --- State Variables ---
+        let allCities = [];
+        let selectedLocations = new Set();
+
         // --- Component Loader for Header/Footer ---
         function loadComponent(url, elementId, callback) {
             fetch(url)
-                .then(response => {
-                    if (!response.ok) throw new Error(`Network response was not ok for ${url}`);
-                    return response.text();
-                })
-                .then(data => {
-                    document.getElementById(elementId).innerHTML = data;
-                    if (callback) callback();
-                })
+                .then(response => { if (!response.ok) throw new Error(`Network error for ${url}`); return response.text(); })
+                .then(data => { document.getElementById(elementId).innerHTML = data; if (callback) callback(); })
                 .catch(error => console.error(`Error loading component from ${url}:`, error));
         }
+        
+        // --- City Autocomplete Logic ---
+        async function loadCities() {
+            try {
+                const response = await fetch('cities.json');
+                if (!response.ok) throw new Error('Could not load cities.json');
+                const citiesData = await response.json();
+                // Remove duplicates and sort
+                allCities = [...new Set(citiesData)].sort((a, b) => a.localeCompare(b, 'he'));
+            } catch (error) {
+                console.error("Failed to load cities:", error);
+                allCities = ["תל אביב-יפו", "ירושלים", "חיפה", "באר שבע"]; // Fallback
+            }
+        }
 
+        function setupAutocomplete() {
+            const locationInput = document.getElementById('location-search-input');
+            const resultsContainer = document.getElementById('autocomplete-results');
+            const selectedContainer = document.getElementById('selected-locations-container');
+
+            locationInput.addEventListener('input', () => {
+                const query = locationInput.value.trim();
+                if (query.length < 2) {
+                    resultsContainer.classList.add('hidden');
+                    return;
+                }
+                const filteredCities = allCities
+                    .filter(city => city.startsWith(query) && !selectedLocations.has(city))
+                    .slice(0, 10); // Show top 10 results
+
+                resultsContainer.innerHTML = '';
+                if (filteredCities.length > 0) {
+                    filteredCities.forEach(city => {
+                        const item = document.createElement('div');
+                        item.className = 'p-2 cursor-pointer autocomplete-item';
+                        item.textContent = city;
+                        item.addEventListener('click', () => {
+                            selectCity(city);
+                            resultsContainer.classList.add('hidden');
+                            locationInput.value = '';
+                        });
+                        resultsContainer.appendChild(item);
+                    });
+                    resultsContainer.classList.remove('hidden');
+                } else {
+                    resultsContainer.classList.add('hidden');
+                }
+            });
+            
+            function selectCity(city) {
+                if (selectedLocations.has(city)) return;
+                selectedLocations.add(city);
+                renderSelectedBubbles();
+            }
+
+            function removeCity(city) {
+                selectedLocations.delete(city);
+                renderSelectedBubbles();
+            }
+
+            function renderSelectedBubbles() {
+                selectedContainer.innerHTML = '';
+                selectedLocations.forEach(city => {
+                    const bubble = document.createElement('div');
+                    bubble.className = 'bg-blue-500 text-white text-sm font-semibold px-3 py-1 rounded-full flex items-center gap-2 animate-fade-in';
+                    bubble.innerHTML = `
+                        <span>${city}</span>
+                        <button type="button" class="bg-blue-700 hover:bg-blue-800 rounded-full w-4 h-4 flex items-center justify-center text-xs">&times;</button>
+                    `;
+                    bubble.querySelector('button').addEventListener('click', () => removeCity(city));
+                    selectedContainer.appendChild(bubble);
+                });
+            }
+
+            // Hide autocomplete on outside click
+            document.addEventListener('click', (e) => {
+                if (!locationInput.contains(e.target) && !resultsContainer.contains(e.target)) {
+                    resultsContainer.classList.add('hidden');
+                }
+            });
+        }
+        
         // --- Generic Function to Create and Populate a Story Slider ---
         async function createStorySlider(sliderConfig) {
             const { containerId, sliderClass, query, noJobsMessage, jobIconClass } = sliderConfig;
-
             const swiperWrapper = document.querySelector(`${containerId} .swiper-wrapper`);
             if (!swiperWrapper) return;
-            
-            swiperWrapper.innerHTML = `
-                <div class="swiper-slide bg-gray-200">
-                    <div class="story-content text-center text-gray-600">
-                         <i class="fas fa-spinner fa-spin text-4xl"></i>
-                         <p class="mt-4 text-lg font-medium">טוען משרות...</p>
-                    </div>
-                </div>`;
-            
+            swiperWrapper.innerHTML = `<div class="swiper-slide bg-gray-200"><div class="story-content text-center text-gray-600"><i class="fas fa-spinner fa-spin text-4xl"></i><p class="mt-4 text-lg font-medium">טוען משרות...</p></div></div>`;
             try {
                 const snapshot = await getDocs(query);
                 if (snapshot.empty) {
-                    swiperWrapper.innerHTML = `
-                        <div class="swiper-slide bg-gray-200" style="background-image: url('https://placehold.co/800x500/e2e8f0/9ca3af?text=לא+נמצאו+משרות')">
-                           <div class="story-overlay"></div>
-                           <div class="story-content"><h3 class="text-3xl font-bold drop-shadow-md">${noJobsMessage}</h3></div>
-                        </div>`;
+                    swiperWrapper.innerHTML = `<div class="swiper-slide bg-gray-200"><div class="story-overlay"></div><div class="story-content"><h3 class="text-3xl font-bold drop-shadow-md">${noJobsMessage}</h3></div></div>`;
                     return;
                 }
-
-                swiperWrapper.innerHTML = ''; // Clear loading state
+                swiperWrapper.innerHTML = '';
                 snapshot.forEach(doc => {
                     const job = doc.data();
                     const jobId = doc.id;
                     const imageUrl = job.imageUrl || `https://placehold.co/800x500/3b82f6/ffffff?text=${encodeURIComponent(job.title)}`;
-                    
                     const slide = document.createElement('div');
                     slide.className = 'swiper-slide';
                     slide.style.backgroundImage = `url('${imageUrl}')`;
-                    slide.innerHTML = `
-                        <div class="story-overlay"></div>
-                        <div class="story-content w-full">
-                            <h3 class="text-3xl md:text-4xl font-black drop-shadow-lg flex items-center gap-3">
-                                <i class="${jobIconClass}"></i> ${job.title || 'כותרת משרה'}
-                            </h3>
-                            <div class="text-lg font-medium mt-2 mb-6 opacity-90 drop-shadow-md">
-                                <i class="fas fa-map-marker-alt ml-1"></i> ${job.location || 'מיקום'}
-                            </div>
-                            <p class="text-base mb-8 line-clamp-3 max-w-xl">${job.description || ''}</p>
-                            <button class="open-cv-modal-btn bg-white text-blue-600 px-8 py-3 rounded-full font-bold shadow-lg hover:bg-blue-100 transition-all text-lg" data-job-id="${jobId}" data-job-title="${job.title}">
-                                הגשת מועמדות
-                            </button>
-                        </div>
-                    `;
+                    slide.innerHTML = `<div class="story-overlay"></div><div class="story-content w-full"><h3 class="text-3xl md:text-4xl font-black drop-shadow-lg flex items-center gap-3"><i class="${jobIconClass}"></i> ${job.title || 'כותרת משרה'}</h3><div class="text-lg font-medium mt-2 mb-6 opacity-90 drop-shadow-md"><i class="fas fa-map-marker-alt ml-1"></i> ${job.location || 'מיקום'}</div><p class="text-base mb-8 line-clamp-3 max-w-xl">${job.description || ''}</p><button class="open-cv-modal-btn bg-white text-blue-600 px-8 py-3 rounded-full font-bold shadow-lg hover:bg-blue-100 transition-all text-lg" data-job-id="${jobId}" data-job-title="${job.title}">הגשת מועמדות</button></div>`;
                     swiperWrapper.appendChild(slide);
                 });
-
-                // Initialize Swiper for the specific slider
-                new Swiper(`${containerId} ${sliderClass}`, {
-                    slidesPerView: 1,
-                    effect: 'fade',
-                    fadeEffect: { crossFade: true },
-                    loop: snapshot.size > 1,
-                    autoplay: {
-                        delay: 7000,
-                        disableOnInteraction: false,
-                        pauseOnMouseEnter: true,
-                    },
-                    pagination: { el: `${containerId} .swiper-pagination`, type: 'progressbar' },
-                    navigation: { nextEl: `${containerId} .swiper-button-next`, prevEl: `${containerId} .swiper-button-prev` },
-                });
-                
+                new Swiper(`${containerId} ${sliderClass}`, { slidesPerView: 1, effect: 'fade', fadeEffect: { crossFade: true }, loop: snapshot.size > 1, autoplay: { delay: 7000, disableOnInteraction: false, pauseOnMouseEnter: true }, pagination: { el: `${containerId} .swiper-pagination`, type: 'progressbar' }, navigation: { nextEl: `${containerId} .swiper-button-next`, prevEl: `${containerId} .swiper-button-prev` }, });
                 document.querySelectorAll(`${containerId} .open-cv-modal-btn`).forEach(btn => {
                     btn.addEventListener('click', () => openCVModal(btn.dataset.jobId, btn.dataset.jobTitle));
                 });
-
             } catch (error) {
                 console.error(`Error loading jobs for ${containerId}:`, error);
                 swiperWrapper.innerHTML = `<div class="swiper-slide bg-red-100 text-red-700 flex items-center justify-center p-8 text-lg text-center">אירעה שגיאה בטעינת המשרות.</div>`;
             }
         }
 
-
         // --- Animations on Scroll ---
         function setupScrollAnimations() {
             const animatedSections = document.querySelectorAll('.animated-section');
             const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
+                entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); } });
             }, { threshold: 0.15 });
             animatedSections.forEach(section => observer.observe(section));
         }
@@ -374,27 +366,17 @@
             selectedJobTitle = jobTitle;
             cvModal.classList.remove('hidden');
             document.body.style.overflow = 'hidden';
-            setTimeout(() => {
-                cvModal.classList.remove('opacity-0');
-                modalContent.classList.remove('scale-95', 'opacity-0');
-            }, 10);
+            setTimeout(() => { cvModal.classList.remove('opacity-0'); modalContent.classList.remove('scale-95', 'opacity-0'); }, 10);
             document.getElementById('cv-form').reset();
             document.getElementById('cv-form-message').innerHTML = "";
             const modalTitle = document.getElementById('cv-modal-title');
-            if (jobTitle) {
-                modalTitle.textContent = `הגשת מועמדות למשרת "${jobTitle}"`;
-            } else {
-                modalTitle.textContent = "שליחת קורות חיים כללית";
-            }
+            modalTitle.textContent = jobTitle ? `הגשת מועמדות למשרת "${jobTitle}"` : "שליחת קורות חיים כללית";
         }
 
         function closeCVModal() {
             modalContent.classList.add('scale-95', 'opacity-0');
             cvModal.classList.add('opacity-0');
-            setTimeout(() => {
-                cvModal.classList.add('hidden');
-                document.body.style.overflow = 'auto';
-            }, 300);
+            setTimeout(() => { cvModal.classList.add('hidden'); document.body.style.overflow = 'auto'; }, 300);
         }
 
         // --- CV Form Submission ---
@@ -405,33 +387,20 @@
             const submitBtn = document.getElementById('cv-submit-button');
             const submitText = document.getElementById('submit-text');
             const submitSpinner = document.getElementById('submit-spinner');
-            
             const cvFile = form.cvFile.files[0];
-            if (!cvFile) {
-                msgEl.className = 'text-red-600';
-                msgEl.textContent = 'חובה להעלות קובץ קורות חיים.';
-                return;
-            }
-            
+            if (!cvFile) { msgEl.className = 'text-red-600'; msgEl.textContent = 'חובה להעלות קובץ קורות חיים.'; return; }
             submitBtn.disabled = true;
             submitText.classList.add('hidden');
             submitSpinner.classList.remove('hidden');
             msgEl.className = 'text-blue-600';
             msgEl.textContent = 'שולח פרטים...';
-
             const storageRef = ref(storage, `cvs/${Date.now()}_${cvFile.name}`);
-            
             try {
                 await uploadBytes(storageRef, cvFile);
                 const fileURL = await getDownloadURL(storageRef);
                 const docData = {
-                    firstName: form.firstName.value.trim(),
-                    lastName: form.lastName.value.trim(),
-                    phone: form.phone.value.trim(),
-                    fileURL: fileURL,
-                    jobId: selectedJobId || null,
-                    jobTitle: selectedJobTitle || 'הגשה כללית',
-                    createdAt: serverTimestamp(),
+                    firstName: form.firstName.value.trim(), lastName: form.lastName.value.trim(), phone: form.phone.value.trim(),
+                    fileURL: fileURL, jobId: selectedJobId || null, jobTitle: selectedJobTitle || 'הגשה כללית', createdAt: serverTimestamp(),
                 };
                 await addDoc(collection(db, "jobApplicants"), docData);
                 msgEl.className = 'text-green-600';
@@ -440,8 +409,7 @@
                 setTimeout(closeCVModal, 2500);
             } catch (err) {
                 console.error("Form submission error:", err);
-                msgEl.className = 'text-red-600';
-                msgEl.textContent = 'אירעה שגיאה. אנא נסו שנית.';
+                msgEl.className = 'text-red-600'; msgEl.textContent = 'אירעה שגיאה. אנא נסו שנית.';
             } finally {
                 submitBtn.disabled = false;
                 submitText.classList.remove('hidden');
@@ -450,57 +418,41 @@
         }
 
         // --- Run All Initialization Logic ---
-        document.addEventListener('DOMContentLoaded', () => {
-            // Load header, then set up its mobile menu functionality
+        document.addEventListener('DOMContentLoaded', async () => {
             loadComponent('menu.html', 'header-placeholder', () => {
                 const mobileMenuButton = document.getElementById('mobile-menu-button');
                 const mobileMenu = document.getElementById('mobile-menu');
-                if (mobileMenuButton && mobileMenu) {
-                    mobileMenuButton.addEventListener('click', () => {
-                        mobileMenu.classList.toggle('hidden');
-                    });
-                }
+                if (mobileMenuButton && mobileMenu) { mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden')); }
             });
-            // Load footer
             loadComponent('footer.html', 'footer-placeholder');
 
-            // --- Configure and Load Sliders ---
-            // 1. Hot Jobs Slider
-            const hotJobsQuery = query(collection(db, "jobs"), where("isHot", "==", true));
-            createStorySlider({
-                containerId: '#hot-jobs-container',
-                sliderClass: '.hot-jobs-slider',
-                query: hotJobsQuery,
-                noJobsMessage: 'אין כרגע משרות חמות',
-                jobIconClass: 'fas fa-fire text-red-400'
-            });
+            await loadCities(); // Wait for cities to load before setting up autocomplete
+            setupAutocomplete();
 
-            // 2. New Jobs Slider (jobs from the last 7 days)
+            const hotJobsQuery = query(collection(db, "jobs"), where("isHot", "==", true));
+            createStorySlider({ containerId: '#hot-jobs-container', sliderClass: '.hot-jobs-slider', query: hotJobsQuery, noJobsMessage: 'אין כרגע משרות חמות', jobIconClass: 'fas fa-fire text-red-400' });
+            
             const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
             const newJobsQuery = query(collection(db, "jobs"), where("createdAt", ">=", sevenDaysAgo), orderBy("createdAt", "desc"));
-            createStorySlider({
-                containerId: '#new-jobs-container',
-                sliderClass: '.new-jobs-slider',
-                query: newJobsQuery,
-                noJobsMessage: 'אין משרות מהשבוע האחרון',
-                jobIconClass: 'fas fa-sparkles text-yellow-300' // Using 'sparkles' from FontAwesome 6
-            });
-
-
-            // Initialize other page features
+            createStorySlider({ containerId: '#new-jobs-container', sliderClass: '.new-jobs-slider', query: newJobsQuery, noJobsMessage: 'אין משרות מהשבוע האחרון', jobIconClass: 'fas fa-sparkles text-yellow-300' });
+            
             setupScrollAnimations();
-
-            // Modal listeners
+            
             document.getElementById('open-cv-modal').addEventListener('click', () => openCVModal());
             document.getElementById('close-cv-modal').addEventListener('click', closeCVModal);
-            cvModal.addEventListener('click', (e) => {
-                if (e.target === cvModal) closeCVModal();
-            });
-
-            // Form submission listener
+            cvModal.addEventListener('click', (e) => { if (e.target === cvModal) closeCVModal(); });
             document.getElementById('cv-form').addEventListener('submit', handleCvFormSubmit);
+            document.getElementById('search-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const keyword = document.getElementById('keyword-search-input').value;
+                const category = document.getElementById('category-select').value;
+                const locations = Array.from(selectedLocations);
+                console.log("Searching for:", { keyword, category, locations });
+                // Here you would typically redirect to a search results page
+                // window.location.href = `/search?keyword=${keyword}&category=${category}&locations=${locations.join(',')}`;
+                alert(`מחפש... מילת מפתח: ${keyword}, תחום: ${category}, אזורים: ${locations.join(', ')}`);
+            });
         });
-
     </script>
 </body>
 </html>
