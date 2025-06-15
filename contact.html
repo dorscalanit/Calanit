@@ -22,6 +22,7 @@
                     <p class="text-gray-600 mb-8" data-translate-key="contact_subtitle">
                         נשמח לשמוע מכם! בין אם יש לכם שאלה, או שאתם מעסיקים המעוניינים לפרסם משרה - אנחנו כאן עבורכם.
                     </p>
+                    <div id="form-success" class="hidden mb-6 text-center text-xl font-bold text-green-600" data-translate-key="form_success_message">הטופס נשלח בהצלחה!</div>
                     <form action="https://formsubmit.co/Dorscalanit@gmail.com" method="POST" class="space-y-5" id="contact-form">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                             <div>
@@ -55,7 +56,7 @@
                             <label for="message" class="font-medium" data-translate-key="form_message">הודעה <span class="text-red-500">*</span></label>
                             <textarea id="message" name="הודעה" rows="5" required class="w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-teal-500 focus:border-teal-500 transition"></textarea>
                         </div>
-                        <input type="hidden" name="_next" value="https://doronnofesh.com/thank-you.html">
+                        <!-- השתמש ב-JS במקום _next כדי להציג הודעה ולהפנות אחרי 2 שניות -->
                         <input type="hidden" name="_captcha" value="false">
                         <div>
                             <button type="submit" id="submit-btn" class="w-full bg-teal-500 text-white font-bold py-3 rounded-lg hover:bg-teal-600 transition shadow-lg" data-translate-key="form_submit_button">
@@ -63,7 +64,6 @@
                             </button>
                         </div>
                     </form>
-                    <div id="form-message" class="mt-4 text-center font-semibold"></div>
                 </div>
                 <div class="bg-teal-50 p-8 md:p-12 flex flex-col justify-center">
                     <h2 class="text-2xl font-bold text-teal-800 mb-6" data-translate-key="contact_details_title">פרטי התקשרות</h2>
@@ -120,7 +120,8 @@
                 contact_details_title: "פרטי התקשרות",
                 address_title: "כתובת",
                 phone_title: "טלפון",
-                email_title: "אימייל"
+                email_title: "אימייל",
+                form_success_message: "הטופס נשלח בהצלחה!"
             },
             ar: {
                 contact_page_title: "اتصل بنا | كلانيت",
@@ -141,13 +142,13 @@
                 contact_details_title: "بيانات الاتصال",
                 address_title: "العنوان",
                 phone_title: "هاتف",
-                email_title: "البريد الإلكتروني"
+                email_title: "البريد الإلكتروني",
+                form_success_message: "تم إرسال النموذج بنجاح!"
             }
         };
         function setLanguage(lang) {
             localStorage.setItem('calanit_lang', lang);
             document.documentElement.lang = lang;
-            // אם ערבית, תעבור לכיוון שמאל לימין
             document.documentElement.dir = lang === 'ar' ? 'ltr' : 'rtl';
             document.querySelectorAll('[data-translate-key]').forEach(el => {
                 const key = el.dataset.translateKey;
@@ -163,13 +164,44 @@
             document.querySelectorAll('.lang-btn-menu').forEach(btn => btn.classList.toggle('active', btn.id.includes(`-${lang}-`)));
         }
         document.addEventListener('DOMContentLoaded', () => {
-            // איתור שפה מה-localStorage או ברירת מחדל
             setLanguage(localStorage.getItem('calanit_lang') || 'he');
             // תמיכה בלחצן שפה בתפריט הראשי (אם יש לך בתפריט)
             document.querySelectorAll('.lang-btn-menu').forEach(btn => {
                 btn.addEventListener('click', function () {
                     if (btn.id.includes('-ar-')) setLanguage('ar');
                     else setLanguage('he');
+                });
+            });
+
+            // שליטה על שליחת הטופס עם הפניה + הודעה
+            const form = document.getElementById('contact-form');
+            const successDiv = document.getElementById('form-success');
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                // שליחת הטופס ידנית עם AJAX (כדי לעצור את _next של FormSubmit)
+                const formData = new FormData(form);
+                fetch(form.action, {
+                    method: "POST",
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // הצגת הודעה, הסתרת טופס
+                        form.style.display = 'none';
+                        successDiv.classList.remove('hidden');
+                        // הצגת הודעה בשפה הנכונה
+                        const lang = localStorage.getItem('calanit_lang') || 'he';
+                        successDiv.textContent = translations[lang].form_success_message;
+                        setTimeout(() => {
+                            window.location.href = "index.html";
+                        }, 2000);
+                    } else {
+                        alert("הייתה בעיה בשליחת הטופס. נסה שוב מאוחר יותר.");
+                    }
+                })
+                .catch(() => {
+                    alert("הייתה בעיה בשליחת הטופס. נסה שוב מאוחר יותר.");
                 });
             });
         });
