@@ -1,23 +1,21 @@
 <!-- Main Navigation -->
 <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-    <a href="index.html" class="brand-logo text-teal-600">כלנית</a>
-    
+    <div class="flex items-center gap-4">
+        <a href="index.html" class="brand-logo text-teal-600 text-2xl font-black">כלנית</a>
+    </div>
+    <!-- Language Switcher: Always Visible -->
+    <div class="flex items-center gap-2">
+        <button id="lang-he-menu" class="lang-btn-menu px-2 py-1 text-sm rounded-md font-semibold transition-colors">עברית</button>
+        <button id="lang-ar-menu" class="lang-btn-menu px-2 py-1 text-sm rounded-md font-semibold transition-colors">العربية</button>
+    </div>
     <!-- Desktop Menu -->
     <div class="hidden md:flex items-center space-x-8 space-x-reverse">
         <a href="index.html" class="text-gray-700 hover:text-teal-600 font-semibold transition-colors duration-300" data-translate-key="nav_home">דף הבית</a>
         <a href="jobs.html" class="text-gray-700 hover:text-teal-600 font-semibold transition-colors duration-300" data-translate-key="nav_all_jobs">כל המשרות</a>
         <a href="index.html#send-cv-section" class="text-gray-700 hover:text-teal-600 font-semibold transition-colors duration-300" data-translate-key="nav_send_cv">שליחת קו"ח</a>
         <a href="contact.html" class="text-gray-700 hover:text-teal-600 font-semibold transition-colors duration-300" data-translate-key="nav_contact">יצירת קשר</a>
-        
-        <!-- Language switcher for desktop -->
-        <div class="flex items-center gap-2 border-r pr-6 border-gray-200">
-             <button id="lang-he-menu" class="lang-btn-menu px-2 py-1 text-sm rounded-md font-semibold transition-colors">עברית</button>
-             <button id="lang-ar-menu" class="lang-btn-menu px-2 py-1 text-sm rounded-md font-semibold transition-colors">العربية</button>
-        </div>
-
         <a href="contact.html" class="bg-teal-500 text-white px-5 py-2.5 rounded-full font-bold hover:bg-teal-600 transition-all duration-300 shadow-lg hover:shadow-xl" data-translate-key="nav_publish_job">פרסום דרישה</a>
     </div>
-
     <!-- Mobile Menu Button -->
     <div class="md:hidden">
         <button id="mobile-menu-button" class="text-gray-800 focus:outline-none">
@@ -33,9 +31,4 @@
     <a href="index.html#send-cv-section" data-translate-key="nav_send_cv" class="block py-3 px-6 text-gray-700 hover:bg-gray-100">שליחת קו"ח</a>
     <a href="contact.html" data-translate-key="nav_contact" class="block py-3 px-6 text-gray-700 hover:bg-gray-100">יצירת קשר</a>
     <a href="contact.html" data-translate-key="nav_publish_job_mobile" class="block py-3 px-6 text-teal-600 font-bold hover:bg-gray-100">פרסום דרישת עובדים</a>
-    <div class="border-t p-4 flex justify-center gap-4">
-        <button id="lang-he-mobile" class="lang-btn-menu w-full px-2 py-2 text-sm rounded-md font-semibold transition-colors">עברית</button>
-        <button id="lang-ar-mobile" class="lang-btn-menu w-full px-2 py-2 text-sm rounded-md font-semibold transition-colors">العربية</button>
-    </div>
 </div>
-
