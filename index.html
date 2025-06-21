@@ -413,6 +413,7 @@
                 document.getElementById('mobile-menu-button')?.addEventListener('click', () => document.getElementById('mobile-menu')?.classList.toggle('hidden'));
                 document.querySelectorAll('.lang-btn-menu').forEach(btn => btn.addEventListener('click', () => setLanguage(btn.id.includes('-ar-') ? 'ar' : 'he')));
                 setLanguage(localStorage.getItem('calanit_lang') || 'he');
+                renderPartnersMarquee();
             });
             loadComponent('footer.html', 'footer-placeholder', () => { setLanguage(localStorage.getItem('calanit_lang') || 'he'); });
             
@@ -441,6 +442,38 @@
             setupCVModal();
             setLanguage(localStorage.getItem('calanit_lang') || 'he');
         });
+        
+        async function renderPartnersMarquee() {
+    const marquee = document.getElementById('partners-marquee-track');
+    marquee.innerHTML = '<span style="font-size:1.2em;color:#38bdf8;">טוען...</span>';
+    try {
+        const snapshot = await getDocs(collection(db, "partners"));
+        let partners = [];
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            if (data.logoUrl) {
+                partners.push({ name: data.name, logoUrl: data.logoUrl });
+            }
+        });
+        if (partners.length === 0) {
+            marquee.innerHTML = `<span style="font-size:1.2em;color:#38bdf8;">עדיין לא הוגדרו לוגואים של חברות...</span>`;
+            return;
+        }
+        // הכפלת הרשימה כדי שהמרקיז יהיה אינסופי
+        const doublePartners = partners.concat(partners);
+        marquee.innerHTML = '';
+        doublePartners.forEach(p =>
+            marquee.innerHTML += `
+                <div class="partner-logo-wrapper" title="${p.name}">
+                    <img class="partner-logo-img" src="${p.logoUrl}" alt="${p.name}">
+                </div>
+            `
+        );
+    } catch (e) {
+        marquee.innerHTML = `<span style="font-size:1.2em;color:#f87171;">שגיאה בטעינת החברות</span>`;
+    }
+}
+        
     </script>
 </body>
 </html>
