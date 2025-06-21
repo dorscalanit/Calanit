@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
         body { font-family: 'Heebo', sans-serif; background-color: #f8fafc; color: #2d3748;}
+        .input-error { border-color: #e53e3e !important; }
         .lang-btn-menu.active { background-color: #14b8a6; color: white; }
         .prose { max-width: none; }
         .prose h3 { font-weight: 700; margin-bottom: 0.5em; }
@@ -17,8 +18,6 @@
         .modal { transition: opacity 0.3s ease; }
         .modal-content { transition: transform 0.3s ease, opacity 0.3s ease; }
         .modal.opacity-0 { pointer-events: none; }
-        .input-error { border-color: #dc2626 !important; }
-        .error-message { color: #dc2626; font-size: 0.92rem; margin-top: 2px; }
     </style>
 </head>
 <body>
@@ -72,32 +71,34 @@
         <div class="modal-content bg-white w-full max-w-lg rounded-2xl shadow-2xl p-8 transform scale-95 opacity-0 relative">
             <button id="close-modal-btn" class="absolute top-4 left-4 text-gray-400 hover:text-gray-700 text-2xl w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition-all">&times;</button>
             <h3 id="modal-title" class="text-2xl font-bold mb-6 text-center text-gray-800" data-translate-key="modal_title">הגשת מועמדות למשרה</h3>
-            <form id="application-form" class="space-y-5" novalidate>
+            <form id="application-form" class="space-y-5" autocomplete="off" novalidate>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
                         <label for="firstName" class="font-medium text-sm" data-translate-key="form_first_name">שם פרטי <span class="text-red-500">*</span></label>
                         <input type="text" id="firstName" required class="w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-teal-500 focus:border-teal-500 transition">
-                        <div id="firstName-error" class="error-message"></div>
+                        <div id="firstName-error" class="text-red-600 text-xs mt-1"></div>
                     </div>
                     <div>
                         <label for="lastName" class="font-medium text-sm" data-translate-key="form_last_name">שם משפחה <span class="text-red-500">*</span></label>
                         <input type="text" id="lastName" required class="w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-teal-500 focus:border-teal-500 transition">
-                        <div id="lastName-error" class="error-message"></div>
+                        <div id="lastName-error" class="text-red-600 text-xs mt-1"></div>
                     </div>
                 </div>
                 <div>
                     <label for="phone" class="font-medium text-sm" data-translate-key="form_phone">טלפון <span class="text-red-500">*</span></label>
-                    <input type="tel" id="phone" required class="w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-teal-500 focus:border-teal-500 transition" pattern="^05\d{8}$" placeholder="05XXXXXXXX">
-                    <div id="phone-error" class="error-message"></div>
+                    <input type="tel" id="phone" required pattern="^05\d{8}$" class="w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-teal-500 focus:border-teal-500 transition" placeholder="05XXXXXXXX">
+                    <div id="phone-error" class="text-red-600 text-xs mt-1"></div>
                 </div>
                 <div>
                     <label for="age" class="font-medium text-sm" data-translate-key="form_age">גיל <span class="text-red-500">*</span></label>
                     <select id="age" required class="w-full mt-1 border-gray-300 rounded-lg shadow-sm focus:ring-teal-500 focus:border-teal-500 transition">
                         <option value="">בחר גיל</option>
                     </select>
-                    <div id="age-error" class="error-message"></div>
+                    <div id="age-error" class="text-red-600 text-xs mt-1"></div>
                 </div>
-                <button type="submit" id="submit-application-btn" class="w-full bg-teal-500 text-white font-bold py-3 rounded-lg hover:bg-teal-600 transition shadow-lg"><span data-translate-key="form_submit_button">הגש מועמדות</span></button>
+                <button type="submit" id="submit-application-btn" class="w-full bg-teal-500 text-white font-bold py-3 rounded-lg hover:bg-teal-600 transition shadow-lg">
+                    <span data-translate-key="form_submit_button">הגש מועמדות</span>
+                </button>
             </form>
             <div id="form-message" class="mt-4 text-center font-semibold"></div>
         </div>
@@ -114,67 +115,113 @@
         const db = getFirestore(app);
 
         const translations = {
-            he: { page_title: "פרטי משרה | כלנית", job_not_found: "המשרה לא נמצאה", job_not_found_subtitle: "יתכן שהיא הוסרה או שהקישור אינו תקין.", apply_button: "הגש מועמדות", job_summary: "תקציר משרה", location: "מיקום", modal_title: "הגשת מועמדות למשרה", form_first_name: "שם פרטי", form_last_name: "שם משפחה", form_phone: "טלפון", form_age: "גיל", form_submit_button: "הגש מועמדות", success_message: "הפנייה נשלחה בהצלחה!", error_message: "אירעה שגיאה בשליחת הטופס.", sending_message: "שולח...", nav_home: "דף הבית", nav_all_jobs: "כל המשרות", nav_send_cv: "שליחת קו\"ח", nav_contact: "יצירת קשר", nav_publish_job: "פרסום דרישה", nav_publish_job_mobile: "פרסום דרישת עובדים", footer_about: "מחברים בין אנשים להזדמנויות.", footer_nav_quick: "ניווט מהיר", footer_nav_all_jobs: "כל המשרות", footer_nav_send_cv: "שליחת קורות חיים", footer_nav_publish_job: "פרסום דרישה", footer_nav_contact: "צור קשר", footer_nav_legal: "מידע ומשפטי", footer_nav_privacy: "מדיניות פרטיות", footer_nav_terms: "תנאי שימוש", footer_nav_talk: "דברו איתנו", footer_copyright: "&copy; 2024 כלנית. כל הזכויות שמורות." },
-            ar: { page_title: "تفاصيل الوظيفة | כלנית", job_not_found: "העבודה לא נמצאה", job_not_found_subtitle: "יתכן שהיא הוסרה או שהקישור אינו תקין.", apply_button: "הגש מועמדות", job_summary: "תקציר משרה", location: "מיקום", modal_title: "הגשת מועמדות למשרה", form_first_name: "שם פרטי", form_last_name: "שם משפחה", form_phone: "טלפון", form_age: "גיל", form_submit_button: "הגש מועמדות", success_message: "הפנייה נשלחה בהצלחה!", error_message: "אירעה שגיאה בשליחת הטופס.", sending_message: "שולח...", nav_home: "דף הבית", nav_all_jobs: "כל המשרות", nav_send_cv: "שליחת קו\"ח", nav_contact: "יצירת קשר", nav_publish_job: "פרסום דרישה", nav_publish_job_mobile: "פרסום דרישת עובדים", footer_about: "מחברים בין אנשים להזדמנויות.", footer_nav_quick: "ניווט מהיר", footer_nav_all_jobs: "כל המשרות", footer_nav_send_cv: "שליחת קורות חיים", footer_nav_publish_job: "פרסום דרישה", footer_nav_contact: "צור קשר", footer_nav_legal: "מידע ומשפטי", footer_nav_privacy: "מדיניות פרטיות", footer_nav_terms: "תנאי שימוש", footer_nav_talk: "דברו איתנו", footer_copyright: "&copy; 2024 כלנית. כל הזכויות שמורות." }
+            he: {
+                page_title: "פרטי משרה | כלנית",
+                job_not_found: "המשרה לא נמצאה",
+                job_not_found_subtitle: "יתכן שהיא הוסרה או שהקישור אינו תקין.",
+                apply_button: "הגש מועמדות",
+                job_summary: "תקציר משרה",
+                location: "מיקום",
+                modal_title: "הגשת מועמדות למשרה",
+                form_first_name: "שם פרטי",
+                form_last_name: "שם משפחה",
+                form_phone: "טלפון",
+                form_age: "גיל",
+                form_submit_button: "הגש מועמדות",
+                required_firstName: "נא להזין שם פרטי",
+                required_lastName: "נא להזין שם משפחה",
+                required_phone: "נא להזין מספר טלפון תקין בפורמט 05XXXXXXXX",
+                required_age: "נא לבחור גיל תקין",
+                success_message: "הפנייה נשלחה בהצלחה!",
+                error_message: "אירעה שגיאה בשליחת הטופס.",
+                sending_message: "שולח...",
+            },
+            ar: {
+                page_title: "تفاصيل الوظيفة | كلانيت",
+                job_not_found: "الوظيفة غير موجودة",
+                job_not_found_subtitle: "قد تكون قد أُزيلت أو الرابط غير صالح.",
+                apply_button: "قدم الآن",
+                job_summary: "ملخص الوظيفة",
+                location: "الموقع",
+                modal_title: "التقديم للوظيفة",
+                form_first_name: "الاسم الأول",
+                form_last_name: "اسم العائلة",
+                form_phone: "هاتف",
+                form_age: "العمر",
+                form_submit_button: "قدم الآن",
+                required_firstName: "يرجى إدخال الاسم الأول",
+                required_lastName: "يرجى إدخال اسم العائلة",
+                required_phone: "يرجى إدخال رقم هاتف صحيح يبدأ بـ 05XXXXXXXX",
+                required_age: "يرجى اختيار عمر صحيح",
+                success_message: "تم إرسال الطلب بنجاح!",
+                error_message: "حدث خطأ أثناء إرسال النموذج.",
+                sending_message: "جار الإرسال...",
+            }
         };
 
         function setLanguage(lang) {
-            localStorage.setItem('calanit_lang', lang); document.documentElement.lang = lang;
+            localStorage.setItem('calanit_lang', lang); document.documentElement.lang = lang; document.documentElement.dir = lang === 'ar' ? 'rtl' : 'rtl';
             document.querySelectorAll('[data-translate-key]').forEach(el => {
                 const key = el.dataset.translateKey;
-                if (translations[lang] && translations[lang][key]) { const value = translations[lang][key]; if (el.placeholder !== undefined) { el.placeholder = value; } else { el.innerHTML = value; } }
+                if (translations[lang] && translations[lang][key]) {
+                    const value = translations[lang][key];
+                    if (el.placeholder !== undefined) { el.placeholder = value; } else { el.innerHTML = value; }
+                }
             });
-            document.querySelectorAll('.lang-btn-menu').forEach(btn => btn.classList.toggle('active', btn.id.includes(`-${lang}-`)));
+            document.querySelectorAll('.lang-btn-menu').forEach(btn => { btn.classList.toggle('active', btn.id.includes(`-${lang}-`)); });
         }
 
         function loadComponent(url, id, cb) { fetch(url).then(res => res.ok ? res.text() : Promise.reject()).then(html => { document.getElementById(id).innerHTML = html; if (cb) cb(); }).catch(err => console.error(`Failed loading ${url}`)); }
 
         function renderJobDetails(jobData) {
             const currentLang = localStorage.getItem('calanit_lang') || 'he';
-            document.querySelector('[data-translate-key="page_title"]').textContent = `${jobData.title} | ${currentLang === 'he' ? 'כלנית' : 'كلנית'}`;
+            document.querySelector('[data-translate-key="page_title"]').textContent = `${jobData.title} | ${(currentLang === 'he') ? 'כלנית' : 'كلانيت'}`;
             document.getElementById('job-title').textContent = jobData.title;
-            const description = currentLang === 'ar' && jobData.description_ar ? jobData.description_ar : jobData.description;
+            const description = (currentLang === 'ar' && jobData.description_ar) ? jobData.description_ar : jobData.description;
             document.getElementById('job-description').innerHTML = description.replace(/\n/g, '<br>');
             const imageContainer = document.getElementById('job-image-container');
-            if (jobData.imageUrl) { imageContainer.innerHTML = `<img src="${jobData.imageUrl}" alt="${jobData.title}" class="w-full h-full object-cover">`; } else { imageContainer.innerHTML = `<i class="fas fa-briefcase"></i>`; }
+            if (jobData.imageUrl) { imageContainer.innerHTML = `<img src="${jobData.imageUrl}" alt="${jobData.title}" class="w-full h-full object-cover">`; }
+            else { imageContainer.innerHTML = `<i class="fas fa-briefcase"></i>`; }
             const categoriesContainer = document.getElementById('job-categories-container');
+            categoriesContainer.innerHTML = '';
             (jobData.categories || []).forEach(cat => { const bubble = document.createElement('span'); bubble.className = 'bg-teal-100 text-teal-800 text-xs font-semibold px-2.5 py-1 rounded-full'; bubble.textContent = cat; categoriesContainer.appendChild(bubble); });
             document.getElementById('job-locations').textContent = (jobData.locations || []).join(', ');
         }
 
-        // Populate age select 14-120
-        function fillAgeSelect() {
+        // גיל כ-Select (גלגל)
+        function fillAgeOptions() {
             const ageSelect = document.getElementById('age');
+            if (!ageSelect) return;
+            ageSelect.innerHTML = `<option value="">בחר גיל</option>`;
             for (let i = 14; i <= 120; i++) {
-                const option = document.createElement('option');
-                option.value = i;
-                option.textContent = i;
-                ageSelect.appendChild(option);
+                ageSelect.innerHTML += `<option value="${i}">${i}</option>`;
             }
         }
 
         document.addEventListener('DOMContentLoaded', async () => {
+            // Load components
             loadComponent('menu.html', 'header-placeholder', () => {
                 document.getElementById('mobile-menu-button')?.addEventListener('click', () => document.getElementById('mobile-menu')?.classList.toggle('hidden'));
-                document.querySelectorAll('.lang-btn-menu').forEach(btn => btn.addEventListener('click', () => setLanguage(btn.id.includes('-ar-') ? 'ar' : 'he')));
+                document.querySelectorAll('.lang-btn-menu').forEach(btn =>
+                    btn.addEventListener('click', () => setLanguage(btn.id.includes('-ar-') ? 'ar' : 'he')));
                 setLanguage(localStorage.getItem('calanit_lang') || 'he');
             });
             loadComponent('footer.html', 'footer-placeholder', () => { setLanguage(localStorage.getItem('calanit_lang') || 'he'); });
 
-            fillAgeSelect();
+            // גיל גלגל
+            fillAgeOptions();
 
+            // Fetch job details
             const params = new URLSearchParams(window.location.search), jobId = params.get('id');
             const loader = document.getElementById('loader'), notFoundEl = document.getElementById('not-found'), pageContent = document.getElementById('page-content');
-
             if (!jobId) { loader.style.display = 'none'; notFoundEl.style.display = 'block'; return; }
-
             try {
                 const docRef = doc(db, "jobs", jobId);
                 const docSnap = await getDoc(docRef);
                 if (docSnap.exists()) { renderJobDetails(docSnap.data()); pageContent.style.display = 'grid'; } else { notFoundEl.style.display = 'block'; }
-            } catch (error) { console.error("Error fetching job:", error); notFoundEl.style.display = 'block'; } finally { loader.style.display = 'none'; }
+            } catch (error) { notFoundEl.style.display = 'block'; } finally { loader.style.display = 'none'; }
 
-            // --- מודל ---
+            // Modal Logic + Validation
             const modal = document.getElementById('application-modal'),
                 openModalBtn = document.getElementById('apply-btn'),
                 closeModalBtn = document.getElementById('close-modal-btn'),
@@ -183,9 +230,8 @@
 
             openModalBtn.addEventListener('click', () => {
                 modal.classList.remove('hidden', 'opacity-0');
-                void modal.offsetWidth; // חובה לאנימציה!
+                void modal.offsetWidth;
                 modal.querySelector('.modal-content').classList.remove('scale-95', 'opacity-0');
-                formMessage.textContent = '';
             });
             closeModalBtn.addEventListener('click', () => {
                 modal.classList.add('opacity-0');
@@ -193,68 +239,73 @@
                 setTimeout(() => modal.classList.add('hidden'), 300);
             });
 
-            // --- ולידציה ושילוח ---
+            function validateForm(lang) {
+                let valid = true;
+                // ניקוי
+                ['firstName', 'lastName', 'phone', 'age'].forEach(id => {
+                    document.getElementById(id).classList.remove('input-error');
+                    document.getElementById(id + '-error').textContent = '';
+                });
+                // שם פרטי
+                const firstName = document.getElementById('firstName').value.trim();
+                if (!firstName) {
+                    document.getElementById('firstName').classList.add('input-error');
+                    document.getElementById('firstName-error').textContent = translations[lang].required_firstName;
+                    valid = false;
+                }
+                // שם משפחה
+                const lastName = document.getElementById('lastName').value.trim();
+                if (!lastName) {
+                    document.getElementById('lastName').classList.add('input-error');
+                    document.getElementById('lastName-error').textContent = translations[lang].required_lastName;
+                    valid = false;
+                }
+                // טלפון
+                const phone = document.getElementById('phone').value.trim();
+                if (!/^05\d{8}$/.test(phone)) {
+                    document.getElementById('phone').classList.add('input-error');
+                    document.getElementById('phone-error').textContent = translations[lang].required_phone;
+                    valid = false;
+                }
+                // גיל
+                const age = document.getElementById('age').value;
+                if (!age || Number(age) < 14 || Number(age) > 120) {
+                    document.getElementById('age').classList.add('input-error');
+                    document.getElementById('age-error').textContent = translations[lang].required_age;
+                    valid = false;
+                }
+                return valid;
+            }
+
             applicationForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                clearFormErrors();
-                const submitBtn = document.getElementById('submit-application-btn'),
-                    currentLang = localStorage.getItem('calanit_lang') || 'he';
-
-                // איסוף ערכים
-                const firstName = document.getElementById('firstName').value.trim();
-                const lastName  = document.getElementById('lastName').value.trim();
-                const phone     = document.getElementById('phone').value.trim();
-                const age       = document.getElementById('age').value;
-
-                // בדיקות
-                let hasError = false;
-                if (!firstName) { showError('firstName', 'נא להזין שם פרטי'); hasError = true; }
-                if (!lastName)  { showError('lastName', 'נא להזין שם משפחה'); hasError = true; }
-                if (!phone.match(/^05\d{8}$/)) { showError('phone', 'נא להזין מספר טלפון תקין בפורמט 05XXXXXXXX'); hasError = true; }
-                if (!age || isNaN(age) || age < 14 || age > 120) { showError('age', 'נא לבחור גיל תקין'); hasError = true; }
-
-                if (hasError) return;
-
-                // שליחה
+                const lang = localStorage.getItem('calanit_lang') || 'he';
+                if (!validateForm(lang)) return;
+                const submitBtn = document.getElementById('submit-application-btn');
                 submitBtn.disabled = true;
-                submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${translations[currentLang].sending_message}`;
+                submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${translations[lang].sending_message}`;
                 try {
                     await addDoc(collection(db, 'jobApplications'), {
                         jobId: jobId,
                         jobTitle: document.getElementById('job-title').textContent,
-                        firstName,
-                        lastName,
-                        phone,
-                        age,
+                        firstName: document.getElementById('firstName').value,
+                        lastName: document.getElementById('lastName').value,
+                        phone: document.getElementById('phone').value,
+                        age: document.getElementById('age').value,
                         submittedAt: serverTimestamp()
                     });
                     formMessage.className = 'text-green-600';
-                    formMessage.textContent = translations[currentLang].success_message;
+                    formMessage.textContent = translations[lang].success_message;
                     applicationForm.reset();
                     setTimeout(() => closeModalBtn.click(), 2000);
                 } catch (error) {
                     formMessage.className = 'text-red-600';
-                    formMessage.textContent = translations[currentLang].error_message;
+                    formMessage.textContent = translations[lang].error_message;
                 } finally {
                     submitBtn.disabled = false;
-                    submitBtn.innerHTML = `<span>${translations[currentLang].form_submit_button}</span>`;
+                    submitBtn.innerHTML = translations[lang].form_submit_button;
                 }
             });
-
-            function showError(field, message) {
-                const input = document.getElementById(field);
-                const errorDiv = document.getElementById(field + '-error');
-                if (input) input.classList.add('input-error');
-                if (errorDiv) errorDiv.textContent = message;
-            }
-            function clearFormErrors() {
-                ['firstName', 'lastName', 'phone', 'age'].forEach(field => {
-                    const input = document.getElementById(field);
-                    const errorDiv = document.getElementById(field + '-error');
-                    if (input) input.classList.remove('input-error');
-                    if (errorDiv) errorDiv.textContent = '';
-                });
-            }
         });
     </script>
 </body>
