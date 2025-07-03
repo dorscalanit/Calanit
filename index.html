@@ -368,44 +368,71 @@
                 }
             };
             form.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const submitBtn = form.querySelector('#cv-submit-button'), msgEl = form.querySelector('#cv-form-message');
-                const lang = localStorage.getItem('calanit_lang') || 'he';
-                submitBtn.disabled = true;
-                submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${translations[lang].sending_message}`;
-                const cvFile = form.querySelector('#cvFile').files[0];
-                if (!cvFile) {
-                    msgEl.className = 'text-red-600 font-semibold';
-                    msgEl.textContent = 'חובה להעלות קובץ.';
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = `<span>${translations[lang].cta_button}</span>`;
-                    return;
-                }
-                const storageRef = ref(storage, `cvs/${Date.now()}_${cvFile.name}`);
-                try {
-                    await uploadBytes(storageRef, cvFile);
-                    const fileURL = await getDownloadURL(storageRef);
-                    await addDoc(collection(db, "jobApplicants"), {
-                        firstName: form.querySelector('#firstName').value,
-                        lastName: form.querySelector('#lastName').value,
-                        phone: form.querySelector('#phone').value,
-                        fileURL,
-                        jobId: window.currentJobIdForModal || null,
-                        jobTitle: window.currentJobTitleForModal || 'הגשה כללית',
-                        createdAt: serverTimestamp()
-                    });
-                    msgEl.className = 'text-green-600 font-semibold';
-                    msgEl.textContent = translations[lang].success_message;
-                    form.reset();
-                    setTimeout(closeModal, 2000);
-                } catch (err) {
-                    msgEl.className = 'text-red-600 font-semibold';
-                    msgEl.textContent = translations[lang].error_message;
-                } finally {
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = `<span>${translations[lang].cta_button}</span>`;
-                }
-            });
+    e.preventDefault();
+    const submitBtn = form.querySelector('#cv-submit-button'), msgEl = form.querySelector('#cv-form-message');
+    const lang = localStorage.getItem('calanit_lang') || 'he';
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${translations[lang].sending_message}`;
+    const cvFile = form.querySelector('#cvFile').files[0];
+    if (!cvFile) {
+        msgEl.className = 'text-red-600 font-semibold';
+        msgEl.textContent = 'חובה להעלות קובץ.';
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = `<span>${translations[lang].cta_button}</span>`;
+        return;
+    }
+
+    // --- בדיקה אם קיים טלפון כזה ---
+    const phone = form.querySelector('#phone').value.trim();
+    const firstName = form.querySelector('#firstName').value.trim();
+    const lastName = form.querySelector('#lastName').value.trim();
+    const age = form.querySelector('#age').value.trim();
+
+    try {
+        // חפש ב־Firestore לפי טלפון
+        const phoneQuery = query(collection(db, "jobApplicants"), where("phone", "==", phone));
+        const snap = await getDocs(phoneQuery);
+        if (!snap.empty) {
+            msgEl.className = 'text-red-600 font-semibold';
+            msgEl.textContent = 'כבר קיימת פנייה עם מספר טלפון זה.';
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = `<span>${translations[lang].cta_button}</span>`;
+            return;
+        }
+        // העלאה ל־Storage
+        const storageRef = ref(storage, `cvs/${Date.now()}_${cvFile.name}`);
+        await uploadBytes(storageRef, cvFile);
+        const fileURL = await getDownloadURL(storageRef);
+
+        // שליחה ל־Firestore
+        await addDoc(collection(db, "jobApplicants"), {
+            firstName,
+            lastName,
+            phone,
+            age,
+            fileURL,
+            jobId: window.currentJobIdForModal || null,
+            jobTitle: window.currentJobTitleForModal || 'הגשה כללית',
+            createdAt: serverTimestamp()
+        });
+        msgEl.className = 'text-green-600 font-semibold';
+        msgEl.textContent = translations[lang].success_message;
+        form.reset();
+        setTimeout(() => {
+            if (modal) {
+                modal.classList.add('opacity-0');
+                modal.querySelector('.modal-content').classList.add('scale-95', 'opacity-0');
+                setTimeout(() => modal.classList.add('hidden'), 300);
+            }
+        }, 2000);
+    } catch (err) {
+        msgEl.className = 'text-red-600 font-semibold';
+        msgEl.textContent = translations[lang].error_message;
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = `<span>${translations[lang].cta_button}</span>`;
+    }
+});
         }
 
         document.addEventListener('DOMContentLoaded', async () => {
