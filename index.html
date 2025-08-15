@@ -204,7 +204,6 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
         import { getFirestore, collection, query, where, getDocs, orderBy, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
-        // ======================= שינוי 1: עדכון שורת ה-import =======================
         import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-storage.js";
         
         const firebaseConfig = { apiKey: "AIzaSyAOKMJabnJ9JGE5CuclCCSjv5Bo3rT49Cw", authDomain: "calanit-31a32.firebaseapp.com", projectId: "calanit-31a32", storageBucket: "calanit-31a32.appspot.com", messagingSenderId: "91430351613", appId: "1:91430351613:web:ae46b2063f2d4b71428494" };
@@ -221,7 +220,10 @@
             localStorage.setItem('calanit_lang', lang); document.documentElement.lang = lang;
             document.querySelectorAll('[data-translate-key]').forEach(el => {
                 const key = el.dataset.translateKey;
-                if (translations[lang] && translations[lang][key]) { const value = translations[lang][key]; if (el.placeholder !== undefined) { el.placeholder = value; } else { el.innerHTML = value; } }
+                if (translations[lang] && translations[lang][key]) {
+                    const value = translations[lang][key];
+                    if (el.placeholder !== undefined) { el.placeholder = value; } else { el.innerHTML = value; }
+                }
             });
             document.querySelectorAll('.lang-btn-menu').forEach(btn => { btn.classList.toggle('active', btn.id.includes(`-${lang}-`)); });
             createStorySlider({ containerId: '#hot-jobs-container', query: query(collection(db, "jobs"), where("isHot", "==", true)), noJobsKey: 'no_hot_jobs', jobIconClass: 'fas fa-fire text-amber-400' });
@@ -235,18 +237,33 @@
         function setupFilterBubbles(config) {
             const { input, resultsContainer, bubblesContainer, dataSet, selectedSet } = config;
             input.addEventListener('input', () => {
-                const query = input.value.trim();
-                if (query.length < 2) { resultsContainer.classList.add('hidden'); return; }
-                const filtered = dataSet.filter(c => c.startsWith(query) && !selectedSet.has(c)).slice(0, 7);
+                const q = input.value.trim();
+                if (q.length < 2) { resultsContainer.classList.add('hidden'); return; }
+                const filtered = dataSet.filter(c => c.startsWith(q) && !selectedSet.has(c)).slice(0, 7);
                 resultsContainer.innerHTML = '';
-                if(filtered.length) { filtered.forEach(itemText => { const item = document.createElement('div'); item.className = 'p-3 text-gray-800 cursor-pointer autocomplete-item'; item.textContent = itemText; item.addEventListener('click', () => addItem(itemText)); resultsContainer.appendChild(item); }); resultsContainer.classList.remove('hidden'); } else { resultsContainer.classList.add('hidden'); }
+                if(filtered.length) {
+                    filtered.forEach(itemText => {
+                        const item = document.createElement('div');
+                        item.className = 'p-3 text-gray-800 cursor-pointer autocomplete-item';
+                        item.textContent = itemText;
+                        item.addEventListener('click', () => addItem(itemText));
+                        resultsContainer.appendChild(item);
+                    });
+                    resultsContainer.classList.remove('hidden');
+                } else { resultsContainer.classList.add('hidden'); }
             });
             const addItem = (item) => { if (item && !selectedSet.has(item)) { selectedSet.add(item); renderBubbles(); } input.value = ''; resultsContainer.classList.add('hidden'); };
             const removeItem = (item) => { selectedSet.delete(item); renderBubbles(); };
             const renderBubbles = () => {
                 bubblesContainer.innerHTML = '';
                 const bubbleColorClass = config.colorClass || 'bubble-location';
-                selectedSet.forEach(item => { const bubble = document.createElement('div'); bubble.className = `text-sm font-semibold px-3 py-1.5 rounded-full flex items-center gap-2 ${bubbleColorClass}`; bubble.innerHTML = `<span>${item}</span><button type="button" class="font-sans text-sm opacity-75 hover:opacity-100">×</button>`; bubble.querySelector('button').addEventListener('click', () => removeItem(item)); bubblesContainer.appendChild(bubble); });
+                selectedSet.forEach(item => {
+                    const bubble = document.createElement('div');
+                    bubble.className = `text-sm font-semibold px-3 py-1.5 rounded-full flex items-center gap-2 ${bubbleColorClass}`;
+                    bubble.innerHTML = `<span>${item}</span><button type="button" class="font-sans text-sm opacity-75 hover:opacity-100">×</button>`;
+                    bubble.querySelector('button').addEventListener('click', () => removeItem(item));
+                    bubblesContainer.appendChild(bubble);
+                });
             };
             document.addEventListener('click', e => { if (!input.parentElement.contains(e.target)) resultsContainer.classList.add('hidden'); });
             bubblesContainer.addEventListener('render', renderBubbles);
@@ -259,8 +276,17 @@
             const lang = localStorage.getItem('calanit_lang') || 'he';
             mainSelect.innerHTML = `<option value="">${translations[lang].select_main_category}</option>`;
             Object.keys(jobTypesData).sort().forEach(cat => mainSelect.add(new Option(cat, cat)));
-            mainSelect.addEventListener('change', () => { const selectedMain = mainSelect.value; subSelect.innerHTML = `<option value="">${translations[lang].select_subcategory}</option>`; if (selectedMain && jobTypesData[selectedMain]) { jobTypesData[selectedMain].forEach(sub => subSelect.add(new Option(sub, sub))); subSelect.disabled = false; } else { subSelect.disabled = true; } });
-            subSelect.addEventListener('change', () => { if (subSelect.value) { selectedCategories.add(subSelect.value); categoriesContainer.dispatchEvent(new Event('render')); subSelect.value = ""; } });
+            mainSelect.addEventListener('change', () => {
+                const selectedMain = mainSelect.value;
+                subSelect.innerHTML = `<option value="">${translations[lang].select_subcategory}</option>`;
+                if (selectedMain && jobTypesData[selectedMain]) {
+                    jobTypesData[selectedMain].forEach(sub => subSelect.add(new Option(sub, sub)));
+                    subSelect.disabled = false;
+                } else { subSelect.disabled = true; }
+            });
+            subSelect.addEventListener('change', () => {
+                if (subSelect.value) { selectedCategories.add(subSelect.value); categoriesContainer.dispatchEvent(new Event('render')); subSelect.value = ""; }
+            });
         }
         
         async function createStorySlider(config) {
@@ -270,7 +296,10 @@
             try {
                 const snapshot = await getDocs(config.query);
                 const currentLang = localStorage.getItem('calanit_lang') || 'he';
-                if (snapshot.empty) { swiperWrapper.innerHTML = `<div class="swiper-slide bg-gray-200"><div class="story-overlay"></div><div class="story-content"><h3 class="text-3xl font-bold">${translations[currentLang][config.noJobsKey]}</h3></div></div>`; return; }
+                if (snapshot.empty) {
+                    swiperWrapper.innerHTML = `<div class="swiper-slide bg-gray-200"><div class="story-overlay"></div><div class="story-content"><h3 class="text-3xl font-bold">${translations[currentLang][config['noJobsKey']]}</h3></div></div>`;
+                    return;
+                }
                 swiperWrapper.innerHTML = '';
                 snapshot.forEach(doc => {
                     const job = doc.data(), jobId = doc.id;
@@ -283,7 +312,6 @@
             } catch (error) { console.error(`Error loading jobs for ${config.containerId}:`, error); }
         }
         
-        // ======================= קוד מתוקן מתחיל כאן =======================
         function setupCVModal() {
             const modal = document.getElementById('cv-modal');
             const form = document.getElementById('cv-form');
@@ -319,7 +347,6 @@
             const validateStep1 = () => {
                 const lang = localStorage.getItem('calanit_lang') || 'he';
                 let isValid = true;
-                
                 ['firstName', 'lastName', 'phone'].forEach(id => {
                     document.getElementById(id).classList.remove('input-error');
                     document.getElementById(`${id}-error`).textContent = '';
@@ -361,7 +388,7 @@
                     document.getElementById('cvFile').classList.add('input-error');
                     return false;
                 }
-                if (cvFile.size > 5 * 1024 * 1024) { // 5MB
+                if (cvFile.size > 5 * 1024 * 1024) {
                     cvError.textContent = translations[lang].error_file_size;
                     document.getElementById('cvFile').classList.add('input-error');
                     return false;
@@ -417,6 +444,7 @@
             openBtn.addEventListener('click', () => openCVModal());
             closeBtn.addEventListener('click', closeModal);
 
+            // ====== כאן תיקון ההעלאה ======
             form.addEventListener('submit', (e) => {
                 e.preventDefault();
                 if (!validateStep2()) return;
@@ -424,54 +452,100 @@
                 const msgEl = form.querySelector('#cv-form-message');
                 const submitBtn = document.getElementById('cv-submit-button');
                 const lang = localStorage.getItem('calanit_lang') || 'he';
-                const cvFile = form.querySelector('#cvFile').files[0];
-                const storageRef = ref(storage, `cvs/${Date.now()}_${cvFile.name}`);
 
-                const uploadTask = uploadBytesResumable(storageRef, cvFile);
+                const cvInput = form.querySelector('#cvFile');
+                const cvFile = cvInput.files[0];
+
+                // מיפוי contentType בטוח לפי סיומת
+                const mimeMap = {
+                  pdf: 'application/pdf',
+                  doc: 'application/msword',
+                  docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                };
+                const ext = (cvFile.name.split('.').pop() || '').toLowerCase();
+                const contentType = mimeMap[ext] || cvFile.type || 'application/octet-stream';
+
+                // שם קובץ בטוח (ללא תווים בעייתיים)
+                const safeName = cvFile.name.replace(/[^\w.\-א-ת ]+/g, '_');
+
+                const storageRef = ref(storage, `cvs/${Date.now()}_${safeName}`);
+                const metadata = { contentType };
 
                 submitBtn.disabled = true;
+                msgEl.className = 'text-sm font-medium mt-3 h-5 text-gray-600';
+                msgEl.textContent = translations[lang].sending_message;
 
-                uploadTask.on('state_changed', 
+                const uploadTask = uploadBytesResumable(storageRef, cvFile, metadata);
+
+                // Watchdog: אם אין התקדמות 30ש' – ביטול
+                let lastBytes = 0;
+                const watchdogTimer = setInterval(() => {
+                  const snap = uploadTask.snapshot;
+                  if (!snap) return;
+                  if (snap.bytesTransferred > lastBytes) {
+                    lastBytes = snap.bytesTransferred;
+                  } else {
+                    clearInterval(watchdogTimer);
+                    try { uploadTask.cancel(); } catch {}
+                    handleFail(new Error('timeout'));
+                  }
+                }, 30000);
+
+                const handleFail = (err) => {
+                  clearInterval(watchdogTimer);
+                  console.error('Upload failed:', err);
+                  submitBtn.disabled = false;
+                  submitBtn.innerHTML = `<span>${translations[lang].cta_button}</span>`;
+                  msgEl.className = 'text-red-600 font-semibold';
+                  if (err && err.code === 'storage/unauthorized') {
+                    msgEl.textContent = 'אין הרשאה להעלות קובץ. בדוק כללי Storage.';
+                  } else if (err && err.message === 'timeout') {
+                    msgEl.textContent = 'העלאה התעכבה יותר מדי. בדוק חיבור ונסה שוב.';
+                  } else if (err && err.code === 'storage/canceled') {
+                    msgEl.textContent = 'ההעלאה בוטלה.';
+                  } else {
+                    msgEl.textContent = translations[lang].error_message;
+                  }
+                };
+
+                uploadTask.on('state_changed',
                   (snapshot) => {
                     const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
                     submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> מעלה... ${progress}%`;
-                  }, 
+                  },
                   (error) => {
-                    console.error("Upload failed:", error);
-                    msgEl.className = 'text-red-600 font-semibold';
-                    msgEl.textContent = translations[lang].error_message;
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = `<span>${translations[lang].cta_button}</span>`;
-                  }, 
+                    handleFail(error);
+                  },
                   async () => {
+                    clearInterval(watchdogTimer);
                     try {
-                        const fileURL = await getDownloadURL(uploadTask.snapshot.ref);
-                        await addDoc(collection(db, "jobApplicants"), {
-                            firstName: form.querySelector('#firstName').value,
-                            lastName: form.querySelector('#lastName').value,
-                            phone: form.querySelector('#phone').value,
-                            fileURL,
-                            jobId: window.currentJobIdForModal || null,
-                            jobTitle: window.currentJobTitleForModal || 'הגשה כללית',
-                            createdAt: serverTimestamp()
-                        });
+                      const fileURL = await getDownloadURL(uploadTask.snapshot.ref);
+                      await addDoc(collection(db, "jobApplicants"), {
+                        firstName: form.querySelector('#firstName').value.trim(),
+                        lastName: form.querySelector('#lastName').value.trim(),
+                        phone: form.querySelector('#phone').value.trim(),
+                        fileURL,
+                        jobId: window.currentJobIdForModal || null,
+                        jobTitle: window.currentJobTitleForModal || 'הגשה כללית',
+                        createdAt: serverTimestamp()
+                      });
 
-                        msgEl.className = 'text-green-600 font-semibold';
-                        msgEl.textContent = translations[lang].success_message;
-                        setTimeout(closeModal, 2000);
+                      msgEl.className = 'text-green-600 font-semibold';
+                      msgEl.textContent = translations[lang].success_message;
 
-                    } catch (err) {
-                        console.error("Error writing to Firestore:", err);
-                        msgEl.className = 'text-red-600 font-semibold';
-                        msgEl.textContent = translations[lang].error_message;
+                      setTimeout(() => {
                         submitBtn.disabled = false;
                         submitBtn.innerHTML = `<span>${translations[lang].cta_button}</span>`;
+                        const closeBtn = document.getElementById('close-cv-modal');
+                        closeBtn?.click();
+                      }, 1200);
+                    } catch (err) {
+                      handleFail(err);
                     }
                   }
                 );
             });
         }
-        // ======================= קוד מתוקן מסתיים כאן =======================
 
         function setupInlineSearch() {
             const searchWrapper = document.getElementById('hero-search-wrapper');
@@ -510,7 +584,7 @@
                 let partners = [];
                 snapshot.forEach(doc => { const data = doc.data(); if (data.logoUrl) { partners.push({ name: data.name, logoUrl: data.logoUrl }); } });
                 if (partners.length === 0) { marquee.innerHTML = `<span class="text-gray-500">לא הוגדרו לוגואים של חברות.</span>`; return; }
-                const doublePartners = [...partners, ...partners, ...partners]; // Triple for smoother loop
+                const doublePartners = [...partners, ...partners, ...partners];
                 marquee.innerHTML = '';
                 doublePartners.forEach(p => marquee.innerHTML += `<div class="partner-logo-wrapper" title="${p.name}"><img class="partner-logo-img" src="${p.logoUrl}" alt="${p.name}"></div>`);
             } catch (e) { marquee.innerHTML = `<span class="text-red-500">שגיאה בטעינת החברות</span>`; }
@@ -532,7 +606,13 @@
             const categoriesContainer = document.getElementById('selected-categories-container');
             categoriesContainer.addEventListener('render', () => {
                 categoriesContainer.innerHTML = '';
-                selectedCategories.forEach(item => { const bubble = document.createElement('div'); bubble.className = `bubble-category text-sm font-semibold px-3 py-1.5 rounded-full flex items-center gap-2`; bubble.innerHTML = `<span>${item}</span><button type="button" class="font-sans text-sm opacity-75 hover:opacity-100">×</button>`; bubble.querySelector('button').addEventListener('click', () => { selectedCategories.delete(item); categoriesContainer.dispatchEvent(new Event('render')); }); categoriesContainer.appendChild(bubble); });
+                selectedCategories.forEach(item => {
+                    const bubble = document.createElement('div');
+                    bubble.className = `bubble-category text-sm font-semibold px-3 py-1.5 rounded-full flex items-center gap-2`;
+                    bubble.innerHTML = `<span>${item}</span><button type="button" class="font-sans text-sm opacity-75 hover:opacity-100">×</button>`;
+                    bubble.querySelector('button').addEventListener('click', () => { selectedCategories.delete(item); categoriesContainer.dispatchEvent(new Event('render')); });
+                    categoriesContainer.appendChild(bubble);
+                });
             });
             
             document.getElementById('search-button').addEventListener('click', () => {
