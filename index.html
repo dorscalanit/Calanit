@@ -283,13 +283,13 @@
             } catch (error) { console.error(`Error loading jobs for ${config.containerId}:`, error); }
         }
         
+        // ======================= קוד מתוקן מתחיל כאן =======================
         function setupCVModal() {
             const modal = document.getElementById('cv-modal');
             const form = document.getElementById('cv-form');
             const openBtn = document.getElementById('open-cv-modal-button');
             const closeBtn = document.getElementById('close-cv-modal');
             
-            // Step elements
             const step1 = document.getElementById('cv-step-1');
             const step2 = document.getElementById('cv-step-2');
             const stepIndicator = document.getElementById('cv-step-indicator');
@@ -300,7 +300,6 @@
             let currentCVStep = 1;
 
             const updateView = () => {
-                const lang = localStorage.getItem('calanit_lang') || 'he';
                 stepIndicator.textContent = `שלב ${currentCVStep} מתוך 2`;
                 if (currentCVStep === 1) {
                     step1.classList.remove('hidden');
@@ -321,7 +320,6 @@
                 const lang = localStorage.getItem('calanit_lang') || 'he';
                 let isValid = true;
                 
-                // Clear previous errors
                 ['firstName', 'lastName', 'phone'].forEach(id => {
                     document.getElementById(id).classList.remove('input-error');
                     document.getElementById(`${id}-error`).textContent = '';
@@ -393,7 +391,6 @@
                         currentCVStep = 1;
                         updateView();
                         document.getElementById('cv-form-message').textContent = '';
-                        // ======================= שינוי 2: איפוס הכפתור במקרה של סגירה =======================
                         const submitBtn = document.getElementById('cv-submit-button');
                         const lang = localStorage.getItem('calanit_lang') || 'he';
                         submitBtn.disabled = false;
@@ -405,7 +402,8 @@
             window.openCVModal = (jobId, jobTitle) => {
                 window.currentJobIdForModal = jobId; window.currentJobTitleForModal = jobTitle;
                 if(modal) {
-                    modal.querySelector('#cv-modal-title').innerHTML = jobTitle ? `${translations[localStorage.getItem('calanit_lang') || 'he']['cv_modal_title']} - ${jobTitle}` : translations[localStorage.getItem('calanit_lang') || 'he']['cv_modal_title'];
+                    const lang = localStorage.getItem('calanit_lang') || 'he';
+                    modal.querySelector('#cv-modal-title').innerHTML = jobTitle ? `${translations[lang]['cv_modal_title']} - ${jobTitle}` : translations[lang]['cv_modal_title'];
                     modal.classList.remove('hidden');
                     setTimeout(() => {
                         modal.classList.remove('opacity-0');
@@ -419,7 +417,6 @@
             openBtn.addEventListener('click', () => openCVModal());
             closeBtn.addEventListener('click', closeModal);
 
-            // ======================= שינוי 3: החלפת כל פונקציית השליחה =======================
             form.addEventListener('submit', (e) => {
                 e.preventDefault();
                 if (!validateStep2()) return;
@@ -430,21 +427,16 @@
                 const cvFile = form.querySelector('#cvFile').files[0];
                 const storageRef = ref(storage, `cvs/${Date.now()}_${cvFile.name}`);
 
-                // שימוש ב-uploadBytesResumable כדי לאפשר מעקב
                 const uploadTask = uploadBytesResumable(storageRef, cvFile);
 
                 submitBtn.disabled = true;
 
-                // האזנה לאירועי התקדמות ההעלאה
                 uploadTask.on('state_changed', 
                   (snapshot) => {
-                    // חישוב אחוז ההתקדמות
                     const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-                    // עדכון הכפתור עם פידבק למשתמש
                     submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> מעלה... ${progress}%`;
                   }, 
                   (error) => {
-                    // טיפול בשגיאות במהלך ההעלאה
                     console.error("Upload failed:", error);
                     msgEl.className = 'text-red-600 font-semibold';
                     msgEl.textContent = translations[lang].error_message;
@@ -452,7 +444,6 @@
                     submitBtn.innerHTML = `<span>${translations[lang].cta_button}</span>`;
                   }, 
                   async () => {
-                    // ההעלאה הסתיימה בהצלחה, ממשיכים לשאר הלוגיקה
                     try {
                         const fileURL = await getDownloadURL(uploadTask.snapshot.ref);
                         await addDoc(collection(db, "jobApplicants"), {
@@ -480,6 +471,7 @@
                 );
             });
         }
+        // ======================= קוד מתוקן מסתיים כאן =======================
 
         function setupInlineSearch() {
             const searchWrapper = document.getElementById('hero-search-wrapper');
