@@ -4,43 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-translate-key="home_page_title">כלנית | הבית שלך לקריירה</title>
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
-
     <style>
         body { font-family: 'Heebo', sans-serif; scroll-behavior: smooth; background-color: #f8fafc; color: #1a202c; }
         .hero-gradient { background-color: #0f766e; background-image: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%); }
-
         .story-slider-container .swiper { height: 480px; border-radius: 1.5rem; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.07); position: relative; overflow: hidden; }
         .story-slider-container .swiper-slide { color: white; display: flex; flex-direction: column; justify-content: flex-end; padding: 2rem; background-size: cover; background-position: center; }
         .story-slider-container .story-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.3) 40%, rgba(0,0,0,0) 100%); }
         .story-slider-container .story-content { position: relative; z-index: 10; }
-
         .story-slider-container .swiper-pagination-progressbar { top: 0 !important; bottom: auto !important; height: 4px !important; background: rgba(255,255,255,0.3) !important; }
         .story-slider-container .swiper-pagination-progressbar-fill { background: #fff !important; }
         .story-slider-container .swiper-button-next, .story-slider-container .swiper-button-prev { color: white; background-color: rgba(0,0,0,0.25); width: 44px; height: 44px; border-radius: 50%; transition: background-color 0.2s ease; }
         .story-slider-container .swiper-button-next:hover, .story-slider-container .swiper-button-prev:hover { background-color: rgba(0,0,0,0.5); }
         .story-slider-container .swiper-button-next::after, .story-slider-container .swiper-button-prev::after { font-size: 18px; }
-
         .animated-section { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
         .animated-section.is-visible { opacity: 1; transform: translateY(0); }
-
         .autocomplete-item:hover { background-color: #f0fdfa; }
         select:disabled { background-color: #e5e7eb; cursor: not-allowed; }
         .bubble-location { background-color: #cffafe; color: #0e7490; }
         .bubble-category { background-color: #d1fae5; color: #065f46; }
-
         .lang-btn-menu.active { background-color: #14b8a6; color: white; }
         .modal { transition: opacity 0.3s ease; }
         .modal-content { transition: transform 0.3s ease, opacity 0.3s ease; }
         .modal.opacity-0 { pointer-events: none; }
-
         .partners-section { background: #fff; border-top: 1px solid #e2e8f0; padding: 56px 0 48px 0; }
         .partners-title { font-size: 2rem; font-weight: 700; color: #334155; text-align: center; margin-bottom: 2.5rem; }
         .partners-marquee-container { overflow: hidden; width: 100%; position: relative; height: 110px; }
@@ -50,794 +41,380 @@
         .partner-logo-img { height: 64px; width: auto; object-fit: contain; filter: grayscale(1); opacity: 0.7; transition: all .3s; }
         .partner-logo-img:hover { filter: grayscale(0); opacity: 1; transform: scale(1.1); }
         @keyframes marquee-rtl { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        @media (max-width: 640px) {
-            .partners-title { font-size: 1.5rem; }
-            .partners-marquee-track { gap: 48px; }
-            .partners-marquee-container { height: 75px; }
-            .partner-logo-img { height: 40px; }
-        }
-
+        @media (max-width: 640px) { .partners-title { font-size: 1.5rem; } .partners-marquee-track { gap: 48px; } .partners-marquee-container { height: 75px; } .partner-logo-img { height: 40px; } }
+        
         #search-form-container { transition: all 0.3s ease-in-out; max-height: 0; overflow: hidden; }
         #search-form-container.active { max-height: 500px; }
-
         .input-error { border-color: #ef4444 !important; }
     </style>
 </head>
 <body class="text-gray-800">
-<header id="header-placeholder"></header>
+    <header id="header-placeholder"></header>
 
-<main>
-    <!-- HERO -->
-    <section class="hero-gradient text-white">
-        <div class="container mx-auto px-6 pt-24 pb-28 text-center">
-            <h1 class="text-4xl md:text-6xl font-black mb-4 drop-shadow-md" data-translate-key="hero_title">הצעד הבא בקריירה שלך מתחיל כאן</h1>
-            <p class="text-lg md:text-xl mb-12 max-w-3xl mx-auto opacity-90" data-translate-key="hero_subtitle">משרות חדשות מהחברות המובילות במשק, מחכות רק לך.</p>
-
-            <div id="hero-search-wrapper" class="flex flex-col items-center gap-4">
-                <!-- Inline search -->
-                <div id="search-form-container" class="w-full max-w-5xl">
-                    <div class="bg-white/10 backdrop-blur-sm p-4 rounded-2xl shadow-2xl">
-                        <div id="search-form" class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 items-start">
-                            <input type="text" id="keyword-search-input" data-translate-key="placeholder_keyword" placeholder="לדוגמא: מפתח Full-Stack..." class="md:col-span-2 w-full px-4 py-3 rounded-lg text-gray-800 bg-white border-gray-200 border focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-400"/>
-
-                            <div class="relative">
-                                <label class="font-semibold text-sm mb-1 block text-left">מיקום</label>
-                                <input type="text" id="location-search-input" data-translate-key="placeholder_location" placeholder="הקלד/י עיר..." autocomplete="off" class="w-full px-4 py-3 rounded-lg text-gray-800 bg-white border-gray-200 border focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-400">
-                                <div id="autocomplete-results" class="absolute top-full left-0 right-0 bg-white border rounded-b-lg shadow-lg z-20 hidden max-h-60 overflow-y-auto text-right"></div>
+    <main>
+        <section class="hero-gradient text-white">
+            <div class="container mx-auto px-6 pt-24 pb-28 text-center">
+                <h1 class="text-4xl md:text-6xl font-black mb-4 drop-shadow-md" data-translate-key="hero_title">הצעד הבא בקריירה שלך מתחיל כאן</h1>
+                <p class="text-lg md:text-xl mb-12 max-w-3xl mx-auto opacity-90" data-translate-key="hero_subtitle">משרות חדשות מהחברות המובילות במשק, מחכות רק לך.</p>
+                
+                <div id="hero-search-wrapper" class="flex flex-col items-center gap-4">
+                    <div id="search-form-container" class="w-full max-w-5xl">
+                        <div class="bg-white/10 backdrop-blur-sm p-4 rounded-2xl shadow-2xl">
+                            <div id="search-form" class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 items-start">
+                                <input type="text" id="keyword-search-input" data-translate-key="placeholder_keyword" placeholder="לדוגמא: מפתח Full-Stack..." class="md:col-span-2 w-full px-4 py-3 rounded-lg text-gray-800 bg-white border-gray-200 border focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-400" />
+                                <div class="relative">
+                                    <label class="font-semibold text-sm mb-1 block text-left">מיקום</label>
+                                    <input type="text" id="location-search-input" data-translate-key="placeholder_location" placeholder="הקלד/י עיר..." autocomplete="off" class="w-full px-4 py-3 rounded-lg text-gray-800 bg-white border-gray-200 border focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-400">
+                                    <div id="autocomplete-results" class="absolute top-full left-0 right-0 bg-white border rounded-b-lg shadow-lg z-20 hidden max-h-60 overflow-y-auto text-right"></div>
+                                </div>
+                                <div class="relative">
+                                    <label class="font-semibold text-sm mb-1 block text-left">תחום</label>
+                                    <select id="main-category-select" class="w-full px-4 py-3 rounded-lg text-gray-800 bg-white border-gray-200 border focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-400">
+                                        <option value="" data-translate-key="select_main_category">בחר/י תחום ראשי</option>
+                                    </select>
+                                </div>
+                                <div class="md:col-span-2"><div id="selected-locations-container" class="flex flex-wrap gap-2 items-center min-h-[2.5rem]"></div></div>
+                                <div class="relative">
+                                    <select id="subcategory-select" disabled class="w-full px-4 py-3 rounded-lg text-gray-800 bg-white border-gray-200 border focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-400">
+                                        <option value="" data-translate-key="select_subcategory">בחר/י תת קטגוריה</option>
+                                    </select>
+                                </div>
+                                <div class="md:col-span-2"><div id="selected-categories-container" class="flex flex-wrap gap-2 items-center min-h-[2.5rem]"></div></div>
+                                <button id="search-button" class="md:col-span-2 w-full bg-white text-teal-600 font-bold px-8 py-3 rounded-lg hover:bg-teal-50 transition duration-300 text-lg shadow-md hover:shadow-lg">
+                                    <i class="fas fa-search"></i>
+                                    <span class="ml-2" data-translate-key="search_jobs_button">חיפוש משרות</span>
+                                </button>
                             </div>
-
-                            <div class="relative">
-                                <label class="font-semibold text-sm mb-1 block text-left">תחום</label>
-                                <select id="main-category-select" class="w-full px-4 py-3 rounded-lg text-gray-800 bg-white border-gray-200 border focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-400">
-                                    <option value="" data-translate-key="select_main_category">בחר/י תחום ראשי</option>
-                                </select>
-                            </div>
-
-                            <div class="md:col-span-2">
-                                <div id="selected-locations-container" class="flex flex-wrap gap-2 items-center min-h-[2.5rem]"></div>
-                            </div>
-
-                            <div class="relative">
-                                <select id="subcategory-select" disabled class="w-full px-4 py-3 rounded-lg text-gray-800 bg-white border-gray-200 border focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-400">
-                                    <option value="" data-translate-key="select_subcategory">בחר/י תת קטגוריה</option>
-                                </select>
-                            </div>
-
-                            <div class="md:col-span-2">
-                                <div id="selected-categories-container" class="flex flex-wrap gap-2 items-center min-h-[2.5rem]"></div>
-                            </div>
-
-                            <button id="search-button" class="md:col-span-2 w-full bg-white text-teal-600 font-bold px-8 py-3 rounded-lg hover:bg-teal-50 transition duration-300 text-lg shadow-md hover:shadow-lg">
-                                <i class="fas fa-search"></i>
-                                <span class="ml-2" data-translate-key="search_jobs_button">חיפוש משרות</span>
-                            </button>
                         </div>
                     </div>
-                </div>
 
-                <div id="initial-buttons" class="flex flex-col sm:flex-row justify-center items-center gap-4">
-                    <button id="open-search-btn" class="w-full sm:w-auto bg-white text-teal-600 font-bold px-8 py-4 rounded-full hover:bg-teal-50 transition duration-300 text-lg shadow-lg hover:shadow-xl transform hover:scale-105">
-                        <i class="fas fa-search"></i>
-                        <span class="ml-2" data-translate-key="search_jobs_button">חפש משרה</span>
-                    </button>
-                    <a href="jobs.html" class="w-full sm:w-auto bg-white/20 text-white font-bold px-8 py-4 rounded-full hover:bg-white/30 transition duration-300 text-lg backdrop-blur-sm">
-                        <span data-translate-key="nav_all_jobs">לכל המשרות</span>
-                        <i class="fas fa-arrow-left mr-2"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CATEGORIES -->
-    <section class="py-24 bg-white animated-section">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold mb-3" data-translate-key="category_section_title">חיפוש לפי תחום</h2>
-                <p class="text-lg text-gray-600" data-translate-key="category_section_subtitle">מצא/י את המשרה הבאה שלך בקלות.</p>
-            </div>
-
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 text-center">
-                <a href="jobs.html?categories=ביטחון" class="group block bg-white p-6 rounded-2xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border border-transparent hover:border-blue-200">
-                    <div class="flex items-center justify-center h-20 w-20 mx-auto rounded-full bg-blue-100 text-blue-600"><i class="fas fa-shield-halved text-4xl"></i></div>
-                    <h3 class="font-bold mt-4 text-lg text-gray-800" data-translate-key="cat_security">ביטחון</h3>
-                </a>
-                <a href="jobs.html?categories=נהגים" class="group block bg-white p-6 rounded-2xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border border-transparent hover:border-orange-200">
-                    <div class="flex items-center justify-center h-20 w-20 mx-auto rounded-full bg-orange-100 text-orange-600"><i class="fas fa-car text-4xl"></i></div>
-                    <h3 class="font-bold mt-4 text-lg text-gray-800" data-translate-key="cat_drivers">נהגים</h3>
-                </a>
-                <a href="jobs.html?categories=יצור ותעשייה" class="group block bg-white p-6 rounded-2xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border border-transparent hover:border-gray-300">
-                    <div class="flex items-center justify-center h-20 w-20 mx-auto rounded-full bg-gray-200 text-gray-700"><i class="fas fa-industry text-4xl"></i></div>
-                    <h3 class="font-bold mt-4 text-lg text-gray-800" data-translate-key="cat_manufacturing">יצור ותעשייה</h3>
-                </a>
-                <a href="jobs.html?categories=ניקיון" class="group block bg-white p-6 rounded-2xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border border-transparent hover:border-green-200">
-                    <div class="flex items-center justify-center h-20 w-20 mx-auto rounded-full bg-green-100 text-green-600"><i class="fas fa-broom text-4xl"></i></div>
-                    <h3 class="font-bold mt-4 text-lg text-gray-800" data-translate-key="cat_cleaning">ניקיון</h3>
-                </a>
-                <a href="jobs.html?categories=מחסנים" class="group block bg-white p-6 rounded-2xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border border-transparent hover:border-purple-200">
-                    <div class="flex items-center justify-center h-20 w-20 mx-auto rounded-full bg-purple-100 text-purple-600"><i class="fas fa-warehouse text-4xl"></i></div>
-                    <h3 class="font-bold mt-4 text-lg text-gray-800" data-translate-key="cat_warehouse">מחסנים</h3>
-                </a>
-                <a href="javascript:void(0);" onclick="window.openCVModal()" class="group block bg-white p-6 rounded-2xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border border-transparent hover:border-teal-200">
-                    <div class="flex items-center justify-center h-20 w-20 mx-auto rounded-full bg-teal-100 text-teal-600"><i class="fas fa-paper-plane text-4xl"></i></div>
-                    <h3 class="font-bold mt-4 text-lg text-gray-800" data-translate-key="cat_no_experience">ללא ניסיון</h3>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- HOT JOBS -->
-    <section class="py-24 animated-section">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold mb-3" data-translate-key="hot_jobs_title">משרות חמות 🔥</h2>
-                <p class="text-lg text-gray-600" data-translate-key="hot_jobs_subtitle">הזדמנויות שאסור לכם לפספס.</p>
-            </div>
-
-            <div class="relative story-slider-container" id="hot-jobs-container">
-                <div class="swiper hot-jobs-slider">
-                    <div class="swiper-wrapper"></div>
-                    <div class="swiper-button-next"></div>
-                    <div class="swiper-button-prev"></div>
-                    <div class="swiper-pagination swiper-pagination-progressbar swiper-pagination-horizontal"></div>
+                    <div id="initial-buttons" class="flex flex-col sm:flex-row justify-center items-center gap-4">
+                        <button id="open-search-btn" class="w-full sm:w-auto bg-white text-teal-600 font-bold px-8 py-4 rounded-full hover:bg-teal-50 transition duration-300 text-lg shadow-lg hover:shadow-xl transform hover:scale-105">
+                            <i class="fas fa-search"></i>
+                            <span class="ml-2" data-translate-key="search_jobs_button">חפש משרה</span>
+                        </button>
+                        <a href="jobs.html" class="w-full sm:w-auto bg-white/20 text-white font-bold px-8 py-4 rounded-full hover:bg-white/30 transition duration-300 text-lg backdrop-blur-sm">
+                            <span data-translate-key="nav_all_jobs">לכל המשרות</span>
+                            <i class="fas fa-arrow-left mr-2"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- NEW JOBS -->
-    <section class="py-24 bg-white animated-section">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold mb-3" data-translate-key="new_jobs_title">משרות חדשות ✨</h2>
-                <p class="text-lg text-gray-600" data-translate-key="new_jobs_subtitle">ההזדמנויות האחרונות שהצטרפו.</p>
-            </div>
-
-            <div class="relative story-slider-container" id="new-jobs-container">
-                <div class="swiper new-jobs-slider">
-                    <div class="swiper-wrapper"></div>
-                    <div class="swiper-button-next"></div>
-                    <div class="swiper-button-prev"></div>
-                    <div class="swiper-pagination swiper-pagination-progressbar swiper-pagination-horizontal"></div>
+        <section class="py-24 bg-white animated-section">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-3" data-translate-key="category_section_title">חיפוש לפי תחום</h2>
+                    <p class="text-lg text-gray-600" data-translate-key="category_section_subtitle">מצא/י את המשרה הבאה שלך בקלות.</p>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 text-center">
+                    <a href="jobs.html?categories=ביטחון" class="group block bg-white p-6 rounded-2xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border border-transparent hover:border-blue-200"><div class="flex items-center justify-center h-20 w-20 mx-auto rounded-full bg-blue-100 text-blue-600"><i class="fas fa-shield-halved text-4xl"></i></div><h3 class="font-bold mt-4 text-lg text-gray-800" data-translate-key="cat_security">ביטחון</h3></a>
+                    <a href="jobs.html?categories=נהגים" class="group block bg-white p-6 rounded-2xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border border-transparent hover:border-orange-200"><div class="flex items-center justify-center h-20 w-20 mx-auto rounded-full bg-orange-100 text-orange-600"><i class="fas fa-car text-4xl"></i></div><h3 class="font-bold mt-4 text-lg text-gray-800" data-translate-key="cat_drivers">נהגים</h3></a>
+                    <a href="jobs.html?categories=יצור ותעשייה" class="group block bg-white p-6 rounded-2xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border border-transparent hover:border-gray-300"><div class="flex items-center justify-center h-20 w-20 mx-auto rounded-full bg-gray-200 text-gray-700"><i class="fas fa-industry text-4xl"></i></div><h3 class="font-bold mt-4 text-lg text-gray-800" data-translate-key="cat_manufacturing">יצור ותעשייה</h3></a>
+                    <a href="jobs.html?categories=ניקיון" class="group block bg-white p-6 rounded-2xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border border-transparent hover:border-green-200"><div class="flex items-center justify-center h-20 w-20 mx-auto rounded-full bg-green-100 text-green-600"><i class="fas fa-broom text-4xl"></i></div><h3 class="font-bold mt-4 text-lg text-gray-800" data-translate-key="cat_cleaning">ניקיון</h3></a>
+                    <a href="jobs.html?categories=מחסנים" class="group block bg-white p-6 rounded-2xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border border-transparent hover:border-purple-200"><div class="flex items-center justify-center h-20 w-20 mx-auto rounded-full bg-purple-100 text-purple-600"><i class="fas fa-warehouse text-4xl"></i></div><h3 class="font-bold mt-4 text-lg text-gray-800" data-translate-key="cat_warehouse">מחסנים</h3></a>
+                    <a href="javascript:void(0);" onclick="window.openCVModal()" class="group block bg-white p-6 rounded-2xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 border border-transparent hover:border-teal-200"><div class="flex items-center justify-center h-20 w-20 mx-auto rounded-full bg-teal-100 text-teal-600"><i class="fas fa-paper-plane text-4xl"></i></div><h3 class="font-bold mt-4 text-lg text-gray-800" data-translate-key="cat_no_experience">ללא ניסיון</h3></a>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- SEND CV CTA -->
-    <section id="send-cv-section" class="py-24 bg-teal-50 animated-section">
-        <div class="container mx-auto px-6 text-center">
-            <div class="max-w-3xl mx-auto">
-                <i class="fas fa-file-signature text-6xl text-teal-500 mb-6"></i>
-                <h2 class="text-3xl md:text-4xl font-bold mb-4" data-translate-key="cta_title">לא מצאתם את מה שחיפשתם?</h2>
-                <p class="text-lg text-gray-600 mb-8" data-translate-key="cta_subtitle">שלחו לנו את קורות החיים והצוות המקצועי שלנו ימצא עבורכם את ההזדמנות הבאה.</p>
-                <button id="open-cv-modal-button" class="bg-teal-500 text-white font-bold px-10 py-4 rounded-full hover:bg-teal-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 text-xl">
-                    <i class="fas fa-paper-plane mr-3"></i>
-                    <span data-translate-key="cta_button">שליחת קורות חיים</span>
-                </button>
+        </section>
+        <section class="py-24 animated-section">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16"><h2 class="text-3xl md:text-4xl font-bold mb-3" data-translate-key="hot_jobs_title">משרות חמות 🔥</h2><p class="text-lg text-gray-600" data-translate-key="hot_jobs_subtitle">הזדמנויות שאסור לכם לפספס.</p></div>
+                <div class="relative story-slider-container" id="hot-jobs-container"><div class="swiper hot-jobs-slider"><div class="swiper-wrapper"></div><div class="swiper-button-next"></div><div class="swiper-button-prev"></div><div class="swiper-pagination swiper-pagination-progressbar swiper-pagination-horizontal"></div></div></div>
             </div>
-        </div>
-    </section>
-
-    <!-- SOCIAL -->
-    <section class="py-24 bg-white animated-section">
-        <div class="container mx-auto px-6 text-center">
-            <div class="max-w-4xl mx-auto">
-                <h2 class="text-3xl md:text-4xl font-bold mb-3" data-translate-key="social_title">בואו נכיר</h2>
-                <p class="text-lg text-gray-600 mb-10" data-translate-key="social_subtitle">אנחנו לא רק מחפשים לכם עבודה, אנחנו בונים יחד איתכם את הקריירה שלכם. עקבו אחרינו ברשתות החברתיות כדי לקבל טיפים, עדכונים על משרות חמות והצצה לחיים במשרד.</p>
-
-                <div class="flex flex-col md:flex-row justify-center gap-6">
-                    <a href="https://www.facebook.com/profile.php?id=61577628773715&mibextid=rS40aB7S9Ucbxw6v" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-4 bg-blue-600 text-white font-bold px-8 py-4 rounded-lg hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 text-xl w-full md:w-auto">
-                        <i class="fab fa-facebook text-2xl"></i>
-                        <span data-translate-key="social_follow_facebook">עקבו אחרינו בפייסבוק</span>
-                    </a>
-                    <a href="https://www.tiktok.com/@calanit_hr?_t=ZS-8xDrw4nwyck&_r=1" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-4 bg-gray-800 text-white font-bold px-8 py-4 rounded-lg hover:bg-gray-900 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 text-xl w-full md:w-auto">
-                        <i class="fab fa-tiktok text-2xl"></i>
-                        <span data-translate-key="social_follow_tiktok">עקבו אחרינו בטיקטוק</span>
-                    </a>
-                    <a href="https://www.instagram.com/calanit_hr?igsh=eXQ0ZWVqZjUydXVu&utm_source=qr" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-4 bg-pink-600 text-white font-bold px-8 py-4 rounded-lg hover:bg-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 text-xl w-full md:w-auto">
-                        <i class="fab fa-instagram text-2xl"></i>
-                        <span data-translate-key="social_follow_instagram">עקבו אחרינו באינסטגרם</span>
-                    </a>
-                </div>
+        </section>
+        <section class="py-24 bg-white animated-section">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16"><h2 class="text-3xl md:text-4xl font-bold mb-3" data-translate-key="new_jobs_title">משרות חדשות ✨</h2><p class="text-lg text-gray-600" data-translate-key="new_jobs_subtitle">ההזדמנויות האחרונות שהצטרפו.</p></div>
+                <div class="relative story-slider-container" id="new-jobs-container"><div class="swiper new-jobs-slider"><div class="swiper-wrapper"></div><div class="swiper-button-next"></div><div class="swiper-button-prev"></div><div class="swiper-pagination swiper-pagination-progressbar swiper-pagination-horizontal"></div></div></div>
             </div>
-        </div>
-    </section>
-</main>
-
-<!-- CV MODAL -->
-<div id="cv-modal" class="modal fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 hidden opacity-0 z-50" aria-hidden="true">
-    <div class="modal-content bg-white w-full max-w-lg rounded-2xl shadow-2xl p-6 md:p-8 transform scale-95 opacity-0 relative">
-        <div class="flex justify-between items-center mb-6">
-            <h3 id="cv-modal-title" class="text-2xl font-bold text-gray-800" data-translate-key="cv_modal_title">שליחת קורות חיים</h3>
-            <div id="cv-step-indicator" class="text-sm font-semibold text-gray-500">שלב 1 מתוך 2</div>
-        </div>
-        <button id="close-cv-modal" class="absolute top-4 left-4 text-gray-400 hover:text-gray-700 text-2xl w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition-all" aria-label="סגור">×</button>
-
-        <form id="cv-form" novalidate>
-            <!-- STEP 1 -->
-            <div id="cv-step-1" class="space-y-5">
+        </section>
+        <section id="send-cv-section" class="py-24 bg-teal-50 animated-section">
+            <div class="container mx-auto px-6 text-center">
+                <div class="max-w-3xl mx-auto"><i class="fas fa-file-signature text-6xl text-teal-500 mb-6"></i><h2 class="text-3xl md:text-4xl font-bold mb-4" data-translate-key="cta_title">לא מצאתם את מה שחיפשתם?</h2><p class="text-lg text-gray-600 mb-8" data-translate-key="cta_subtitle">שלחו לנו את קורות החיים והצוות המקצועי שלנו ימצא עבורכם את ההזדמנות הבאה.</p><button id="open-cv-modal-button" class="bg-teal-500 text-white font-bold px-10 py-4 rounded-full hover:bg-teal-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 text-xl"><i class="fas fa-paper-plane mr-3"></i><span data-translate-key="cta_button">שליחת קורות חיים</span></button></div>
+            </div>
+        </section>
+        <section class="py-24 bg-white animated-section">
+            <div class="container mx-auto px-6 text-center">
+                <div class="max-w-4xl mx-auto"><h2 class="text-3xl md:text-4xl font-bold mb-3" data-translate-key="social_title">בואו נכיר</h2><p class="text-lg text-gray-600 mb-10" data-translate-key="social_subtitle">אנחנו לא רק מחפשים לכם עבודה, אנחנו בונים יחד איתכם את הקריירה שלכם. עקבו אחרינו ברשתות החברתיות כדי לקבל טיפים, עדכונים על משרות חמות והצצה לחיים במשרד.</p><div class="flex flex-col md:flex-row justify-center gap-6"><a href="https://www.facebook.com/profile.php?id=61577628773715&mibextid=rS40aB7S9Ucbxw6v" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-4 bg-blue-600 text-white font-bold px-8 py-4 rounded-lg hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 text-xl w-full md:w-auto"><i class="fab fa-facebook text-2xl"></i><span data-translate-key="social_follow_facebook">עקבו אחרינו בפייסבוק</span></a><a href="https://www.tiktok.com/@calanit_hr?_t=ZS-8xDrw4nwyck&_r=1" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-4 bg-gray-800 text-white font-bold px-8 py-4 rounded-lg hover:bg-gray-900 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 text-xl w-full md:w-auto"><i class="fab fa-tiktok text-2xl"></i><span data-translate-key="social_follow_tiktok">עקבו אחרינו בטיקטוק</span></a><a href="https://www.instagram.com/calanit_hr?igsh=eXQ0ZWVqZjUydXVu&utm_source=qr" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-4 bg-pink-600 text-white font-bold px-8 py-4 rounded-lg hover:bg-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 text-xl w-full md:w-auto"><i class="fab fa-instagram text-2xl"></i><span data-translate-key="social_follow_instagram">עקבו אחרינו באינסטגרם</span></a></div></div>
+            </div>
+        </section>
+    </main>
+    
+    <div id="cv-modal" class="modal fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 hidden opacity-0 z-50">
+        <div class="modal-content bg-white w-full max-w-lg rounded-2xl shadow-2xl p-6 md:p-8 transform scale-95 opacity-0 relative">
+            <button id="close-cv-modal" class="absolute top-4 left-4 text-gray-400 hover:text-gray-700 text-2xl w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition-all">&times;</button>
+            <h3 id="cv-modal-title" class="text-2xl font-bold mb-6 text-center text-gray-800" data-translate-key="cv_modal_title">שליחת קורות חיים</h3>
+            <form id="cv-form" class="space-y-5">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
                         <label for="firstName" class="font-medium text-sm text-gray-700" data-translate-key="form_first_name">שם פרטי <span class="text-red-500">*</span></label>
                         <input type="text" id="firstName" required class="mt-1 w-full border-gray-300 rounded-lg shadow-sm px-4 py-2 focus:ring-teal-500 focus:border-teal-500 transition">
-                        <p id="firstName-error" class="text-red-500 text-xs h-4 mt-1"></p>
                     </div>
                     <div>
                         <label for="lastName" class="font-medium text-sm text-gray-700" data-translate-key="form_last_name">שם משפחה <span class="text-red-500">*</span></label>
                         <input type="text" id="lastName" required class="mt-1 w-full border-gray-300 rounded-lg shadow-sm px-4 py-2 focus:ring-teal-500 focus:border-teal-500 transition">
-                        <p id="lastName-error" class="text-red-500 text-xs h-4 mt-1"></p>
                     </div>
                 </div>
                 <div>
                     <label for="phone" class="font-medium text-sm text-gray-700" data-translate-key="form_phone">טלפון <span class="text-red-500">*</span></label>
-                    <input type="tel" id="phone" required pattern="^05\d{8}$" placeholder="05XXXXXXXX" class="mt-1 w-full border-gray-300 rounded-lg shadow-sm px-4 py-2 focus:ring-teal-500 focus:border-teal-500 transition" inputmode="tel">
-                    <p id="phone-error" class="text-red-500 text-xs h-4 mt-1"></p>
+                    <input type="tel" id="phone" required pattern="^05\d{8}$" placeholder="05XXXXXXXX" class="mt-1 w-full border-gray-300 rounded-lg shadow-sm px-4 py-2 focus:ring-teal-500 focus:border-teal-500 transition">
                 </div>
-            </div>
-
-            <!-- STEP 2 -->
-            <div id="cv-step-2" class="space-y-5 hidden">
                 <div>
                     <label for="cvFile" class="font-medium text-sm block text-gray-700" data-translate-key="form_cv_file">קובץ קורות חיים <span class="text-red-500">*</span></label>
-                    <input type="file" id="cvFile" required accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" class="mt-2 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-50 file:text-teal-700 hover:file:bg-teal-100 transition">
+                    <input type="file" id="cvFile" required accept=".pdf,.doc,.docx" class="mt-2 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-50 file:text-teal-700 hover:file:bg-teal-100 transition">
                     <p class="text-xs text-gray-500 mt-1" data-translate-key="form_supported_files">קבצים נתמכים: PDF, DOC, DOCX. גודל קובץ עד 5MB.</p>
-                    <p id="cvFile-error" class="text-red-500 text-xs h-4 mt-1"></p>
                 </div>
-            </div>
-
-            <div id="cv-form-message" class="text-center text-sm font-medium mt-3 h-5"></div>
-
-            <div class="flex justify-between items-center pt-4">
-                <button type="button" id="cv-back-btn" class="bg-gray-200 text-gray-800 font-bold py-2 px-5 rounded-lg hover:bg-gray-300 transition hidden">חזור</button>
-                <button type="button" id="cv-next-btn" class="bg-teal-500 text-white font-bold py-2 px-5 rounded-lg hover:bg-teal-600 transition ml-auto">הבא</button>
-                <button type="submit" id="cv-submit-button" class="w-full bg-teal-500 text-white py-3 rounded-lg font-bold text-lg hover:bg-teal-600 transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-3 hidden">
+                <button type="submit" id="cv-submit-button" class="w-full bg-teal-500 text-white py-3 rounded-lg font-bold text-lg hover:bg-teal-600 transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-3">
                     <span data-translate-key="cta_button">שליחת קורות חיים</span>
                 </button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<!-- PARTNERS -->
-<section class="partners-section">
-    <div class="container mx-auto px-6">
-        <h2 class="partners-title" data-translate-key="partners_title">עובדים עם החברות המובילות</h2>
-        <div class="partners-marquee-container">
-            <div id="partners-marquee-track" class="partners-marquee-track" aria-label="לוגואים של שותפים"></div>
+                <div id="cv-form-message" class="text-center text-sm font-medium mt-3 h-5"></div>
+            </form>
         </div>
     </div>
-</section>
+    <section class="partners-section">
+        <div class="container mx-auto px-6">
+            <h2 class="partners-title" data-translate-key="partners_title">עובדים עם החברות המובילות</h2>
+            <div class="partners-marquee-container"><div id="partners-marquee-track" class="partners-marquee-track"></div></div>
+        </div>
+    </section>
 
-<footer id="footer-placeholder"></footer>
+    <footer id="footer-placeholder"></footer>
+    
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+        import { getFirestore, collection, query, where, getDocs, orderBy, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+        // ======================= שינוי 1: עדכון שורת ה-import לגרסה שעובדת =======================
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-storage.js";
+        
+        const firebaseConfig = { apiKey: "AIzaSyAOKMJabnJ9JGE5CuclCCSjv5Bo3rT49Cw", authDomain: "calanit-31a32.firebaseapp.com", projectId: "calanit-31a32", storageBucket: "calanit-31a32.appspot.com", messagingSenderId: "91430351613", appId: "1:91430351613:web:ae46b2063f2d4b71428494" };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
 
-<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-    import { getFirestore, collection, query as fsQuery, where, getDocs, orderBy, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
-    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-storage.js";
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyAOKMJabnJ9JGE5CuclCCSjv5Bo3rT49Cw",
-        authDomain: "calanit-31a32.firebaseapp.com",
-        projectId: "calanit-31a32",
-        storageBucket: "calanit-31a32.appspot.com",
-        messagingSenderId: "91430351613",
-        appId: "1:91430351613:web:ae46b2063f2d4b71428494"
-    };
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const storage = getStorage(app);
-
-    // ---------- i18n ----------
-    const translations = {
-        he: { home_page_title: "כלנית | הבית שלך לקריירה", hero_title: "הצעד הבא בקריירה שלך מתחיל כאן", hero_subtitle: "משרות חדשות מהחברות המובילות במשק, מחכות רק לך.", placeholder_keyword: "לדוגמא: מפתח Full-Stack...", placeholder_location: "הקלד/י עיר...", select_main_category: "בחר/י תחום ראשי", select_subcategory: "בחר/י תת קטגוריה", search_jobs_button: "חיפוש משרות", category_section_title: "חיפוש לפי תחום", category_section_subtitle: "מצא/י את המשרה הבאה שלך בקלות.", cat_security: "ביטחון", cat_drivers: "נהגים", cat_manufacturing: "יצור ותעשייה", cat_cleaning: "ניקיון", cat_warehouse: "מחסנים", cat_no_experience: "ללא ניסיון", hot_jobs_title: "משרות חמות 🔥", hot_jobs_subtitle: "הזדמנויות שאסור לכם לפספס.", new_jobs_title: "משרות חדשות ✨", new_jobs_subtitle: "ההזדמנויות האחרונות שהצטרפו.", cta_title: "לא מצאתם את מה שחיפשתם?", cta_subtitle: "שלחו לנו את קורות החיים והצוות המקצועי שלנו ימצא עבורכם את ההזדמנות הבאה.", cta_button: "שליחת קורות חיים", no_hot_jobs: "אין כרגע משרות חמות", no_new_jobs: "אין משרות מהשבוע האחרון", details_button: "פרטים נוספים", cv_modal_title: "שליחת קורות חיים", form_first_name: "שם פרטי", form_last_name: "שם משפחה", form_phone: "טלפון", form_cv_file: "קובץ קורות חיים", form_supported_files: "קבצים נתמכים: PDF, DOC, DOCX. גודל קובץ עד 5MB.", success_message: "הפרטים נשלחו בהצלחה!", error_message: "אירעה שגיאה בשליחה.", sending_message: "שולח...", error_required: "שדה חובה", error_phone: "מספר טלפון לא תקין", error_file_required: "חובה להעלות קובץ", error_file_size: "הקובץ גדול מדי (עד 5MB)", nav_home: "דף הבית", nav_all_jobs: "כל המשרות", nav_send_cv: "שליחת קו\"ח", nav_contact: "יצירת קשר", nav_publish_job: "פרסום דרישה", nav_publish_job_mobile: "פרסום דרישת עובדים", social_title: "בואו נכיר", social_subtitle: "אנחנו לא רק מחפשים לכם עבודה, אנחנו בונים יחד איתכם את הקריירה שלכם. עקבו אחרינו ברשתות החברתיות כדי לקבל טיפים, עדכונים על משרות חמות והצצה לחיים במשרד.", social_follow_facebook: "עקבו אחרינו בפייסבוק", social_follow_tiktok: "עקבו אחרינו בטיקטוק", social_follow_instagram: "עקבו אחרינו באינסטגרם", partners_title: "עובדים עם החברות המובילות", footer_about: "מחברים בין אנשים להזדמנויות.", footer_nav_quick: "ניווט מהיר", footer_nav_all_jobs: "כל המשרות", footer_nav_send_cv: "שליחת קורות חיים", footer_nav_publish_job: "פרסום דרישה", footer_nav_contact: "צור קשר", footer_nav_legal: "מידע ומשפטי", footer_nav_privacy: "מדיניות פרטיות", footer_nav_terms: "תנאי שימוש", footer_nav_talk: "דברו איתנו", footer_copyright: "© כל הזכיות שמורות דורון AI אתרים 2025      " },
-        ar: { home_page_title: "كلانيت | بيتك للمستقبل المهني", hero_title: "خطوتك التالية في حياتك المهنية تبدأ هنا", hero_subtitle: "وظائف جديدة من الشركات الرائدة في السوق، في انتظارك.", placeholder_keyword: "مثال: مطور Full-Stack...", placeholder_location: "أدخل مدينة...", select_main_category: "اختر مجال رئيسي", select_subcategory: "اختر تخصص فرعي", search_jobs_button: "بحث عن وظائف", category_section_title: "البحث حسب المجال", category_section_subtitle: "ابحث عن وظيفتك التالية بسهولة.", cat_security: "أمن", cat_drivers: "سائقون", cat_manufacturing: "تصنيع وصناعة", cat_cleaning: "تنظيف", cat_warehouse: "مخازن", cat_no_experience: "بدون خبرة", hot_jobs_title: "وظائف ساخنة 🔥", hot_jobs_subtitle: "فرص لا تفوت.", new_jobs_title: "وظائف جديدة ✨", new_jobs_subtitle: "آخر الفرص التي انضمت.", cta_title: "لم تجد ما كنت تبحث عنه؟", cta_subtitle: "أرسل لنا سيرتك الذاتية وسيعثر فريقنا المحترف على فرصتك التالية.", cta_button: "إرسال السيرة الذاتية", no_hot_jobs: "لا توجد وظائف ساخنة حاليًا", no_new_jobs: "لا توجد وظائف من الأسبوع الماضي", details_button: "التفاصيل", cv_modal_title: "إرسال السيرة الذاتية", form_first_name: "الاسم الأول", form_last_name: "اسم العائلة", form_phone: "هاتف", form_cv_file: "ملف السيرة الذاتية", form_supported_files: "الملفات المدعومة: PDF, DOC, DOCX. حجم الملف حتى 5 ميجابايت.", success_message: "تم إرسال البيانات بنجاح!", error_message: "حدث خطأ أثناء الإرسال.", sending_message: "جار الإرسال...", error_required: "حقل مطلوب", error_phone: "رقم الهاتف غير صالح", error_file_required: "يجب تحميل ملف", error_file_size: "الملف كبير جدًا (حتى 5 ميجابايت)", nav_home: "الصفحة الرئيسية", nav_all_jobs: "كل الوظائف", nav_send_cv: "إرسال السيرة الذاتية", nav_contact: "اتصل بنا", nav_publish_job: "نشر طلب", nav_publish_job_mobile: "نشر طلب موظفين", social_title: "دعونا نتعرف", social_subtitle: "نحن لا نبحث لك عن وظيفة فحسب، بل نبني معك مسيرتك المهنية. تابعنا على الشبكات الاجتماعية للحصول على نصائح وتحديثات حول الوظائف الساخنة ونظرة على الحياة في المكتب.", social_follow_facebook: "تابعونا على فيسبوك", social_follow_tiktok: "تابعونا على تيك توك", social_follow_instagram: "تابعونا على إنستغرام", partners_title: "نعمل مع الشركات الرائدة", footer_about: "نربط الناس بالفرص.", footer_nav_quick: "روابط سريعة", footer_nav_all_jobs: "كل الوظائف", footer_nav_send_cv: "إرسال السيرة الذاتية", footer_nav_publish_job: "نشر طلب", footer_nav_contact: "اتصل بنا", footer_nav_legal: "معلومات وقانونية", footer_nav_privacy: "سياسة الخصوصية", footer_nav_terms: "شروط الاستخدام", footer_nav_talk: "تحدث معنا", footer_copyright: "© 2024 كلانيت. جميع الحقوق محفوظة." }
-    };
-
-    function setLanguage(lang) {
-        localStorage.setItem('calanit_lang', lang);
-        document.documentElement.lang = lang;
-
-        document.querySelectorAll('[data-translate-key]').forEach(el => {
-            const key = el.dataset.translateKey;
-            if (translations[lang] && translations[lang][key]) {
-                const value = translations[lang][key];
-                if (typeof el.placeholder !== "undefined" && el.placeholder !== null) {
-                    el.placeholder = value;
-                } else {
-                    el.innerHTML = value;
-                }
-            }
-        });
-
-        document.querySelectorAll('.lang-btn-menu').forEach(btn =>
-            btn.classList.toggle('active', btn.id.includes(`-${lang}-`))
-        );
-
-        // רענון סליידרים לפי שפה נוכחית
-        createStorySlider({
-            containerId: '#hot-jobs-container',
-            fsQuery: fsQuery(collection(db, "jobs"), where("isHot", "==", true)),
-            noJobsKey: 'no_hot_jobs',
-            jobIconClass: 'fas fa-fire text-amber-400'
-        });
-
-        createStorySlider({
-            containerId: '#new-jobs-container',
-            fsQuery: fsQuery(
-                collection(db, "jobs"),
-                where("createdAt", ">=", new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)),
-                orderBy("createdAt", "desc")
-            ),
-            noJobsKey: 'no_new_jobs',
-            jobIconClass: 'fas fa-sparkles text-sky-300'
-        });
-    }
-
-    // ---------- Helpers ----------
-    let allCities = [], jobTypesData = {}, selectedLocations = new Set(), selectedCategories = new Set();
-    async function loadJsonData(filePath, fallback) {
-        try { const res = await fetch(filePath, { cache: "no-cache" }); return res.ok ? res.json() : fallback; }
-        catch { return fallback; }
-    }
-    function loadComponent(url, id, cb) {
-        fetch(url).then(res => res.ok ? res.text() : Promise.reject(url))
-            .then(html => { document.getElementById(id).innerHTML = html; cb && cb(); })
-            .catch(() => console.error(`Failed loading ${url}`));
-    }
-
-    // ---------- Filter bubbles & autocomplete ----------
-    function normalizeStr(s) {
-        return (s || "")
-            .toLowerCase()
-            .replace(/[\u05C1\u05C2\u05BC\u05B0-\u05BD\u05BF]/g, ""); // מסיר ניקוד/דיאקריטיות עברית
-    }
-    function setupFilterBubbles(config) {
-        const { input, resultsContainer, bubblesContainer, dataSet, selectedSet } = config;
-
-        const renderBubbles = () => {
-            bubblesContainer.innerHTML = '';
-            const bubbleColorClass = config.colorClass || 'bubble-location';
-            selectedSet.forEach(item => {
-                const bubble = document.createElement('div');
-                bubble.className = `text-sm font-semibold px-3 py-1.5 rounded-full flex items-center gap-2 ${bubbleColorClass}`;
-                bubble.innerHTML = `<span>${item}</span><button type="button" class="font-sans text-sm opacity-75 hover:opacity-100" aria-label="הסר">×</button>`;
-                bubble.querySelector('button').addEventListener('click', () => { selectedSet.delete(item); renderBubbles(); });
-                bubblesContainer.appendChild(bubble);
-            });
+        const translations = {
+            he: { home_page_title: "כלנית | הבית שלך לקריירה", hero_title: "הצעד הבא בקריירה שלך מתחיל כאן", hero_subtitle: "משרות חדשות מהחברות המובילות במשק, מחכות רק לך.", placeholder_keyword: "לדוגמא: מפתח Full-Stack...", placeholder_location: "הקלד/י עיר...", select_main_category: "בחר/י תחום ראשי", select_subcategory: "בחר/י תת קטגוריה", search_jobs_button: "חיפוש משרות", category_section_title: "חיפוש לפי תחום", category_section_subtitle: "מצא/י את המשרה הבאה שלך בקלות.", cat_security: "ביטחון", cat_drivers: "נהגים", cat_manufacturing: "יצור ותעשייה", cat_cleaning: "ניקיון", cat_warehouse: "מחסנים", cat_no_experience: "ללא ניסיון", hot_jobs_title: "משרות חמות 🔥", hot_jobs_subtitle: "הזדמנויות שאסור לכם לפספס.", new_jobs_title: "משרות חדשות ✨", new_jobs_subtitle: "ההזדמנויות האחרונות שהצטרפו.", cta_title: "לא מצאתם את מה שחיפשתם?", cta_subtitle: "שלחו לנו את קורות החיים והצוות המקצועי שלנו ימצא עבורכם את ההזדמנות הבאה.", cta_button: "שליחת קורות חיים", no_hot_jobs: "אין כרגע משרות חמות", no_new_jobs: "אין משרות מהשבוע האחרון", details_button: "פרטים נוספים", cv_modal_title: "שליחת קורות חיים", form_first_name: "שם פרטי", form_last_name: "שם משפחה", form_phone: "טלפון", form_cv_file: "קובץ קורות חיים", form_supported_files: "קבצים נתמכים: PDF, DOC, DOCX. גודל קובץ עד 5MB.", success_message: "הפרטים נשלחו בהצלחה!", error_message: "אירעה שגיאה בשליחה.", sending_message: "שולח...", error_required: "שדה חובה", error_phone: "מספר טלפון לא תקין", error_file_required: "חובה להעלות קובץ", error_file_size: "הקובץ גדול מדי (עד 5MB)", nav_home: "דף הבית", nav_all_jobs: "כל המשרות", nav_send_cv: "שליחת קו\"ח", nav_contact: "יצירת קשר", nav_publish_job: "פרסום דרישה", nav_publish_job_mobile: "פרסום דרישת עובדים", social_title: "בואו נכיר", social_subtitle: "אנחנו לא רק מחפשים לכם עבודה, אנחנו בונים יחד איתכם את הקריירה שלכם. עקבו אחרינו ברשתות החברתיות כדי לקבל טיפים, עדכונים על משרות חמות והצצה לחיים במשרד.", social_follow_facebook: "עקבו אחרינו בפייסבוק", social_follow_tiktok: "עקבו אחרינו בטיקטוק", social_follow_instagram: "עקבו אחרינו באינסטגרם", partners_title: "עובדים עם החברות המובילות", footer_about: "מחברים בין אנשים להזדמנויות.", footer_nav_quick: "ניווט מהיר", footer_nav_all_jobs: "כל המשרות", footer_nav_send_cv: "שליחת קורות חיים", footer_nav_publish_job: "פרסום דרישה", footer_nav_contact: "צור קשר", footer_nav_legal: "מידע ומשפטי", footer_nav_privacy: "מדיניות פרטיות", footer_nav_terms: "תנאי שימוש", footer_nav_talk: "דברו איתנו", footer_copyright: "© כל הזכיות שמורות דורון AI אתרים 2025      " },
+            ar: { home_page_title: "كلانيت | بيتك للمستقبل المهني", hero_title: "خطوتك التالية في حياتك المهنية تبدأ هنا", hero_subtitle: "وظائف جديدة من الشركات الرائدة في السوق، في انتظارك.", placeholder_keyword: "مثال: مطور Full-Stack...", placeholder_location: "أدخل مدينة...", select_main_category: "اختر مجال رئيسي", select_subcategory: "اختر تخصص فرعي", search_jobs_button: "بحث عن وظائف", category_section_title: "البحث حسب المجال", category_section_subtitle: "ابحث عن وظيفتك التالية بسهولة.", cat_security: "أمن", cat_drivers: "سائقون", cat_manufacturing: "تصنيع وصناعة", cat_cleaning: "تنظيف", cat_warehouse: "مخازن", cat_no_experience: "بدون خبرة", hot_jobs_title: "وظائف ساخنة 🔥", hot_jobs_subtitle: "فرص لا تفوت.", new_jobs_title: "وظائف جديدة ✨", new_jobs_subtitle: "آخر الفرص التي انضمت.", cta_title: "لم تجد ما كنت تبحث عنه؟", cta_subtitle: "أرسل لنا سيرتك الذاتية وسيعثر فريقنا المحترف على فرصتك التالية.", cta_button: "إرسال السيرة الذاتية", no_hot_jobs: "لا توجد وظائف ساخنة حاليًا", no_new_jobs: "لا توجد وظائف من الأسبوع الماضي", details_button: "التفاصيل", cv_modal_title: "إرسال السيرة الذاتية", form_first_name: "الاسم الأول", form_last_name: "اسم العائلة", form_phone: "هاتف", form_cv_file: "ملف السيرة الذاتية", form_supported_files: "الملفات المدعومة: PDF, DOC, DOCX. حجم الملف حتى 5 ميجابايت.", success_message: "تم إرسال البيانات بنجاح!", error_message: "حدث خطأ أثناء الإرسال.", sending_message: "جار الإرسال...", error_required: "حقل مطلوب", error_phone: "رقم الهاتف غير صالح", error_file_required: "يجب تحميل ملف", error_file_size: "الملف كبير جدًا (حتى 5 ميجابايت)", nav_home: "الصفحة الرئيسية", nav_all_jobs: "كل الوظائف", nav_send_cv: "إرسال السيرة الذاتية", nav_contact: "اتصل بنا", nav_publish_job: "نشر طلب", nav_publish_job_mobile: "نشر طلب موظفين", social_title: "دعونا نتعرف", social_subtitle: "نحن لا نبحث لك عن وظيفة فحسب، بل نبني معك مسيرتك المهنية. تابعنا على الشبكات الاجتماعية للحصول على نصائح وتحديثات حول الوظائف الساخنة ونظرة على الحياة في المكتب.", social_follow_facebook: "تابعونا على فيسبوك", social_follow_tiktok: "تابعونا على تيك توك", social_follow_instagram: "تابعونا على إنستغرام", partners_title: "نعمل مع الشركات الرائدة", footer_about: "نربط الناس بالفرص.", footer_nav_quick: "روابط سريعة", footer_nav_all_jobs: "كل الوظائف", footer_nav_send_cv: "إرسال السيرة الذاتية", footer_nav_publish_job: "نشر طلب", footer_nav_contact: "اتصل بنا", footer_nav_legal: "معلومات وقانونية", footer_nav_privacy: "سياسة الخصوصية", footer_nav_terms: "شروط الاستخدام", footer_nav_talk: "تحدث معنا", footer_copyright: "© 2024 كلانيت. جميع الحقوق محفوظة." }
         };
 
-        const addItem = (item) => {
-            if (item && !selectedSet.has(item)) { selectedSet.add(item); renderBubbles(); }
-            input.value = ''; resultsContainer.classList.add('hidden');
-        };
-
-        input.addEventListener('input', () => {
-            const q = normalizeStr(input.value.trim());
-            if (q.length < 2) { resultsContainer.classList.add('hidden'); return; }
-            const filtered = dataSet
-                .filter(c => normalizeStr(c).startsWith(q) && !selectedSet.has(c))
-                .slice(0, 7);
-
-            resultsContainer.innerHTML = '';
-            if (filtered.length) {
-                filtered.forEach(txt => {
-                    const item = document.createElement('div');
-                    item.className = 'p-3 text-gray-800 cursor-pointer autocomplete-item';
-                    item.textContent = txt;
-                    item.addEventListener('click', () => addItem(txt));
-                    resultsContainer.appendChild(item);
-                });
-                resultsContainer.classList.remove('hidden');
-            } else {
-                resultsContainer.classList.add('hidden');
-            }
-        });
-
-        // הוספה עם אנטר: תוצאת האוטוקומפליט הראשונה, ואם אין – הערך המדויק אם קיים בדאטה
-        input.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                const items = Array.from(resultsContainer.children);
-                if (items.length) { addItem(items[0].textContent); return; }
-                const exact = dataSet.find(c => normalizeStr(c) === normalizeStr(input.value.trim()));
-                if (exact) addItem(exact);
-            }
-        });
-
-        document.addEventListener('click', e => {
-            if (!input.parentElement.contains(e.target)) resultsContainer.classList.add('hidden');
-        });
-
-        bubblesContainer.addEventListener('render', renderBubbles);
-    }
-
-    function setupCategoryFilter() {
-        const mainSelect = document.getElementById('main-category-select');
-        const subSelect = document.getElementById('subcategory-select');
-        const categoriesContainer = document.getElementById('selected-categories-container');
-        const lang = localStorage.getItem('calanit_lang') || 'he';
-
-        mainSelect.innerHTML = `<option value="">${translations[lang].select_main_category}</option>`;
-        Object.keys(jobTypesData).sort().forEach(cat => mainSelect.add(new Option(cat, cat)));
-
-        mainSelect.addEventListener('change', () => {
-            const selectedMain = mainSelect.value;
-            subSelect.innerHTML = `<option value="">${translations[lang].select_subcategory}</option>`;
-            if (selectedMain && jobTypesData[selectedMain]) {
-                jobTypesData[selectedMain].forEach(sub => subSelect.add(new Option(sub, sub)));
-                subSelect.disabled = false;
-            } else {
-                subSelect.disabled = true;
-            }
-        });
-
-        subSelect.addEventListener('change', () => {
-            if (subSelect.value) {
-                selectedCategories.add(subSelect.value);
-                categoriesContainer.dispatchEvent(new Event('render'));
-                subSelect.value = "";
-            }
-        });
-
-        categoriesContainer.addEventListener('render', () => {
-            categoriesContainer.innerHTML = '';
-            selectedCategories.forEach(item => {
-                const bubble = document.createElement('div');
-                bubble.className = `bubble-category text-sm font-semibold px-3 py-1.5 rounded-full flex items-center gap-2`;
-                bubble.innerHTML = `<span>${item}</span><button type="button" class="font-sans text-sm opacity-75 hover:opacity-100" aria-label="הסר">×</button>`;
-                bubble.querySelector('button').addEventListener('click', () => {
-                    selectedCategories.delete(item);
-                    categoriesContainer.dispatchEvent(new Event('render'));
-                });
-                categoriesContainer.appendChild(bubble);
+        function setLanguage(lang) {
+            localStorage.setItem('calanit_lang', lang); document.documentElement.lang = lang;
+            document.querySelectorAll('[data-translate-key]').forEach(el => {
+                const key = el.dataset.translateKey;
+                if (translations[lang] && translations[lang][key]) { const value = translations[lang][key]; if (el.placeholder !== undefined) { el.placeholder = value; } else { el.innerHTML = value; } }
             });
-        });
-    }
-
-    // ---------- Swiper (with instance management) ----------
-    window._swipers = window._swipers || {};
-    async function createStorySlider(config) {
-        const containerSelector = `${config.containerId} .swiper`;
-        const wrapper = document.querySelector(`${config.containerId} .swiper-wrapper`);
-        if (!wrapper) return;
-
-        // Destroy previous instance if exists
-        if (window._swipers[containerSelector]) {
-            try { window._swipers[containerSelector].destroy(true, true); } catch {}
-            window._swipers[containerSelector] = null;
+            document.querySelectorAll('.lang-btn-menu').forEach(btn => { btn.classList.toggle('active', btn.id.includes(`-${lang}-`)); });
+            createStorySlider({ containerId: '#hot-jobs-container', query: query(collection(db, "jobs"), where("isHot", "==", true)), noJobsKey: 'no_hot_jobs', jobIconClass: 'fas fa-fire text-amber-400' });
+            createStorySlider({ containerId: '#new-jobs-container', query: query(collection(db, "jobs"), where("createdAt", ">=", new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)), orderBy("createdAt", "desc")), noJobsKey: 'no_new_jobs', jobIconClass: 'fas fa-sparkles text-sky-300' });
         }
 
-        wrapper.innerHTML = `
-            <div class="swiper-slide bg-gray-200">
-                <div class="story-content text-center text-gray-600 w-full flex items-center justify-center">
-                    <i class="fas fa-spinner fa-spin text-4xl"></i>
-                </div>
-            </div>`;
+        let allCities = [], jobTypesData = {}, selectedLocations = new Set(), selectedCategories = new Set();
+        async function loadJsonData(filePath, fallback) { try { const res = await fetch(filePath); return res.ok ? res.json() : fallback; } catch (e) { return fallback; } }
+        function loadComponent(url, id, cb) { fetch(url).then(res => res.ok ? res.text() : Promise.reject()).then(html => { document.getElementById(id).innerHTML = html; if (cb) cb(); }).catch(err => console.error(`Failed loading ${url}`)); }
 
-        try {
-            const snapshot = await getDocs(config.fsQuery);
+        function setupFilterBubbles(config) {
+            const { input, resultsContainer, bubblesContainer, dataSet, selectedSet } = config;
+            input.addEventListener('input', () => {
+                const query = input.value.trim();
+                if (query.length < 2) { resultsContainer.classList.add('hidden'); return; }
+                const filtered = dataSet.filter(c => c.startsWith(query) && !selectedSet.has(c)).slice(0, 7);
+                resultsContainer.innerHTML = '';
+                if(filtered.length) { filtered.forEach(itemText => { const item = document.createElement('div'); item.className = 'p-3 text-gray-800 cursor-pointer autocomplete-item'; item.textContent = itemText; item.addEventListener('click', () => addItem(itemText)); resultsContainer.appendChild(item); }); resultsContainer.classList.remove('hidden'); } else { resultsContainer.classList.add('hidden'); }
+            });
+            const addItem = (item) => { if (item && !selectedSet.has(item)) { selectedSet.add(item); renderBubbles(); } input.value = ''; resultsContainer.classList.add('hidden'); };
+            const removeItem = (item) => { selectedSet.delete(item); renderBubbles(); };
+            const renderBubbles = () => {
+                bubblesContainer.innerHTML = '';
+                const bubbleColorClass = config.colorClass || 'bubble-location';
+                selectedSet.forEach(item => { const bubble = document.createElement('div'); bubble.className = `text-sm font-semibold px-3 py-1.5 rounded-full flex items-center gap-2 ${bubbleColorClass}`; bubble.innerHTML = `<span>${item}</span><button type="button" class="font-sans text-sm opacity-75 hover:opacity-100">×</button>`; bubble.querySelector('button').addEventListener('click', () => removeItem(item)); bubblesContainer.appendChild(bubble); });
+            };
+            document.addEventListener('click', e => { if (!input.parentElement.contains(e.target)) resultsContainer.classList.add('hidden'); });
+            bubblesContainer.addEventListener('render', renderBubbles);
+        }
+
+        function setupCategoryFilter() {
+            const mainSelect = document.getElementById('main-category-select');
+            const subSelect = document.getElementById('subcategory-select');
+            const categoriesContainer = document.getElementById('selected-categories-container');
             const lang = localStorage.getItem('calanit_lang') || 'he';
-
-            if (snapshot.empty) {
-                wrapper.innerHTML = `
-                    <div class="swiper-slide bg-gray-200">
-                        <div class="story-overlay"></div>
-                        <div class="story-content">
-                            <h3 class="text-3xl font-bold">${translations[lang][config.noJobsKey]}</h3>
-                        </div>
-                    </div>`;
-            } else {
-                wrapper.innerHTML = '';
+            mainSelect.innerHTML = `<option value="">${translations[lang].select_main_category}</option>`;
+            Object.keys(jobTypesData).sort().forEach(cat => mainSelect.add(new Option(cat, cat)));
+            mainSelect.addEventListener('change', () => { const selectedMain = mainSelect.value; subSelect.innerHTML = `<option value="">${translations[lang].select_subcategory}</option>`; if (selectedMain && jobTypesData[selectedMain]) { jobTypesData[selectedMain].forEach(sub => subSelect.add(new Option(sub, sub))); subSelect.disabled = false; } else { subSelect.disabled = true; } });
+            subSelect.addEventListener('change', () => { if (subSelect.value) { selectedCategories.add(subSelect.value); categoriesContainer.dispatchEvent(new Event('render')); subSelect.value = ""; } });
+        }
+        
+        async function createStorySlider(config) {
+            const swiperWrapper = document.querySelector(`${config.containerId} .swiper-wrapper`);
+            if (!swiperWrapper) return;
+            swiperWrapper.innerHTML = `<div class="swiper-slide bg-gray-200"><div class="story-content text-center text-gray-600"><i class="fas fa-spinner fa-spin text-4xl"></i></div></div>`;
+            try {
+                const snapshot = await getDocs(config.query);
+                const currentLang = localStorage.getItem('calanit_lang') || 'he';
+                if (snapshot.empty) { swiperWrapper.innerHTML = `<div class="swiper-slide bg-gray-200"><div class="story-overlay"></div><div class="story-content"><h3 class="text-3xl font-bold">${translations[currentLang][config.noJobsKey]}</h3></div></div>`; return; }
+                swiperWrapper.innerHTML = '';
                 snapshot.forEach(doc => {
                     const job = doc.data(), jobId = doc.id;
-                    const imageUrl = job.imageUrl || `https://placehold.co/800x500/14b8a6/ffffff?text=${encodeURIComponent(job.title || '')}`;
-                    const slide = document.createElement('div');
-                    slide.className = 'swiper-slide';
-                    slide.style.backgroundImage = `url('${imageUrl}')`;
-                    slide.innerHTML = `
-                        <div class="story-overlay"></div>
-                        <div class="story-content w-full">
-                            <h3 class="text-3xl md:text-4xl font-black drop-shadow-lg flex items-center gap-3">
-                                <i class="${config.jobIconClass}"></i> ${job.title || ''}
-                            </h3>
-                            <div class="text-lg font-medium mt-2 mb-6 opacity-90">
-                                <i class="fas fa-map-marker-alt ml-1"></i> ${Array.isArray(job.locations) ? job.locations.join(', ') : (job.locations || '')}
-                            </div>
-                            <a href="job-details.html?id=${jobId}" class="bg-white text-teal-600 px-8 py-3 rounded-full font-bold shadow-lg hover:bg-teal-50 transition text-lg mt-4 inline-block">
-                                ${translations[lang]['details_button']}
-                            </a>
-                        </div>`;
-                    wrapper.appendChild(slide);
+                    const imageUrl = job.imageUrl || `https://placehold.co/800x500/14b8a6/ffffff?text=${encodeURIComponent(job.title)}`;
+                    const slide = document.createElement('div'); slide.className = 'swiper-slide'; slide.style.backgroundImage = `url('${imageUrl}')`;
+                    slide.innerHTML = `<div class="story-overlay"></div><div class="story-content w-full"><h3 class="text-3xl md:text-4xl font-black drop-shadow-lg flex items-center gap-3"><i class="${config.jobIconClass}"></i> ${job.title || ''}</h3><div class="text-lg font-medium mt-2 mb-6 opacity-90"><i class="fas fa-map-marker-alt ml-1"></i> ${job.locations ? job.locations.join(', ') : ''}</div><a href="job-details.html?id=${jobId}" class="bg-white text-teal-600 px-8 py-3 rounded-full font-bold shadow-lg hover:bg-teal-50 transition text-lg mt-4 inline-block">${translations[currentLang]['details_button']}</a></div>`;
+                    swiperWrapper.appendChild(slide);
                 });
-            }
-
-            window._swipers[containerSelector] = new Swiper(containerSelector, {
-                slidesPerView: 1,
-                effect: 'fade',
-                fadeEffect: { crossFade: true },
-                loop: wrapper.children.length > 1,
-                autoplay: wrapper.children.length > 1 ? { delay: 7000 } : false,
-                pagination: { el: `${config.containerId} .swiper-pagination`, type: 'progressbar' },
-                navigation: { nextEl: `${config.containerId} .swiper-button-next`, prevEl: `${config.containerId} .swiper-button-prev` }
-            });
-        } catch (err) {
-            console.error(`Error loading jobs for ${config.containerId}:`, err);
-            wrapper.innerHTML = `
-                <div class="swiper-slide bg-gray-200">
-                    <div class="story-content text-center text-red-600 w-full">שגיאה בטעינת נתוני משרות</div>
-                </div>`;
+                new Swiper(`${config.containerId} .swiper`, { slidesPerView: 1, effect: 'fade', loop: snapshot.size > 1, autoplay: { delay: 7000 }, pagination: { el: `${config.containerId} .swiper-pagination`, type: 'progressbar' }, navigation: { nextEl: `${config.containerId} .swiper-button-next`, prevEl: `${config.containerId} .swiper-button-prev` } });
+            } catch (error) { console.error(`Error loading jobs for ${config.containerId}:`, error); }
         }
-    }
+        
+        // ======================= התחלה: החלפת JS של המודל הישן =======================
+        function setupCVModal() {
+            const modal = document.getElementById('cv-modal'), form = document.getElementById('cv-form');
+            document.getElementById('open-cv-modal-button').addEventListener('click', () => openCVModal());
+            document.getElementById('close-cv-modal').addEventListener('click', () => closeModal());
+            
+            window.openCVModal = (jobId, jobTitle) => {
+                window.currentJobIdForModal = jobId;
+                window.currentJobTitleForModal = jobTitle;
+                if(modal) {
+                    modal.querySelector('#cv-modal-title').innerHTML = jobTitle
+                        ? `${translations[localStorage.getItem('calanit_lang') || 'he']['cv_modal_title']} - ${jobTitle}`
+                        : translations[localStorage.getItem('calanit_lang') || 'he']['cv_modal_title'];
+                    modal.classList.remove('hidden');
+                    setTimeout(() => {
+                        modal.classList.remove('opacity-0');
+                        modal.querySelector('.modal-content').classList.remove('scale-95', 'opacity-0');
+                    }, 10);
+                }
+            };
 
-    // ---------- CV modal ----------
-    function setupCVModal() {
-        const modal = document.getElementById('cv-modal');
-        const form = document.getElementById('cv-form');
-        const openBtn = document.getElementById('open-cv-modal-button');
-        const closeBtn = document.getElementById('close-cv-modal');
+            const closeModal = () => {
+                if(modal) {
+                    modal.classList.add('opacity-0');
+                    modal.querySelector('.modal-content').classList.add('scale-95', 'opacity-0');
+                    setTimeout(() => modal.classList.add('hidden'), 300);
+                }
+            };
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const submitBtn = form.querySelector('#cv-submit-button'), msgEl = form.querySelector('#cv-form-message');
+                const lang = localStorage.getItem('calanit_lang') || 'he';
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${translations[lang].sending_message}`;
+                const cvFile = form.querySelector('#cvFile').files[0];
+                if (!cvFile) {
+                    msgEl.className = 'text-red-600 font-semibold';
+                    msgEl.textContent = 'חובה להעלות קובץ.'; // You can add this to translations if needed
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = `<span>${translations[lang].cta_button}</span>`;
+                    return;
+                }
+                const storageRef = ref(storage, `cvs/${Date.now()}_${cvFile.name}`);
+                try {
+                    await uploadBytes(storageRef, cvFile);
+                    const fileURL = await getDownloadURL(storageRef);
+                    await addDoc(collection(db, "jobApplicants"), {
+                        firstName: form.querySelector('#firstName').value,
+                        lastName: form.querySelector('#lastName').value,
+                        phone: form.querySelector('#phone').value,
+                        fileURL,
+                        jobId: window.currentJobIdForModal || null,
+                        jobTitle: window.currentJobTitleForModal || 'הגשה כללית',
+                        createdAt: serverTimestamp()
+                    });
+                    msgEl.className = 'text-green-600 font-semibold';
+                    msgEl.textContent = translations[lang].success_message;
+                    form.reset();
+                    setTimeout(closeModal, 2000);
+                } catch (err) {
+                    console.error("Upload error:", err);
+                    msgEl.className = 'text-red-600 font-semibold';
+                    msgEl.textContent = translations[lang].error_message;
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = `<span>${translations[lang].cta_button}</span>`;
+                }
+            });
+        }
+        // ======================= סוף: החלפת JS של המודל הישן =======================
 
-        const step1 = document.getElementById('cv-step-1');
-        const step2 = document.getElementById('cv-step-2');
-        const stepIndicator = document.getElementById('cv-step-indicator');
-        const nextBtn = document.getElementById('cv-next-btn');
-        const backBtn = document.getElementById('cv-back-btn');
-        const submitBtn = document.getElementById('cv-submit-button');
 
-        let currentCVStep = 1;
+        function setupInlineSearch() {
+            const searchWrapper = document.getElementById('hero-search-wrapper');
+            const formContainer = document.getElementById('search-form-container');
+            const initialButtons = document.getElementById('initial-buttons');
+            const openBtn = document.getElementById('open-search-btn');
 
-        const updateView = () => {
-            stepIndicator.textContent = `שלב ${currentCVStep} מתוך 2`;
-            if (currentCVStep === 1) {
-                step1.classList.remove('hidden');
-                step2.classList.add('hidden');
-                nextBtn.classList.remove('hidden');
-                backBtn.classList.add('hidden');
-                submitBtn.classList.add('hidden');
-            } else {
-                step1.classList.add('hidden');
-                step2.classList.remove('hidden');
-                nextBtn.classList.add('hidden');
-                backBtn.classList.remove('hidden');
-                submitBtn.classList.remove('hidden');
-            }
-        };
+            const showSearch = () => {
+                initialButtons.classList.add('hidden');
+                formContainer.classList.add('active');
+            };
 
-        const validateStep1 = () => {
-            const lang = localStorage.getItem('calanit_lang') || 'he';
-            let isValid = true;
+            const hideSearch = () => {
+                initialButtons.classList.remove('hidden');
+                formContainer.classList.remove('active');
+            };
 
-            ['firstName', 'lastName', 'phone'].forEach(id => {
-                document.getElementById(id).classList.remove('input-error');
-                document.getElementById(`${id}-error`).textContent = '';
+            openBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                showSearch();
             });
 
-            const firstName = document.getElementById('firstName');
-            if (!firstName.value.trim()) {
-                firstName.classList.add('input-error');
-                document.getElementById('firstName-error').textContent = translations[lang].error_required;
-                isValid = false;
-            }
+            document.addEventListener('click', (e) => {
+                if (!searchWrapper.contains(e.target)) {
+                    hideSearch();
+                }
+            });
+        }
 
-            const lastName = document.getElementById('lastName');
-            if (!lastName.value.trim()) {
-                lastName.classList.add('input-error');
-                document.getElementById('lastName-error').textContent = translations[lang].error_required;
-                isValid = false;
-            }
-
-            const phone = document.getElementById('phone');
-            if (!/^05\d{8}$/.test(phone.value.trim())) {
-                phone.classList.add('input-error');
-                document.getElementById('phone-error').textContent = translations[lang].error_phone;
-                isValid = false;
-            }
-            return isValid;
-        };
-
-        const validateStep2 = () => {
-            const lang = localStorage.getItem('calanit_lang') || 'he';
-            const input = document.getElementById('cvFile');
-            const file = input.files[0];
-            const errEl = document.getElementById('cvFile-error');
-            errEl.textContent = '';
-            input.classList.remove('input-error');
-
-            if (!file) {
-                errEl.textContent = translations[lang].error_file_required;
-                input.classList.add('input-error');
-                return false;
-            }
-            if (file.size > 5 * 1024 * 1024) {
-                errEl.textContent = translations[lang].error_file_size;
-                input.classList.add('input-error');
-                return false;
-            }
-            const allowedExt = ['pdf','doc','docx'];
-            const ext = (file.name.split('.').pop() || '').toLowerCase();
-            const allowedMime = [
-                'application/pdf',
-                'application/msword',
-                'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-            ];
-            if (!allowedExt.includes(ext) || (file.type && !allowedMime.includes(file.type))) {
-                errEl.textContent = 'סוג קובץ לא נתמך';
-                input.classList.add('input-error');
-                return false;
-            }
-            return true;
-        };
-
-        nextBtn.addEventListener('click', () => { if (validateStep1()) { currentCVStep = 2; updateView(); } });
-        backBtn.addEventListener('click', () => { currentCVStep = 1; updateView(); });
-
-        const closeModal = () => {
-            if (!modal) return;
-            modal.classList.add('opacity-0');
-            modal.querySelector('.modal-content').classList.add('scale-95', 'opacity-0');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                form.reset();
-                currentCVStep = 1;
-                updateView();
-                document.getElementById('cv-form-message').textContent = '';
-                ['firstName','lastName','phone','cvFile'].forEach(id => {
-                    const el = document.getElementById(id);
-                    el && el.classList.remove('input-error');
-                    const errEl = document.getElementById(`${id}-error`);
-                    if (errEl) errEl.textContent = '';
-                });
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = `<span>${(translations[localStorage.getItem('calanit_lang') || 'he'].cta_button)}</span>`;
-            }, 300);
-        };
-
-        window.openCVModal = (jobId, jobTitle) => {
-            window.currentJobIdForModal = jobId || null;
-            window.currentJobTitleForModal = jobTitle || 'הגשה כללית';
-            const lang = localStorage.getItem('calanit_lang') || 'he';
-            modal.querySelector('#cv-modal-title').innerHTML = jobTitle
-                ? `${translations[lang]['cv_modal_title']} - ${jobTitle}`
-                : translations[lang]['cv_modal_title'];
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                modal.classList.remove('opacity-0');
-                modal.querySelector('.modal-content').classList.remove('scale-95', 'opacity-0');
-            }, 10);
-            currentCVStep = 1; updateView();
-        };
-
-        openBtn.addEventListener('click', () => openCVModal());
-        closeBtn.addEventListener('click', closeModal);
-
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (!validateStep2()) return;
-
-            const msgEl = form.querySelector('#cv-form-message');
-            const lang = localStorage.getItem('calanit_lang') || 'he';
-            const fileInput = form.querySelector('#cvFile');
-            const file = fileInput.files[0];
-
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> <span class="ml-2">${translations[lang].sending_message}</span>`;
-
-            // sanitize filename
-            const safeName = (file.name || 'cv')
-                .replace(/[^a-zA-Z0-9._-]/g, '_')
-                .slice(0, 120);
-
-            const storageRef = ref(storage, `cvs/${Date.now()}_${safeName}`);
-
+        async function renderPartnersMarquee() {
+            const marquee = document.getElementById('partners-marquee-track');
+            if (!marquee) return;
+            marquee.innerHTML = `<span class="text-gray-500">טוען...</span>`;
             try {
-                await uploadBytes(storageRef, file, { contentType: file.type || undefined });
-                const fileURL = await getDownloadURL(storageRef);
+                const snapshot = await getDocs(collection(db, "partners"));
+                let partners = [];
+                snapshot.forEach(doc => { const data = doc.data(); if (data.logoUrl) { partners.push({ name: data.name, logoUrl: data.logoUrl }); } });
+                if (partners.length === 0) { marquee.innerHTML = `<span class="text-gray-500">לא הוגדרו לוגואים של חברות.</span>`; return; }
+                const doublePartners = [...partners, ...partners, ...partners]; // Triple for smoother loop
+                marquee.innerHTML = '';
+                doublePartners.forEach(p => marquee.innerHTML += `<div class="partner-logo-wrapper" title="${p.name}"><img class="partner-logo-img" src="${p.logoUrl}" alt="${p.name}"></div>`);
+            } catch (e) { marquee.innerHTML = `<span class="text-red-500">שגיאה בטעינת החברות</span>`; }
+        }
 
-                await addDoc(collection(db, "jobApplicants"), {
-                    firstName: document.getElementById('firstName').value.trim(),
-                    lastName: document.getElementById('lastName').value.trim(),
-                    phone: document.getElementById('phone').value.trim(),
-                    fileURL,
-                    originalName: file.name,
-                    contentType: file.type || null,
-                    jobId: window.currentJobIdForModal || null,
-                    jobTitle: window.currentJobTitleForModal || 'הגשה כללית',
-                    createdAt: serverTimestamp()
-                });
+        document.addEventListener('DOMContentLoaded', async () => {
+            loadComponent('menu.html', 'header-placeholder', () => {
+                document.getElementById('mobile-menu-button')?.addEventListener('click', () => document.getElementById('mobile-menu')?.classList.toggle('hidden'));
+                document.querySelectorAll('.lang-btn-menu').forEach(btn => btn.addEventListener('click', () => setLanguage(btn.id.includes('-ar-') ? 'ar' : 'he')));
+                setLanguage(localStorage.getItem('calanit_lang') || 'he');
+            });
+            loadComponent('footer.html', 'footer-placeholder', () => { setLanguage(localStorage.getItem('calanit_lang') || 'he'); });
+            
+            [allCities, jobTypesData] = await Promise.all([ loadJsonData('cities.json', []), loadJsonData('jobTypesHierarchical.json', {}) ]);
+            
+            setupFilterBubbles({ input: document.getElementById('location-search-input'), resultsContainer: document.getElementById('autocomplete-results'), bubblesContainer: document.getElementById('selected-locations-container'), dataSet: allCities, selectedSet: selectedLocations, colorClass: 'bubble-location' });
+            setupCategoryFilter();
+            
+            const categoriesContainer = document.getElementById('selected-categories-container');
+            categoriesContainer.addEventListener('render', () => {
+                categoriesContainer.innerHTML = '';
+                selectedCategories.forEach(item => { const bubble = document.createElement('div'); bubble.className = `bubble-category text-sm font-semibold px-3 py-1.5 rounded-full flex items-center gap-2`; bubble.innerHTML = `<span>${item}</span><button type="button" class="font-sans text-sm opacity-75 hover:opacity-100">×</button>`; bubble.querySelector('button').addEventListener('click', () => { selectedCategories.delete(item); categoriesContainer.dispatchEvent(new Event('render')); }); categoriesContainer.appendChild(bubble); });
+            });
+            
+            document.getElementById('search-button').addEventListener('click', () => {
+                const params = new URLSearchParams();
+                const keyword = document.getElementById('keyword-search-input').value;
+                if(keyword) params.append('keyword', keyword);
+                if(selectedLocations.size > 0) params.append('locations', Array.from(selectedLocations).join(','));
+                if(selectedCategories.size > 0) params.append('categories', Array.from(selectedCategories).join(','));
+                window.location.href = `jobs.html?${params.toString()}`;
+            });
 
-                msgEl.className = 'text-green-600 font-semibold';
-                msgEl.textContent = translations[lang].success_message;
-                setTimeout(closeModal, 1500);
-            } catch (err) {
-                console.error("Error during CV submission:", err);
-                msgEl.className = 'text-red-600 font-semibold';
-                msgEl.textContent = translations[lang].error_message;
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = `<span>${translations[lang].cta_button}</span>`;
-            }
-        });
-    }
-
-    // ---------- Inline search open/close ----------
-    function setupInlineSearch() {
-        const searchWrapper = document.getElementById('hero-search-wrapper');
-        const formContainer = document.getElementById('search-form-container');
-        const initialButtons = document.getElementById('initial-buttons');
-        const openBtn = document.getElementById('open-search-btn');
-
-        const showSearch = () => { initialButtons.classList.add('hidden'); formContainer.classList.add('active'); };
-        const hideSearch = () => { initialButtons.classList.remove('hidden'); formContainer.classList.remove('active'); };
-
-        openBtn.addEventListener('click', (e) => { e.stopPropagation(); showSearch(); });
-        document.addEventListener('click', (e) => { if (!searchWrapper.contains(e.target)) hideSearch(); });
-    }
-
-    // ---------- Partners ----------
-    async function renderPartnersMarquee() {
-        const marquee = document.getElementById('partners-marquee-track');
-        if (!marquee) return;
-        marquee.innerHTML = `<span class="text-gray-500">טוען...</span>`;
-        try {
-            const snapshot = await getDocs(collection(db, "partners"));
-            let partners = [];
-            snapshot.forEach(doc => { const data = doc.data(); if (data.logoUrl) partners.push({ name: data.name || 'Partner', logoUrl: data.logoUrl }); });
-            if (!partners.length) { marquee.innerHTML = `<span class="text-gray-500">לא הוגדרו לוגואים של חברות.</span>`; return; }
-            const triple = [...partners, ...partners, ...partners];
-            marquee.innerHTML = '';
-            triple.forEach(p => marquee.innerHTML += `
-                <div class="partner-logo-wrapper" title="${p.name}">
-                    <img class="partner-logo-img" src="${p.logoUrl}" alt="${p.name}" loading="lazy">
-                </div>`);
-        } catch { marquee.innerHTML = `<span class="text-red-500">שגיאה בטעינת החברות</span>`; }
-    }
-
-    // ---------- Bootstrap ----------
-    document.addEventListener('DOMContentLoaded', async () => {
-        loadComponent('menu.html', 'header-placeholder', () => {
-            document.getElementById('mobile-menu-button')?.addEventListener('click', () => document.getElementById('mobile-menu')?.classList.toggle('hidden'));
-            document.querySelectorAll('.lang-btn-menu').forEach(btn => btn.addEventListener('click', () => setLanguage(btn.id.includes('-ar-') ? 'ar' : 'he')));
+            document.querySelectorAll('.animated-section').forEach(el => new IntersectionObserver((entries) => { if(entries[0].isIntersecting) el.classList.add('is-visible'); }, {threshold: 0.1}).observe(el));
+            
+            setupCVModal();
+            setupInlineSearch();
+            renderPartnersMarquee();
             setLanguage(localStorage.getItem('calanit_lang') || 'he');
         });
-        loadComponent('footer.html', 'footer-placeholder', () => { setLanguage(localStorage.getItem('calanit_lang') || 'he'); });
-
-        [allCities, jobTypesData] = await Promise.all([
-            loadJsonData('cities.json', []),
-            loadJsonData('jobTypesHierarchical.json', {})
-        ]);
-
-        setupFilterBubbles({
-            input: document.getElementById('location-search-input'),
-            resultsContainer: document.getElementById('autocomplete-results'),
-            bubblesContainer: document.getElementById('selected-locations-container'),
-            dataSet: allCities,
-            selectedSet: selectedLocations,
-            colorClass: 'bubble-location'
-        });
-        setupCategoryFilter();
-
-        document.getElementById('search-button').addEventListener('click', () => {
-            const params = new URLSearchParams();
-            const keyword = document.getElementById('keyword-search-input').value.trim();
-            if (keyword) params.append('keyword', keyword);
-            if (selectedLocations.size) params.append('locations', Array.from(selectedLocations).join(','));
-            if (selectedCategories.size) params.append('categories', Array.from(selectedCategories).join(','));
-            window.location.href = `jobs.html?${params.toString()}`;
-        });
-
-        document.querySelectorAll('.animated-section').forEach(el =>
-            new IntersectionObserver((entries, obs) => {
-                if (entries[0].isIntersecting) { el.classList.add('is-visible'); obs.unobserve(el); }
-            }, { threshold: 0.1 }).observe(el)
-        );
-
-        setupCVModal();
-        setupInlineSearch();
-        renderPartnersMarquee();
-
-        // רענון שפה ראשונית (ביטחון כפול אחרי הטענות דינמיות)
-        setLanguage(localStorage.getItem('calanit_lang') || 'he');
-    });
-</script>
+    </script>
 </body>
 </html>
