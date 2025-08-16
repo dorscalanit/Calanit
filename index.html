@@ -205,12 +205,13 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
         import { getFirestore, collection, query, where, getDocs, orderBy, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
         import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-storage.js";
+        // <<< הוספה: ייבוא של פונקציות האימות
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
         
         const firebaseConfig = { 
             apiKey: "AIzaSyAOKMJabnJ9JGE5CuclCCSjv5Bo3rT49Cw", 
             authDomain: "calanit-31a32.firebaseapp.com", 
             projectId: "calanit-31a32", 
-            // <<< התיקון: הוחזרה הכתובת הנכונה של שרת האחסון
             storageBucket: "calanit-31a32.firebasestorage.app", 
             messagingSenderId: "91430351613", 
             appId: "1:91430351613:web:ae46b2063f2d4b71428494" 
@@ -218,6 +219,8 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const storage = getStorage(app);
+        // <<< הוספה: אתחול שירות האימות
+        const auth = getAuth(app);
 
         const translations = {
             he: { home_page_title: "כלנית | הבית שלך לקריירה", hero_title: "הצעד הבא בקריירה שלך מתחיל כאן", hero_subtitle: "משרות חדשות מהחברות המובילות במשק, מחכות רק לך.", placeholder_keyword: "לדוגמא: מפתח Full-Stack...", placeholder_location: "הקלד/י עיר...", select_main_category: "בחר/י תחום ראשי", select_subcategory: "בחר/י תת קטגוריה", search_jobs_button: "חיפוש משרות", category_section_title: "חיפוש לפי תחום", category_section_subtitle: "מצא/י את המשרה הבאה שלך בקלות.", cat_security: "ביטחון", cat_drivers: "נהגים", cat_manufacturing: "יצור ותעשייה", cat_cleaning: "ניקיון", cat_warehouse: "מחסנים", cat_no_experience: "ללא ניסיון", hot_jobs_title: "משרות חמות 🔥", hot_jobs_subtitle: "הזדמנויות שאסור לכם לפספס.", new_jobs_title: "משרות חדשות ✨", new_jobs_subtitle: "ההזדמנויות האחרונות שהצטרפו.", cta_title: "לא מצאתם את מה שחיפשתם?", cta_subtitle: "שלחו לנו את קורות החיים והצוות המקצועי שלנו ימצא עבורכם את ההזדמנות הבאה.", cta_button: "שליחת קורות חיים", no_hot_jobs: "אין כרגע משרות חמות", no_new_jobs: "אין משרות מהשבוע האחרון", details_button: "פרטים נוספים", cv_modal_title: "שליחת קורות חיים", form_first_name: "שם פרטי", form_last_name: "שם משפחה", form_phone: "טלפון", form_cv_file: "קובץ קורות חיים", form_supported_files: "קבצים נתמכים: PDF, DOC, DOCX. גודל קובץ עד 5MB.", success_message: "הפרטים נשלחו בהצלחה!", error_message: "אירעה שגיאה בשליחה.", sending_message: "שולח...", error_required: "שדה חובה", error_phone: "מספר טלפון לא תקין", error_file_required: "חובה להעלות קובץ", error_file_size: "הקובץ גדול מדי (עד 5MB)", nav_home: "דף הבית", nav_all_jobs: "כל המשרות", nav_send_cv: "שליחת קו\"ח", nav_contact: "יצירת קשר", nav_publish_job: "פרסום דרישה", nav_publish_job_mobile: "פרסום דרישת עובדים", social_title: "בואו נכיר", social_subtitle: "אנחנו לא רק מחפשים לכם עבודה, אנחנו בונים יחד איתכם את הקריירה שלכם. עקבו אחרינו ברשתות החברתיות כדי לקבל טיפים, עדכונים על משרות חמות והצצה לחיים במשרד.", social_follow_facebook: "עקבו אחרינו בפייסבוק", social_follow_tiktok: "עקבו אחרינו בטיקטוק", social_follow_instagram: "עקבו אחרינו באינסטגרם", partners_title: "עובדים עם החברות המובילות", footer_about: "מחברים בין אנשים להזדמנויות.", footer_nav_quick: "ניווט מהיר", footer_nav_all_jobs: "כל המשרות", footer_nav_send_cv: "שליחת קורות חיים", footer_nav_publish_job: "פרסום דרישה", footer_nav_contact: "צור קשר", footer_nav_legal: "מידע ומשפטי", footer_nav_privacy: "מדיניות פרטיות", footer_nav_terms: "תנאי שימוש", footer_nav_talk: "דברו איתנו", footer_copyright: "© כל הזכיות שמורות דורון AI אתרים 2025      " },
@@ -511,6 +514,14 @@
         }
 
         document.addEventListener('DOMContentLoaded', async () => {
+            // <<< הוספה: התחברות אנונימית בטעינת הדף
+            try {
+                await signInAnonymously(auth);
+                console.log("User signed in anonymously.");
+            } catch (error) {
+                console.error("Anonymous sign-in failed:", error);
+            }
+
             loadComponent('menu.html', 'header-placeholder', () => {
                 document.getElementById('mobile-menu-button')?.addEventListener('click', () => document.getElementById('mobile-menu')?.classList.toggle('hidden'));
                 document.querySelectorAll('.lang-btn-menu').forEach(btn => btn.addEventListener('click', () => setLanguage(btn.id.includes('-ar-') ? 'ar' : 'he')));
